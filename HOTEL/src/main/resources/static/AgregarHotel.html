@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Bosques del Himalaya</title>
+    <link rel="stylesheet" href="/css/css.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="Index.html">Inicio</a>
+                        <a class="nav-link" href="Reservas.html">Reservas </a>
+                        <a class="nav-link" href="Checks.html">Checks IN OUT </a>
+                        <a class="nav-link" href="Clientes.html">Clientes</a>
+                        <a class="nav-link" href="Facturas.html">Facturas</a>
+                        <a class="nav-link" href="Hoteles.html">Hoteles</a>
+                        <a class="nav-link" href="habitaciones.html">Habitaciones</a>
+                        <a class="nav-link" href="Empleados.html">Empleados</a>
+                        <a class="nav-link" href="Actividades.html">Actividades</a>
+                        <a class="nav-link" href="Servicios.html">Servicios</a>
+                        <a class="nav-link" href="Servicios_Hoteles.html">Servicios Hoteles</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+</head>
+
+<body>
+
+    <section id="agregarHotel" class="p-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+
+                    <h2 class="mb-4">Agregar Hotel</h2>
+
+                    <form action="Hoteles.html" method="post">
+
+                        <div class="mb-3">
+                            <label for="IDHotel" class="form-label">ID del hotel</label>
+                            <input type="number" id="IDHotel" name="IDHotel" class="form-control" required min="0" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="NombreHotel" class="form-label">Nombre del hotel</label>
+                            <input type="text" id="NombreHotel" name="NombreHotel" class="form-control" required />
+                        </div>
+
+                         <div class="mb-3">
+                            <label for="TelefonoHotel" class="form-label">Telefono del hotel</label>
+                            <input type="number" id="TelefonoHotel" name="TelefonoHotel" class="form-control" required min="0" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="CorreoHotel" class="form-label">Correo del hotel</label>
+                            <input type="text" id="CorreoHotel" name="CorreoHotel" class="form-control" required />
+                        </div>
+
+                       <div class="mb-3">
+                            <label for="ProvinciaHotel" class="form-label">Provincia del hotel</label>
+                            <input type="text" id="ProvinciaHotel" name="ProvinciaHotel" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="DistritoHotel" class="form-label">Distrito del hotel</label>
+                            <input type="text" id="DistritoHotel" name="DistritoHotel" class="form-control" required />
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="DireccionHotel" class="form-label">Direccion exacta del hotel</label>
+                            <input type="text" id="DireccionHotel" name="DireccionHotel" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="CantonHotel" class="form-label">Canton del hotel</label>
+                            <input type="text" id="CantonHotel" name="CantonHotel" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="rutaImagenHotel" class="form-label">Ruta Imagen</label>
+                            <input type="text" id="rutaImagenHotel" name="rutaImagenHotel" class="form-control"
+                                placeholder="Ej. img/mascota.jpg" />
+                        </div>
+
+                        <div class="d-flex gap-2 mt-3">
+                            <button type="submit" class="btn">Guardar</button>
+                            <a href="Hoteles.html" class="btn">Cancelar</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+<footer>
+
+    <p id="Texto_Footer"> © Hotel Bosques del Himalaya 2025 | Donde el bosque se encuentra con el mar</p>
+
+</footer>
+
+</html>
