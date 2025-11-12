@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Bosques del Himalaya</title>
+    <link rel="stylesheet" href="/css/css.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="#Home.html">Inicio</a>
+                        <a class="nav-link" href="Reservas.html">Reservas </a>
+                        <a class="nav-link" href="Checks.html">Checks IN OUT </a>
+                        <a class="nav-link" href="Clientes.html">Clientes</a>
+                        <a class="nav-link" href="Facturas.html">Facturas</a>
+                        <a class="nav-link" href="Hoteles.html">Hoteles</a>
+                        <a class="nav-link" href="habitaciones.html">Habitaciones</a>
+                        <a class="nav-link" href="Empleados.html">Empleados</a>
+                        <a class="nav-link" href="Actividades.html">Actividades</a>
+                        <a class="nav-link" href="Servicios.html">Servicios</a>
+                        <a class="nav-link" href="Servicios_Hoteles.html">Servicios Hoteles</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+</head>
+
+
+
+
+<body>
+  <section id="agregarMascota" class="p-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+
+                        <h2 class="mb-4">Agregar Empleado</h2>
+
+                          <div class="mb-3">
+                                <label for="id" class="form-label">ID</label>
+                                <input type="number" id="id" name="id" class="form-control" required min="0" />
+                            </div>
+                            
+                            <form action="Empleados.php" method="post">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" id="nombre" name="nombre" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="apellido" class="form-label">Apellido 1</label>
+                                <input type="text" id="apellido" name="apellido" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="apellido2" class="form-label">Apellido 2</label>
+                                <input type="text" id="apellido2" name="apellido2" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="text" id="telefono" name="telefono" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="correo" class="form-label">Correo</label>
+                                <input type="text" id="correo" name="correo" class="form-control" required />
+                            </div>
+
+                            <div class="d-flex gap-2 mt-3">
+                                <button type="submit" class="btn">Guardar</button>
+                                <a href="Mascotas.php" class="btn">Cancelar</a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    <body>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="container py-5">
+        <!-- FORMULARIO DE BÚSQUEDA (solo visual) -->
+        <form action="BuscarEmpleados.html" method="get" class="mb-4" style="max-width: 400px;">
+            <div class="input-group">
+                <input type="number" name="cedula" class="form-control" placeholder="Buscar por Cédula" value=" "
+                    required>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+
+        <!-- TABLA DE RESULTADOS (simulada) -->
+        <div class="card p-4 shadow-sm">
+            <h5>Empleado encontrado</h5>
+            <table class="table table-bordered mt-3">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Primer Apellido</th>
+                        <th>Segundo Apellido</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>3</td>
+                        <td>David</td>
+                        <td>Chavarria</td>
+                        <td>Rodríguez</td>
+                        <td>2288-9911</td>
+                        <td>david.chavarria@gmail.com</td>
+                        <td>
+                            <a href="EditarEmpleado.html" class="btn btn-sm btn-success">Editar</a>
+                            <a href="Empleados.html" class="btn btn-sm btn-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+
+    
+</body> 
+</body>
+
+<footer>
+
+    <p id="Texto_Footer"> Â© Hotel Bosques del Himalaya 2025 | Donde el bosque se encuentra con el mar</p>
+    
+</footer>
+
+</html>
