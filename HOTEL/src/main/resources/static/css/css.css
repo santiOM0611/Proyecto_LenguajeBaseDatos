@@ -3,105 +3,61 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
 */
 /* 
-    Created on : 11 nov 2025, 11:59:42 p.m.
+    Created on : 11 nov 2025, 11:59:42 p.m.
     Author     : XPC
 */
 
+/* ==========================
+   ESTILO GENERAL AMARILLO
+=========================== */
 body {
+    background-color: #fff8dc; /* Amarillo claro */
+    color: #444;
     font-family: 'Segoe UI', Arial, sans-serif;
-    background-color: #fdfdfd;
-    color: #333;
     margin: 0;
     padding: 0;
 }
 
-/* ===========================
-   Navbar y header
+/* ==========================
+   NAVBAR
 =========================== */
 .navbar {
-    background-color: #red !important;
+    background-color: #ffcc00 !important; /* Amarillo brillante */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.navbar-brand {
+.navbar .nav-link {
+    color: #000 !important;
     font-weight: bold;
-    font-size: 1.3rem;
+    transition: 0.3s;
 }
 
-.nav-menu-link {
-    transition: background-color 0.3s, color 0.3s;
+.navbar .nav-link:hover {
+    background-color: #ffd633;
+    border-radius: 8px;
+    color: #000 !important;
 }
 
-.nav-menu-link:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff !important;
+.navbar-toggler {
+    border-color: #000;
 }
 
-/* ===========================
-   Carousel
-=========================== */
-.carousel video {
-    border-radius: 0;
-    transition: transform 0.3s ease-in-out;
-}
-
-.carousel video:hover {
-    transform: scale(1.02);
-}
-
-/* ===========================
-   Cards de productos
-=========================== */
-.card {
-    border-radius: 15px;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.card-title a {
-    color: #0d6efd; /* Azul principal */
-    font-weight: 600;
-}
-
-.card-title a:hover {
-    text-decoration: underline;
-}
-
-/* ===========================
-   Footer
+/* ==========================
+   FOOTER
 =========================== */
 footer {
-    background-color: #0d6efd !important; /* Azul */
-    color: #fff;
-    font-size: 0.9rem;
+    background-color: #ffcc00;
+    color: #000;
+    text-align: center;
+    padding: 15px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-weight: 500;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
-footer h6, footer h5 {
-    font-weight: bold;
-}
-
-footer a {
-    color: #fff;
-    transition: color 0.3s;
-}
-
-footer a:hover {
-    color: #cfe2ff; /* Azul muy claro */
-}
-
-/* ===========================
-   Responsividad
-=========================== */
-@media (max-width: 768px) {
-    .card {
-        max-width: 90%;
-    }
-
-    footer .col-md-4 {
-        text-align: center;
-    }
+#Texto_Footer {
+    margin: 0;
+    font-size: 0.95rem;
 }
