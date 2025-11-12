@@ -1,0 +1,107 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 11 nov 2025, 11:59:42 p.m.
+    Author     : XPC
+*/
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #fdfdfd;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===========================
+   Navbar y header
+=========================== */
+.navbar {
+    background-color: #red !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.nav-menu-link {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-menu-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff !important;
+}
+
+/* ===========================
+   Carousel
+=========================== */
+.carousel video {
+    border-radius: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.carousel video:hover {
+    transform: scale(1.02);
+}
+
+/* ===========================
+   Cards de productos
+=========================== */
+.card {
+    border-radius: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-title a {
+    color: #0d6efd; /* Azul principal */
+    font-weight: 600;
+}
+
+.card-title a:hover {
+    text-decoration: underline;
+}
+
+/* ===========================
+   Footer
+=========================== */
+footer {
+    background-color: #0d6efd !important; /* Azul */
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+footer h6, footer h5 {
+    font-weight: bold;
+}
+
+footer a {
+    color: #fff;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #cfe2ff; /* Azul muy claro */
+}
+
+/* ===========================
+   Responsividad
+=========================== */
+@media (max-width: 768px) {
+    .card {
+        max-width: 90%;
+    }
+
+    footer .col-md-4 {
+        text-align: center;
+    }
+}
