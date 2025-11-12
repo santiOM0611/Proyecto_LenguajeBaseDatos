@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Bosques del Himalaya</title>
+    <link rel="stylesheet" href="/css/css.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                        <a class="nav-link" href="Reservas.html">Reservas </a>
+                        <a class="nav-link" href="Checks.html">Checks IN OUT </a>
+                        <a class="nav-link" href="Clientes.html">Clientes</a>
+                        <a class="nav-link" href="Facturas.html">Facturas</a>
+                        <a class="nav-link" href="Hoteles.html">Hoteles</a>
+                        <a class="nav-link" href="habitaciones.html">Habitaciones</a>
+                        <a class="nav-link" href="Empleados.html">Empleados</a>
+                        <a class="nav-link" href="Actividades.html">Actividades</a>
+                        <a class="nav-link" href="Servicios.html">Servicios</a>
+                        <a class="nav-link" href="Servicios_Hoteles.html">Servicios Hoteles</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+</head>
+
+<body>
+
+<header>
+
+</header>
+
+ <!-- SECCIÓN DE CHECKS -->
+    <div class="d-flex justify-content-between mb-4">
+        <h2>Check-In/Check-Out</h2>
+        <a href="BuscarChecks.html" class="btn">Buscar Check</a>
+        <a href="AgregarChecks.html" class="btn">Agregar Check</a>
+
+    </div>
+
+
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>ID_Check</th>
+                <th>ID_Reserva</th>
+                <th>Fecha_Entrada</th>
+                <th>Hora_Entrada</th>
+                <th>Fecha_Salida</th>
+                <th>Hora_Salida</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>105</td>
+                <td>10/11/2025</td>
+                <td>09:00</td>
+                <td>-</td>
+                <td>-</td>
+                <td><span class="badge bg-success">Activo</span></td>
+                <td>
+                    <a href="EditarChecks.html?id=1" class="btn">Editar</a>
+                    <a href="Checks.html?eliminar=1" class="btn">Eliminar</a>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>103</td>
+                <td>08/11/2025</td>
+                <td>14:00</td>
+                <td>10/11/2025</td>
+                <td>11:00</td>
+                <td><span class="badge bg-secondary">Completado</span></td>
+                <td>
+                    <a href="EditarChecks.html?id=2" class="btn">Editar</a>
+                    <a href="Checks.html?eliminar=2" class="btn">Eliminar</a>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>107</td>
+                <td>09/11/2025</td>
+                <td>10:30</td>
+                <td>-</td>
+                <td>-</td>
+                <td><span class="badge bg-success">Activo</span></td>
+                <td>
+                    <a href="EditarChecks.html?id=3" class="btn">Editar</a>
+                    <a href="Checks.html?eliminar=3" class="btn">Eliminar</a>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>110</td>
+                <td>05/11/2025</td>
+                <td>15:00</td>
+                <td>08/11/2025</td>
+                <td>12:00</td>
+                <td><span class="badge bg-secondary">Completado</span></td>
+                <td>
+                    <a href="EditarChecks.html?id=4" class="btn">Editar</a>
+                    <a href="Checks.html?eliminar=4" class="btn">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr class="my-5">
+
+    <!-- SECCIÓN DE DEVOLUCIONES -->
+    <div class="d-flex justify-content-between mb-4">
+        <h2>Devoluciones</h2>
+        <a href="BuscarDevolucion.html" class="btn">Buscar Devolución</a>
+        <a href="AgregarDevolucion.html" class="btn">Agregar Devolución</a>
+
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>ID_Devolucion</th>
+                <th>ID_Check</th>
+                <th>Devolucion</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>Cancelación anticipada por emergencia familiar</td>
+                <td>
+                    <a href="EditarDevolucion.html?id=1" class="btn">Editar</a>
+                    <a href="Checks.html?eliminarDev=1" class="btn">Eliminar</a>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>4</td>
+                <td>Problemas de salud - Hospitalización urgente</td>
+                <td>
+                    <a href="EditarDevolucion.html?id=2" class="btn">Editar</a>
+                    <a href="Checks.html?eliminarDev=2" class="btn">Eliminar</a>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>8</td>
+                <td>Insatisfacción con el servicio prestado</td>
+                <td>
+                    <a href="EditarDevolucion.html?id=3" class="btn">Editar</a>
+                    <a href="Checks.html?eliminarDev=3" class="btn">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer>
+
+    <p id="Texto_Footer"> © Hotel Bosques del Himalaya 2025 | Donde el bosque se encuentra con el mar</p>
+    
+</footer>
+</body>
+</html>
