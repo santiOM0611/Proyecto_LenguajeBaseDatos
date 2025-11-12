@@ -39,9 +39,51 @@
         </nav>
 </head>
 
-<body>
+    <body>
+        <section id="editarActividad" class="p-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
 
-</body>
+                        <h2 class="mb-4 text-center">Editar Actividad</h2>
+
+                        <div class="mb-3">
+                            <label for="idActividad" class="form-label">ID Actividad</label>
+                            <input type="number" id="idActividad" class="form-control" value="1" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="idHotel" class="form-label">ID Hotel</label>
+                            <input type="number" id="idHotel" class="form-control" value="10" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="nombreActividad" class="form-label">Nombre Actividad</label>
+                            <input type="text" id="nombreActividad" class="form-control" value="Comidas y Bebidas" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descripcionActividad" class="form-label">Descripción Actividad</label>
+                            <textarea id="descripcionActividad" class="form-control" rows="3" required>Disfruta de una experiencia culinaria de cocinar variada con platos locales e internacionales.</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="capacidadActividad" class="form-label">Capacidad</label>
+                            <input type="number" id="capacidadActividad" class="form-control" value="30" required min="1" />
+                        </div>
+
+                        <div class="d-flex gap-2 mt-3">
+                            <a class="nav-link btn btn-primary" href="Actividades.html">Guardar</a>
+                            <a class="nav-link btn btn-secondary" href="Actividades.html">Cancelar</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+
+
 
 <footer>
 
