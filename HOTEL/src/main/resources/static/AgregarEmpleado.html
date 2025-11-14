@@ -39,65 +39,38 @@
 
 <body>
     <main class="container py-5">
-        <div class="d-flex justify-content-between mb-4">
-            <h2>Empleados</h2>
-            <div class="d-flex gap-2">
-                <a href="BuscarEmpleado.html" class="btn">Buscar por Rol</a>
-                <a href="AgregarEmpleado.html" class="btn">Agregar Empleado</a>
+        <h2 class="mb-4">Empleados</h2>
+        <form action="Empleados.html" method="get" id="formAgregarEmpleado">
+            <div class="mb-3">
+                <label for="rol" class="form-label">Rol</label>
+                <input type="text" class="form-control" id="rol" placeholder="Ejemplo: Recepcionista" required>
             </div>
-        </div>
+            <div class="mb-3">
+                <label for="nombre_empleado" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre_empleado" placeholder="Ejemplo: Lucas" required>
+            </div>
+            <div class="mb-3">
+                <label for="primer_apellido" class="form-label">Primer Apellido</label>
+                <input type="text" class="form-control" id="primer_apellido" placeholder="Ejemplo: Soto" required>
+            </div>
+            <div class="mb-3">
+                <label for="segundo_apellido" class="form-label">Segundo Apellido</label>
+                <input type="text" class="form-control" id="segundo_apellido" placeholder="Ejemplo: Alvarado">
+            </div>
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="text" class="form-control" id="telefono" placeholder="Ejemplo: 8342-2191">
+            </div>
+            <div class="mb-3">
+                <label for="correo" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" id="correo" placeholder="Ejemplo: LucasSoto@gmail.com">
+            </div>
 
-        <table class="table table-bordered">
-            <thead class="table-light">
-                <tr>
-                    <th>Rol</th>
-                    <th>Nombre</th>
-                    <th>Primer Apellido</th>
-                    <th>Segundo Apellido</th>
-                    <th>Teléfono</th>
-                    <th>Correo</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Recepcionista</td>
-                    <td>Josef</td>
-                    <td>Bernard</td>
-                    <td>Alvarado</td>
-                    <td>1283-1111</td>
-                    <td>josefBernard@gmail.com</td>
-                    <td>
-                        <a href="EditarEmpleado.html" class="btn">Editar</a>
-                        <a href="Empleados.html" class="btn">Eliminar</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Cocinero</td>
-                    <td>Andrey</td>
-                    <td>Castro</td>
-                    <td>Alvarez</td>
-                    <td>8899-0122</td>
-                    <td>carlos.vargas@gmail.com</td>
-                    <td>
-                        <a href="EditarEmpleado.html" class="btn">Editar</a>
-                        <a href="Empleados.html" class="btn">Eliminar</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Limpieza</td>
-                    <td>Fernanda</td>
-                    <td>Viquez</td>
-                    <td>Jiminez</td>
-                    <td>3388-4433</td>
-                    <td>fer.viquez@gmail.com</td>
-                    <td>
-                        <a href="EditarEmpleado.html" class="btn">Editar</a>
-                        <a href="Empleados.html" class="btn">Eliminar</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="d-flex gap-2 mt-3">
+                <button type="submit" class="btn">Guardar</button>
+                <a href="Empleados.html" class="btn">Cancelar</a>
+            </div>
+        </form>
     </main>
 </body>
 
