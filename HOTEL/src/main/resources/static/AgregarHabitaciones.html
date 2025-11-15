@@ -22,7 +22,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" href="#Home.html">Inicio</a>
+                        <a class="nav-link" href="index.html">Inicio</a>
                         <a class="nav-link" href="Reservas.html">Reservas </a>
                         <a class="nav-link" href="Checks.html">Checks IN OUT </a>
                         <a class="nav-link" href="Clientes.html">Clientes</a>
@@ -32,7 +32,7 @@
                         <a class="nav-link" href="Empleados.html">Empleados</a>
                         <a class="nav-link" href="Actividades.html">Actividades</a>
                         <a class="nav-link" href="Servicios.html">Servicios</a>
-                        <a class="nav-link" href="Servicios_Hoteles.html">Servicios Hoteles</a>
+                        <a class="nav-link" href="Servicios_Habitacion.html">Servicios Habitaciones</a>
                     </div>
                 </div>
             </div>
@@ -48,17 +48,17 @@
 
                         <form action="habitaciones.html" method="post">
                              <div class="mb-3">
-                                <label for="tipo" class="form-label">Tipo</label>
-                                <select id="tipo" name="tipo" class="form-select" required>
-                                    <option value="">Seleccione</option>
-                                    <option value="Individual">Individual</option>
-                                    <option value="Doble">Doble</option>
-                                    <option value="Suite">Suite</option>
-                                </select>
+                                <label for="tipo" class="form-label">ID_TIPO_HABITACION</label>
+                                <input type="text" id="numero" name="numero" class="form-control" required />
                             </div>     
 
                             <div class="mb-3">
-                                <label for="numero" class="form-label">Número</label>
+                                <label for="numero" class="form-label">Número Habitacion</label>
+                                <input type="text" id="numero" name="numero" class="form-control" required />
+                            </div>
+                            
+                             <div class="mb-3">
+                                <label for="numero" class="form-label">ID_HOTEL</label>
                                 <input type="text" id="numero" name="numero" class="form-control" required />
                             </div>
      

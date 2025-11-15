@@ -29,7 +29,7 @@
                     <a class="nav-link" href="Empleados.html">Empleados</a>
                     <a class="nav-link" href="Actividades.html">Actividades</a>
                     <a class="nav-link" href="Servicios.html">Servicios</a>
-                    <a class="nav-link" href="Servicios_Hoteles.html">Servicios Hoteles</a>
+                     <a class="nav-link" href="Servicios_Habitacion.html">Servicios Habitaciones</a>
                 </div>
             </div>
         </div>
@@ -40,6 +40,11 @@
     <main class="container py-5">
         <h2 class="mb-4">Editar Reserva</h2>
         <form action="Reservas.html" method="get" id="formEditarReserva">
+             <div class="mb-3">
+                <label for="id_reserva" class="form-label">ID_Tipo_Habitacion</label>
+                <input type="number" class="form-control" id="id_reserva" placeholder="01" required>
+            </div>
+            
             <div class="mb-3">
                 <label for="id_reserva" class="form-label">ID de Reserva</label>
                 <input type="number" class="form-control" id="id_reserva" value="1" readonly>

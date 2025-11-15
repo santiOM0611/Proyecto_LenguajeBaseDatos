@@ -1,85 +1,114 @@
-<!DOCTYPE html>
-<html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Bosques del Himalaya - Spa y Relajación</title>
-    <link rel="stylesheet" href="../css/css_Proyecto.css">
+    <title>Hotel Bosques del Himalaya</title>
+    <link rel="stylesheet" href="/css/css.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link" href="index.html">Inicio</a>
+                <a class="nav-link" href="Reservas.html">Reservas </a>
+                <a class="nav-link" href="Checks.html">Checks IN OUT </a>
+                <a class="nav-link" href="Clientes.html">Clientes</a>
+                <a class="nav-link" href="Facturas.html">Facturas</a>
+                <a class="nav-link" href="Hoteles.html">Hoteles</a>
+                <a class="nav-link" href="habitaciones.html">Habitaciones</a>
+                <a class="nav-link" href="Empleados.html">Empleados</a>
+                <a class="nav-link" href="Actividades.html">Actividades</a>
+                <a class="nav-link" href="Servicios.html">Servicios</a>
+                <a class="nav-link" href="Servicios_Habitacion.html">Servicios Habitaciones</a>
+            </div>
+        </div>
+    </div>
+</nav>
 </head>
 
-<main>
-    <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">Inicio</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-link" href="Reservas.html">Reservas</a>
-                        <a class="nav-link" href="Checks.html">Checks IN/OUT</a>
-                        <a class="nav-link" href="Clientes.html">Clientes</a>
-                        <a class="nav-link" href="Facturas.html">Facturas</a>
-                        <a class="nav-link" href="Hoteles.html">Hoteles</a>
-                        <a class="nav-link" href="habitaciones.html">Habitaciones</a>
-                        <a class="nav-link" href="Empleados.html">Empleados</a>
-                        <a class="nav-link" href="Actividades.html">Actividades</a>
-                        <a class="nav-link active" href="Servicios.html">Servicios</a>
-                        <a class="nav-link" href="Servicios_Hoteles.html">Servicios Hoteles</a>
+<body>
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center align-items-start g-4">
+                <div class="col-md-5 text-center">
+                    <div class="border rounded d-inline-block p-2 shadow-sm">
+                        <img src="https://www.elementsspacr.com/wp-content/uploads/2017/08/spa-elements.jpg"
+                             alt="Spa y Relajación"
+                             class="rounded img-fluid"
+                             style="max-height: 400px; object-fit: cover;" />
                     </div>
                 </div>
-            </div>
-        </nav>
-    </header>
 
-    <body>
-        <section class="py-5">
-            <div class="container">
-                <div class="row justify-content-center align-items-start g-4">
-                    <div class="col-md-5 text-center">
-                        <div class="border rounded d-inline-block p-2 shadow-sm">
-                            <img src="https://www.elementsspacr.com/wp-content/uploads/2017/08/spa-elements.jpg"
-                                alt="Spa y Relajación"
-                                class="rounded img-fluid"
-                                style="max-height: 400px; object-fit: cover;" />
-                        </div>
-                    </div>
-
+                <div class="col-md-6">
                     <div class="col-md-6">
-                        <h3 class="fw-bold mb-3">Spa y Relajacion</h3>
-                        <p class="text-muted">Disfruta de una experiencia unica para renovar cuerpo, mente y espiritu en el Hotel Bosques del Himalaya.</p>
+                        <table class="table caption-top">
+                            <caption class="ListaActividades">Lista de Servicios</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID Servicio</th>
+                                    <th scope="col">ID Hotel</th>
+                                    <th scope="col">Nombre del Servicio</th>
+                                    <th scope="col">Descripción del Servicio</th>
+                                    <th scope="col">Costo del Servicio ($)</th>
+                                </tr>
+                            </thead>
 
-                        <h5 class="mt-4 mb-3">Nuestros Servicios:</h5>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">001</th>
+                                    <td>H01</td>
+                                    <td>Spa Premium</td>
+                                    <td>Masaje relajante de 60 minutos</td>
+                                    <td>75</td>
+                                </tr>
 
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <strong>Masaje de relajacion con aceites esenciales</strong><br>
-                                <span>Duración: 60 minutos | Horario: 9:00 am - 6:00 pm | Precio: $70</span>
-                            </li>
-                        </ul>
+                                <tr>
+                                    <th scope="row">002</th>
+                                    <td>H02</td>
+                                    <td>Tour Guiado</td>
+                                    <td>Recorrido por senderos naturales</td>
+                                    <td>40</td>
+                                </tr>
 
-                        <div class="mt-4">
-                            <button class="btn btn-primary" type="button">Reservar Servicio</button>
-                        </div>
+                                <tr>
+                                    <th scope="row">003</th>
+                                    <td>H03</td>
+                                    <td>Desayuno Buffet</td>
+                                    <td>Acceso completo al buffet</td>
+                                    <td>15</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a href="ReservarServicio.html" class="btn btn-primary px-4 py-2">
+                            Reservar Servicio
+                        </a>
                     </div>
 
                 </div>
-            </div>
-        </section>
-    </body>
 
-    <footer>
-        <p id="Texto_Footer">© Hotel Bosques del Himalaya 2025 | Donde el bosque se encuentra con el mar.</p>
-    </footer>
+            </div>
+        </div>
+    </section>
+</body>
+
+
+<footer>
+    <p id="Texto_Footer">© Hotel Bosques del Himalaya 2025 | Donde el bosque se encuentra con el mar.</p>
+</footer>
 </main>
 
 </html>

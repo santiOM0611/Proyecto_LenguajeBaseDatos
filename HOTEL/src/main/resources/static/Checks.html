@@ -33,14 +33,13 @@
                     <a class="nav-link" href="Empleados.html">Empleados</a>
                     <a class="nav-link" href="Actividades.html">Actividades</a>
                     <a class="nav-link" href="Servicios.html">Servicios</a>
-                    <a class="nav-link" href="Servicios_Hoteles.html">Servicios Hoteles</a>
+                    <a class="nav-link" href="Servicios_Habitacion.html">Servicios Habitaciones</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <div class="container my-4">
-        <!-- SECCIÓN DE CHECKS -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Check-In/Check-Out</h2>
             <div>
@@ -50,129 +49,84 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>ID_Check</th>
-                        <th>ID_Reserva</th>
-                        <th>Fecha_Entrada</th>
-                        <th>Hora_Entrada</th>
-                        <th>Fecha_Salida</th>
-                        <th>Hora_Salida</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>105</td>
-                        <td>10/11/2025</td>
-                        <td>09:00</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td><span class="badge bg-success">Activo</span></td>
-                        <td>
-                            <a href="EditarChecks.html?id=1" class="btn btn-sm btn-warning">Editar</a>
-                            <a href="Checks.html?eliminar=1" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este check?')">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>103</td>
-                        <td>08/11/2025</td>
-                        <td>14:00</td>
-                        <td>10/11/2025</td>
-                        <td>11:00</td>
-                        <td><span class="badge bg-secondary">Completado</span></td>
-                        <td>
-                            <a href="EditarChecks.html?id=2" class="btn btn-sm btn-warning">Editar</a>
-                            <a href="Checks.html?eliminar=2" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este check?')">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>107</td>
-                        <td>09/11/2025</td>
-                        <td>10:30</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td><span class="badge bg-success">Activo</span></td>
-                        <td>
-                            <a href="EditarChecks.html?id=3" class="btn btn-sm btn-warning">Editar</a>
-                            <a href="Checks.html?eliminar=3" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este check?')">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>110</td>
-                        <td>05/11/2025</td>
-                        <td>15:00</td>
-                        <td>08/11/2025</td>
-                        <td>12:00</td>
-                        <td><span class="badge bg-secondary">Completado</span></td>
-                        <td>
-                            <a href="EditarChecks.html?id=4" class="btn btn-sm btn-warning">Editar</a>
-                            <a href="Checks.html?eliminar=4" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este check?')">Eliminar</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>ID_Check</th>
+                <th>ID_Reserva</th>
+                <th>Fecha_Entrada</th>
+                <th>Hora_Entrada</th>
+                <th>Fecha_Salida</th>
+                <th>Hora_Salida</th>
+                <th>Estado</th>
+                <th>Devolución</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>105</td>
+                <td>10/11/2025</td>
+                <td>09:00</td>
+                <td>-</td>
+                <td>-</td>
+                <td><span class="badge bg-success">Activo</span></td>
+                <td><span class="text-muted">Sin devolución</span></td>
+                <td>
+                    <a href="EditarChecks.html?id=1" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="Checks.html?eliminar=1" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este check?')">Eliminar</a>
+                </td>
+            </tr>
 
-        <hr class="my-5">
+            <tr>
+                <td>2</td>
+                <td>103</td>
+                <td>08/11/2025</td>
+                <td>14:00</td>
+                <td>10/11/2025</td>
+                <td>11:00</td>
+                <td><span class="badge bg-secondary">Completado</span></td>
+                <td>Cancelación anticipada por emergencia familiar</td>
+                <td>
+                    <a href="EditarChecks.html?id=2" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="Checks.html?eliminar=2" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este check?')">Eliminar</a>
+                </td>
+            </tr>
 
-        <!-- SECCIÓN DE DEVOLUCIONES -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Devoluciones</h2>
-            <div>
-                <a href="BuscarDevolucion.html" class="btn btn-secondary me-2">Buscar Devolución</a>
-                <a href="AgregarDevolucion.html" class="btn btn-primary">Agregar Devolución</a>
-            </div>
-        </div>
+            <tr>
+                <td>3</td>
+                <td>107</td>
+                <td>09/11/2025</td>
+                <td>10:30</td>
+                <td>-</td>
+                <td>-</td>
+                <td><span class="badge bg-success">Activo</span></td>
+                <td><span class="text-muted">Sin devolución</span></td>
+                <td>
+                    <a href="EditarChecks.html?id=3" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="Checks.html?eliminar=3" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este check?')">Eliminar</a>
+                </td>
+            </tr>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>ID_Devolucion</th>
-                        <th>ID_Check</th>
-                        <th>Devolucion</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>Cancelación anticipada por emergencia familiar</td>
-                        <td>
-                            <a href="EditarDevolucion.html?id=1" class="btn btn-sm btn-warning">Editar</a>
-                            <a href="Checks.html?eliminarDev=1" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar esta devolución?')">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>4</td>
-                        <td>Problemas de salud - Hospitalización urgente</td>
-                        <td>
-                            <a href="EditarDevolucion.html?id=2" class="btn btn-sm btn-warning">Editar</a>
-                            <a href="Checks.html?eliminarDev=2" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar esta devolución?')">Eliminar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>8</td>
-                        <td>Insatisfacción con el servicio prestado</td>
-                        <td>
-                            <a href="EditarDevolucion.html?id=3" class="btn btn-sm btn-warning">Editar</a>
-                            <a href="Checks.html?eliminarDev=3" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar esta devolución?')">Eliminar</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+            <tr>
+                <td>4</td>
+                <td>110</td>
+                <td>05/11/2025</td>
+                <td>15:00</td>
+                <td>08/11/2025</td>
+                <td>12:00</td>
+                <td><span class="badge bg-secondary">Completado</span></td>
+                <td>Problemas de salud - Hospitalización urgente</td>
+                <td>
+                    <a href="EditarChecks.html?id=4" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="Checks.html?eliminar=4" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar este check?')">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+      
 </body>
     <footer>
         <p id="Texto_Footer"> © Hotel Bosques del Himalaya 2025 | Donde el bosque se encuentra con el mar</p>
