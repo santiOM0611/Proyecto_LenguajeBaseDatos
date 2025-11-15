@@ -40,24 +40,54 @@
 
 <main class="container py-5">
     <h2 class="mb-4">Editar Habitacion</h2>
-    <form action="habitaciones.html" method="get">
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" value="Habitacion Doble" required>
-        </div>
-        <div class="mb-3">
-            <label for="telefono" class="form-label">Teléfono de la habitación</label>
-            <input type="text" class="form-control" id="telefono" value="12345678" required>
-        </div>
-        <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción</label>
-            <input type="text" class="form-control" id="descripcion" value="Habitación con vista al mar, con cama matrimonial y jacuzzi." required>
-        </div>
-        <div class="d-flex gap-2 mt-3">
-            <button type="submit" class="btn">Guardar</button>
-            <a href="habitaciones.html" class="btn">Cancelar</a>
-        </div>
-    </form>
+    <section id="agregarHabitacion" class="p-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+
+                        <h2 class="mb-4">Agregar Habitacion</h2>
+
+                        <form action="habitaciones.html" method="post">
+                             <div class="mb-3">
+                                <label for="tipo" class="form-label">ID_TIPO_HABITACION</label>
+                                <input type="text" id="numero" name="numero" class="form-control" required />
+                            </div>     
+
+                            <div class="mb-3">
+                                <label for="numero" class="form-label">Número Habitacion</label>
+                                <input type="text" id="numero" name="numero" class="form-control" required />
+                            </div>
+                            
+                             <div class="mb-3">
+                                <label for="numero" class="form-label">ID_HOTEL</label>
+                                <input type="text" id="numero" name="numero" class="form-control" required />
+                            </div>
+     
+                            <div class="mb-3">
+                                <label for="estado" class="form-label">Estado</label>
+                                <select id="estado" name="estado" class="form-select" required>
+                                    <option value="">Seleccione</option>
+                                    <option value="Disponible">Disponible</option>
+                                    <option value="Adoptado">Ocupada</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="rutaImagen" class="form-label">Ruta Imagen</label>
+                                <input type="text" id="rutaImagen" name="rutaImagen" class="form-control"
+                                    placeholder="Ej. img/Habitacion.jpg" />
+                            </div>
+
+                            <div class="d-flex gap-2 mt-3">
+                                <button type="submit" class="btn">Guardar</button>
+                                <a href="habitaciones.html" class="btn">Cancelar</a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </section>
 </main>
 
 <footer>
