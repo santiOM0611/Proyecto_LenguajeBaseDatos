@@ -1,84 +1,106 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Agregar Servicio Hotel - Bosques del Himalaya</title>
-        <link rel="stylesheet" href="/css/css.css"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Servicio Habitación - Bosques del Himalaya</title>
+    <link rel="stylesheet" href="/css/css.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"></script>
+</head>
 
-    <body>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-link" href="index.html">Inicio</a>
-                        <a class="nav-link" href="Reservas.html">Reservas</a>
-                        <a class="nav-link" href="Checks.html">Checks IN OUT</a>
-                        <a class="nav-link" href="Clientes.html">Clientes</a>
-                        <a class="nav-link" href="Facturas.html">Facturas</a>
-                        <a class="nav-link" href="Hoteles.html">Hoteles</a>
-                        <a class="nav-link" href="habitaciones.html">Habitaciones</a>
-                        <a class="nav-link" href="Empleados.html">Empleados</a>
-                        <a class="nav-link" href="Actividades.html">Actividades</a>
-                        <a class="nav-link" href="Servicios.html">Servicios</a>
-                        <a class="nav-link" href="Servicios_Habitacion.html">Servicios Habitaciones</a>
-                    </div>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="index.html">Inicio</a>
+                    <a class="nav-link" href="Reservas.html">Reservas</a>
+                    <a class="nav-link" href="Checks.html">Checks IN OUT</a>
+                    <a class="nav-link" href="Clientes.html">Clientes</a>
+                    <a class="nav-link" href="Facturas.html">Facturas</a>
+                    <a class="nav-link" href="Hoteles.html">Hoteles</a>
+                    <a class="nav-link" href="habitaciones.html">Habitaciones</a>
+                    <a class="nav-link" href="Empleados.html">Empleados</a>
+                    <a class="nav-link" href="Actividades.html">Actividades</a>
+                    <a class="nav-link" href="Servicios.html">Servicios</a>
+                    <a class="nav-link active" href="Servicios_Habitacion.html">Servicios Habitaciones</a>
                 </div>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <section id="agregarServicioHotel" class="p-4">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <h2 class="mb-4">Agregar Servicio Habitación</h2>
+    <section id="agregarServicioHabitacion" class="p-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <h2 class="mb-4">Agregar Servicio Habitación</h2>
 
-                        <form action="Servicios_Habitacion.html" method="post">
+                    <form action="Servicios_Habitacion.html" method="post">
+                        <div class="mb-3">
+                            <label for="nombreServicio" class="form-label">Nombre del Servicio</label>
+                            <input type="text" id="nombreServicio" name="nombreServicio" class="form-control" 
+                                   placeholder="Ej. TV Smart, Minibar, WiFi" required />
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="idTipo" class="form-label">ID_TIPO_HABITACION</label>
-                                <input type="text" id="idTipo" name="idTipo" class="form-control" placeholder="01" required />
-                            </div>
-                            <div class="mb-3">
-                                <label for="idTipo" class="form-label">ID_Servicio_Habitacion</label>
-                                <input type="text" id="idTipo" name="idTipo" class="form-control" placeholder="01" required />
-                            </div>
-                            <div class="mb-3">
-                                <label for="nombreServicio" class="form-label">Nombre del Servicio</label>
-                                <input type="text" id="nombreServicio" name="nombreServicio" class="form-control" 
-                                       placeholder="Ej. Spa, Piscina, Room Service" required />
-                            </div>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea id="descripcion" name="descripcion" class="form-control" rows="4" 
+                                      placeholder="Describe el servicio disponible en la habitación" required></textarea>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="descripcion" class="form-label">Descripción del Servicio</label>
-                                <textarea id="descripcion" name="descripcion" class="form-control" rows="4"
-                                          placeholder="Ingrese la descripción del servicio" required></textarea>
-                            </div>
+                        <div class="mb-3">
+                            <label for="costoAdicional" class="form-label">Costo Adicional</label>
+                            <input type="number" id="costoAdicional" name="costoAdicional" class="form-control" 
+                                   placeholder="0.00" step="0.01" min="0" required />
+                        </div>
 
-                            <div class="d-flex gap-2 mt-4">
-                                <button type="submit" class="btn btn-primary">Guardar</button>
-                                <a href="Servicios_Habitacion.html" class="btn btn-secondary">Cancelar</a>
-                            </div>
+                        <div class="mb-3">
+                            <label for="fkTipoHabitacion" class="form-label">Tipo de Habitación</label>
+                            <select id="fkTipoHabitacion" name="fkTipoHabitacion" class="form-select" required>
+                                <option value="">Seleccione un tipo</option>
+                                <option value="1">Simple</option>
+                                <option value="2">Doble</option>
+                                <option value="3">Suite</option>
+                                <option value="4">Suite Presidencial</option>
+                            </select>
+                        </div>
 
-                        </form>
-                    </div>
+                        <div class="mb-3">
+                            <label for="disponibilidad" class="form-label">Disponibilidad</label>
+                            <select id="disponibilidad" name="disponibilidad" class="form-select" required>
+                                <option value="">Seleccione...</option>
+                                <option value="Disponible">Disponible</option>
+                                <option value="No Disponible">No Disponible</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="rutaImagen" class="form-label">URL de Imagen</label>
+                            <input type="url" id="rutaImagen" name="rutaImagen" class="form-control"
+                                   placeholder="https://ejemplo.com/imagen.jpg" />
+                        </div>
+
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <a href="Servicios_Habitacion.html" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <footer>
-            <p id="Texto_Footer">© Hotel Bosques del Himalaya 2025 | Donde el bosque se encuentra con el mar</p>
-        </footer>
-    </body>
+    <footer>
+        <p id="Texto_Footer">© Hotel Bosques del Himalaya 2025 | Donde el bosque se encuentra con el mar</p>
+    </footer>
+</body>
 </html>
