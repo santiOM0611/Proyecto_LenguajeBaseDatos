@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Servicios Habitación - Hotel Bosques del Himalaya</title>
+    <link rel="stylesheet" href="/css/css.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"></script>
+</head>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Hotel Bosques del Himalaya</title>
-        <link rel="stylesheet" href="/css/css.css"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-
-
+<body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -23,8 +23,8 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link" href="index.html">Inicio</a>
-                    <a class="nav-link" href="Reservas.html">Reservas </a>
-                    <a class="nav-link" href="Checks.html">Checks IN OUT </a>
+                    <a class="nav-link" href="Reservas.html">Reservas</a>
+                    <a class="nav-link" href="Checks.html">Checks IN OUT</a>
                     <a class="nav-link" href="Clientes.html">Clientes</a>
                     <a class="nav-link" href="Facturas.html">Facturas</a>
                     <a class="nav-link" href="Hoteles.html">Hoteles</a>
@@ -32,63 +32,112 @@
                     <a class="nav-link" href="Empleados.html">Empleados</a>
                     <a class="nav-link" href="Actividades.html">Actividades</a>
                     <a class="nav-link" href="Servicios.html">Servicios</a>
-                    <a class="nav-link" href="Servicios_Habitacion.html">Servicios Habitaciones</a>
+                    <a class="nav-link active" href="Servicios_Habitacion.html">Servicios Habitaciones</a>
                 </div>
             </div>
         </div>
     </nav>
-</head>
 
-<body>
-
-<body>
     <main class="container py-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Resultado de Búsqueda</h2>
+            <h2>Consultar Servicios de Habitación</h2>
+            <a href="Servicios_Habitacion.html" class="btn btn-secondary">Volver</a>
         </div>
 
-        <div class="card p-4 shadow-sm">
-            <h5>Todas las habitaciones</h5>
-            <div class="card p-4 shadow-sm">
-                <h5>Lista de Actividades</h5>
+        <!-- Formulario de búsqueda -->
+        <div class="card p-4 shadow-sm mb-4">
+            <h5 class="mb-3">Buscar por ID</h5>
+            <form method="GET" action="ConsultarIDServiciosHabitacion.html">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="idServicio" class="form-label">ID Servicio</label>
+                        <input type="number" class="form-control" id="idServicio" name="idServicio" 
+                               placeholder="Ingrese ID del servicio">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="idTipoHabitacion" class="form-label">ID Tipo Habitación</label>
+                        <input type="number" class="form-control" id="idTipoHabitacion" name="idTipoHabitacion" 
+                               placeholder="Ingrese ID tipo habitación">
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-                <table class="table table-bordered mt-3">
+        <!-- Resultados de búsqueda -->
+        <div class="card p-4 shadow-sm">
+            <h5>Resultados de Búsqueda</h5>
+            <div class="table-responsive mt-3">
+                <table class="table table-bordered table-hover">
                     <thead class="table-light">
                         <tr>
+                            <th>ID_Servicio</th>
                             <th>ID_Tipo_Habitación</th>
-                            <th>ID_Servicio_Habitación</th>
                             <th>Nombre del Servicio</th>
-                            <th>Descripción del Servicio</th>
+                            <th>Descripción</th>
+                            <th>Costo Adicional</th>
+                            <th>Disponibilidad</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <tr>
-                            <td>01</td>
-                            <td>01</td>
-                            <td>Ej. Spa, Piscina, Room Service</td>
-                            <td>Aquí va la descripción del servicio</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>TV Smart 55"</td>
+                            <td>Televisión inteligente con Netflix, HBO y servicios de streaming</td>
+                            <td>$15.00</td>
+                            <td><span class="badge bg-success">Disponible</span></td>
                             <td>
-                                <a href="EditarServicioHabitacion.html" class="btn btn-sm btn-success">Editar</a>
-                                <a href="Servicios_Habitacion.html" class="btn btn-sm btn-danger">Eliminar</a>
+                                <a href="VerServicio_Habitacion.html" class="btn btn-sm btn-primary">Ver</a>
+                                <a href="EditarServicio_Habitacion.html" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="#" class="btn btn-sm btn-danger" 
+                                   onclick="return confirm('¿Eliminar este servicio?')">Eliminar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>Minibar Premium</td>
+                            <td>Minibar surtido con bebidas, snacks y productos gourmet</td>
+                            <td>$25.00</td>
+                            <td><span class="badge bg-success">Disponible</span></td>
+                            <td>
+                                <a href="VerServicio_Habitacion.html" class="btn btn-sm btn-primary">Ver</a>
+                                <a href="EditarServicio_Habitacion.html" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="#" class="btn btn-sm btn-danger" 
+                                   onclick="return confirm('¿Eliminar este servicio?')">Eliminar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>3</td>
+                            <td>Jacuzzi Privado</td>
+                            <td>Jacuzzi de hidromasaje para dos personas con vista al jardín</td>
+                            <td>$50.00</td>
+                            <td><span class="badge bg-success">Disponible</span></td>
+                            <td>
+                                <a href="VerServicio_Habitacion.html" class="btn btn-sm btn-primary">Ver</a>
+                                <a href="EditarServicio_Habitacion.html" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="#" class="btn btn-sm btn-danger" 
+                                   onclick="return confirm('¿Eliminar este servicio?')">Eliminar</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-
-
             </div>
 
+            <!-- Mensaje cuando no hay resultados -->
+            <div class="alert alert-info mt-3" style="display: none;" id="noResultados">
+                <i class="bi bi-info-circle"></i> No se encontraron servicios con los criterios de búsqueda.
+            </div>
         </div>
     </main>
+
+    <footer>
+        <p id="Texto_Footer">© Hotel Bosques del Himalaya 2025 | Donde el bosque se encuentra con el mar</p>
+    </footer>
 </body>
-
-</body>
-
-<footer>
-
-    <p id="Texto_Footer"> © Hotel Bosques del Himalaya 2025 | Donde el bosque se encuentra con el mar</p>
-
-</footer>
 </html>
