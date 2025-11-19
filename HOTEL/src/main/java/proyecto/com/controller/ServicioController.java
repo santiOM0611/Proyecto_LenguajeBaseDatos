@@ -15,30 +15,29 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/servicio")
 public class ServicioController {
-    
+
     @Autowired
     private ServicioService service;
-    
+
     @GetMapping("/listado")
     public String listadoServicios(Model model) {
         model.addAttribute("servicios", service.listarTodos());
         return "servicio/listado";
     }
-    
+
     @GetMapping("/agregar")
     public String nuevoServicio(Model model) {
         model.addAttribute("servicio", new Servicio());
         return "servicio/agregar";
     }
-    
+
     @PostMapping("/guardar")
     public String guardarServicio(@ModelAttribute Servicio servicio, Model model) {
-
-
+        // Si no mandan imagen, coloca una por defecto
         if (servicio.getRutaImagen() == null || servicio.getRutaImagen().isEmpty()) {
             servicio.setRutaImagen("default.jpg");
         }
-        
+
         try {
             service.guardar(servicio);
             return "redirect:/servicio/listado";
@@ -48,50 +47,50 @@ public class ServicioController {
             return "servicio/agregar";
         }
     }
-    
+
     @GetMapping("/editar/{id}")
     public String editarServicio(@PathVariable Long id, Model model) {
         Optional<Servicio> servicio = service.obtenerPorId(id);
         if (servicio.isPresent()) {
             model.addAttribute("servicio", servicio.get());
             return "servicio/modifica";
+        } else {
+            model.addAttribute("errorMensaje", "No se encontró el servicio con ID " + id);
+            return "redirect:/servicio/listado";
         }
-        return "redirect:/servicio/listado";
     }
-    
+
     @GetMapping("/ver/{id}")
     public String verServicio(@PathVariable Long id, Model model) {
         Optional<Servicio> servicio = service.obtenerPorId(id);
         if (servicio.isPresent()) {
             model.addAttribute("servicio", servicio.get());
             return "servicio/ver";
+        } else {
+            model.addAttribute("errorMensaje", "No se encontró el servicio con ID " + id);
+            return "redirect:/servicio/listado";
+        }
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminarServicio(@PathVariable Long id, Model model) {
+        Optional<Servicio> servicio = service.obtenerPorId(id);
+        if (servicio.isPresent()) {
+            service.eliminar(id);
+        } else {
+            model.addAttribute("errorMensaje", "No se encontró el servicio con ID " + id);
         }
         return "redirect:/servicio/listado";
     }
-    
-    @GetMapping("/eliminar/{id}")
-    public String eliminarServicio(@PathVariable Long id) {
-        service.eliminar(id);
-        return "redirect:/servicio/listado";
-    }
-    
 
-    
     @GetMapping("/buscar")
-    public String mostrarFormularioBusqueda(Model model) {
-        model.addAttribute("encontrado", null);
-        return "servicio/buscar";  
+    public String mostrarFormularioBusqueda() {
+        return "servicio/buscar";
     }
-    
 
-    
     @PostMapping("/buscar")
     public String buscar(@RequestParam("idServicio") Long idServicio, Model model) {
-        
-
-        Servicio servicio = service.buscarPorId(idServicio); 
-
-
+        Servicio servicio = service.buscarPorId(idServicio);
         if (servicio == null) {
             model.addAttribute("encontrado", false);
             model.addAttribute("mensaje", "No se encontró el servicio con ID " + idServicio);
@@ -99,7 +98,6 @@ public class ServicioController {
             model.addAttribute("encontrado", true);
             model.addAttribute("servicio", servicio);
         }
-
         return "servicio/buscar";
     }
 }

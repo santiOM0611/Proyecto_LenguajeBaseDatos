@@ -22,7 +22,6 @@ public class ServicioRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
     private final RowMapper<Servicio> rowMapper = (rs, rowNum) -> {
         Servicio s = new Servicio();
         s.setId(rs.getLong("ID_SERVICIO"));
@@ -30,7 +29,7 @@ public class ServicioRepository {
         s.setNombre(rs.getString("NOMBRE_SERVICIO"));
         s.setDescripcion(rs.getString("DESCRIPCION_SERVICIO"));
         s.setCosto(rs.getBigDecimal("COSTO_SERVICIO"));
-        s.setRutaImagen(rs.getString("RUTA_IMAGEN")); 
+        s.setRutaImagen(rs.getString("RUTA_IMAGEN"));
         return s;
     };
 
@@ -63,23 +62,31 @@ public class ServicioRepository {
         });
     }
 
+    // --- AGREGAR SERVICIO (sin enviar ID) ---
     public String agregar(Servicio s) {
         return jdbcTemplate.execute((Connection conn) -> {
-            try (CallableStatement cs = conn.prepareCall("{call PKG_SERVICIOS_FRONT.SP_AGREGAR_SERVICIO(?,?,?,?,?,?,?)}")) {
-                cs.setLong(1, s.getId() != null ? s.getId() : 0);
-                cs.setLong(2, s.getIdHotel());
-                cs.setString(3, s.getNombre());
-                cs.setString(4, s.getDescripcion());
-                cs.setBigDecimal(5, s.getCosto());
-                cs.setString(6, s.getRutaImagen());
-                cs.registerOutParameter(7, Types.VARCHAR);
+            try (CallableStatement cs = conn.prepareCall("{call PKG_SERVICIOS_FRONT.SP_AGREGAR_SERVICIO(?,?,?,?,?,?)}")) {
+                cs.setLong(1, s.getIdHotel());
+                cs.setString(2, s.getNombre());
+                cs.setString(3, s.getDescripcion());
+                cs.setBigDecimal(4, s.getCosto());
+                cs.setString(5, s.getRutaImagen());
+                cs.registerOutParameter(6, Types.VARCHAR); // P_MENSAJE
 
                 cs.execute();
-                return cs.getString(7);
+                String resultado = cs.getString(6);
+
+                System.out.println("Resultado del SP_AGREGAR_SERVICIO: " + resultado);
+                return resultado;
+            } catch (Exception e) {
+                System.err.println("Error en agregar servicio: " + e.getMessage());
+                e.printStackTrace();
+                throw e;
             }
         });
     }
 
+    // --- EDITAR SERVICIO ---
     public String editar(Servicio s) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall("{call PKG_SERVICIOS_FRONT.SP_EDITAR_SERVICIO(?,?,?,?,?,?,?)}")) {
@@ -92,11 +99,19 @@ public class ServicioRepository {
                 cs.registerOutParameter(7, Types.VARCHAR);
 
                 cs.execute();
-                return cs.getString(7);
+                String resultado = cs.getString(7);
+
+                System.out.println("Resultado del SP_EDITAR_SERVICIO: " + resultado);
+                return resultado;
+            } catch (Exception e) {
+                System.err.println("Error en editar servicio: " + e.getMessage());
+                e.printStackTrace();
+                throw e;
             }
         });
     }
 
+    // --- ELIMINAR SERVICIO ---
     public String eliminar(Long idServicio) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall("{call PKG_SERVICIOS_FRONT.SP_ELIMINAR_SERVICIO(?,?)}")) {
@@ -104,7 +119,14 @@ public class ServicioRepository {
                 cs.registerOutParameter(2, Types.VARCHAR);
 
                 cs.execute();
-                return cs.getString(2);
+                String resultado = cs.getString(2);
+
+                System.out.println("Resultado del SP_ELIMINAR_SERVICIO: " + resultado);
+                return resultado;
+            } catch (Exception e) {
+                System.err.println("Error en eliminar servicio: " + e.getMessage());
+                e.printStackTrace();
+                throw e;
             }
         });
     }
