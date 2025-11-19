@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}"></head>
+    <body class="d-flex flex-column" style="min-height: 100vh;">
+
+        <!-- HEADER -->
+        <header th:replace="~{layout/plantilla :: header}"></header>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-grow-1 py-4">
+            <div class="container">
+                <h1>Clientes Registrados</h1>
+                <a href="/clientes/agregar">Agregar Cliente</a>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Cédula</th>
+                            <th>Nombre</th>
+                            <th>Primer Apellido</th>
+                            <th>Segundo Apellido</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="c : ${clientes}">
+                            <td th:text="${c.cedula}"></td>
+                            <td th:text="${c.nombreCliente}"></td>
+                            <td th:text="${c.primerApellido}"></td>
+                            <td th:text="${c.segundoApellido}"></td>
+                            <td>
+                                <a th:href="@{'/clientes/editar/' + ${c.cedula}}">Editar</a> |
+                                <a th:href="@{'/clientes/eliminar/' + ${c.cedula}}">Eliminar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer th:replace="~{layout/plantilla :: footer}"></footer>
+
+    </body>
+</html>
