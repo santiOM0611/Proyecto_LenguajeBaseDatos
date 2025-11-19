@@ -2,17 +2,20 @@ package proyecto.com.model;
 
 public class Cliente {
 
-    private String cedula;
+    private Long cedula;
     private String nombreCliente;
     private String primerApellido;
     private String segundoApellido;
+    private String telefonoCliente;
+    private String correoCliente;
 
-    // GETTERS y SETTERS
-    public String getCedula() {
+    public Cliente() {}
+
+    public Long getCedula() {
         return cedula;
     }
 
-    public void setCedula(String cedula) {
+    public void setCedula(Long cedula) {
         this.cedula = cedula;
     }
 
@@ -38,5 +41,21 @@ public class Cliente {
 
     public void setSegundoApellido(String segundoApellido) {
         this.segundoApellido = segundoApellido;
+    }
+
+    public String getTelefonoCliente() {
+        return telefonoCliente;
+    }
+
+    public void setTelefonoCliente(String telefonoCliente) {
+        this.telefonoCliente = telefonoCliente;
+    }
+
+    public String getCorreoCliente() {
+        return correoCliente;
+    }
+
+    public void setCorreoCliente(String correoCliente) {
+        this.correoCliente = correoCliente;
     }
 }

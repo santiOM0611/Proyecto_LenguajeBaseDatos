@@ -1,11 +1,12 @@
 package proyecto.com.controller;
 
+import proyecto.com.model.Cliente;
+import proyecto.com.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import proyecto.com.model.Cliente;
-import proyecto.com.service.ClienteService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/clientes")
@@ -17,42 +18,65 @@ public class ClienteController {
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("clientes", service.listar());
-        return "cliente/clientes";  // ← Cambio aquí
+        return "clientes/clientes";
+    }
+
+    @GetMapping("/ver/{cedula}")
+    public String ver(@PathVariable Long cedula, Model model) {
+        model.addAttribute("cliente", service.obtenerPorId(cedula));
+        return "clientes/ver";
     }
 
     @GetMapping("/agregar")
-    public String agregar(Model model) {
+    public String mostrarFormulario(Model model) {
         model.addAttribute("cliente", new Cliente());
-        return "cliente/agregarCliente";  // ← Cambio aquí
+        return "clientes/agregar";
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Cliente cliente) {
-        service.guardar(cliente);
+    public String guardarCliente(@ModelAttribute Cliente cliente, RedirectAttributes ra) {
+        String msg = service.guardarCliente(cliente);
+        ra.addFlashAttribute("msg", msg);
         return "redirect:/clientes";
     }
 
-    @GetMapping("/buscar/{cedula}")
-    public String buscar(@PathVariable String cedula, Model model) {
-        model.addAttribute("cliente", service.buscar(cedula));
-        return "cliente/resultadoBusqueda";  // ← Cambio aquí
-    }
-
     @GetMapping("/editar/{cedula}")
-    public String editar(@PathVariable String cedula, Model model) {
-        model.addAttribute("cliente", service.buscar(cedula));
-        return "cliente/editarCliente";  // ← Cambio aquí
+    public String editarCliente(@PathVariable Long cedula, Model model) {
+        model.addAttribute("cliente", service.obtenerPorId(cedula));
+        return "clientes/modificar";
     }
 
     @PostMapping("/actualizar")
-    public String actualizar(@ModelAttribute Cliente cliente) {
-        service.actualizar(cliente);
+    public String actualizarCliente(@ModelAttribute Cliente cliente, RedirectAttributes ra) {
+        String msg = service.actualizarCliente(cliente);
+        ra.addFlashAttribute("msg", msg);
         return "redirect:/clientes";
     }
 
     @GetMapping("/eliminar/{cedula}")
-    public String eliminar(@PathVariable String cedula) {
-        service.eliminar(cedula);
+    public String eliminar(@PathVariable Long cedula, RedirectAttributes ra) {
+        String msg = service.eliminar(cedula);
+        ra.addFlashAttribute("msg", msg);
         return "redirect:/clientes";
+    }
+
+    @GetMapping("/buscarID")
+    public String mostrarFormularioBusquedaID(Model model) {
+        model.addAttribute("cliente", new Cliente());
+        return "clientes/buscarID";
+    }
+
+    @PostMapping("/buscarID")
+    public String buscarPorId(@RequestParam("cedula") Long cedula, Model model, RedirectAttributes ra) {
+        Cliente cliente = service.buscarPorId(cedula);
+
+        if (cliente != null) {
+            model.addAttribute("cliente", cliente);
+            model.addAttribute("encontrado", true);
+            return "clientes/buscarID";
+        } else {
+            ra.addFlashAttribute("error", "No se encontró ningún cliente con la cédula: " + cedula);
+            return "redirect:/clientes/buscarID";
+        }
     }
 }

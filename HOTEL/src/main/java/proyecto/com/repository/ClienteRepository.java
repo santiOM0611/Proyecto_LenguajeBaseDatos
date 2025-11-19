@@ -7,7 +7,13 @@ public interface ClienteRepository {
 
     List<Cliente> listar();
 
-    Cliente buscarPorId(Long id);
+    Cliente obtenerPorId(Long cedula);
 
-    void guardar(Cliente cliente);
+    String insertar(Cliente cliente);
+
+    String actualizar(Cliente cliente);
+
+    String eliminar(Long cedula);
+
+    Cliente buscarPorIdConFuncion(Long cedula);
 }
