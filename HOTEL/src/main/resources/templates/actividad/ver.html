@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/plantilla :: head}">
+    <title>Detalle de Actividad</title>
+</head>
+
+<body>
+
+<header th:replace="~{layout/plantilla :: header}"></header>
+
+<section th:fragment="verActividad">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+
+            <div class="col-md-5 d-flex justify-content-center">
+                <div class="border rounded d-inline-block p-2" style="background-color: #1d6f42;">
+
+                    <img th:if="${actividad.rutaImagen != null}"
+                         th:src="@{${actividad.rutaImagen}}"
+                         alt="Imagen de la Actividad"
+                         class="rounded"
+                         style="max-height: 400px; object-fit: contain;" />
+
+                    <span th:if="${actividad.rutaImagen == null}"
+                          class="text-white fw-bold">
+                        No hay imagen disponible
+                    </span>
+
+                </div>
+            </div>
+
+
+            <div class="col-md-5">
+                <h3 class="fw-bold mb-3" th:text="${actividad.nombre}">
+                    Nombre de la Actividad
+                </h3>
+
+                <p class="mb-2">
+                    <strong>ID Hotel:</strong>
+                    <span th:text="${actividad.idHotel}"></span>
+                </p>
+
+                <p class="mb-2">
+                    <strong>Descripción:</strong>
+                    <span th:text="${actividad.descripcion}"></span>
+                </p>
+
+                <p class="mb-4">
+                    <strong>Capacidad:</strong>
+                    <span th:text="${actividad.capacidad}"></span>
+                </p>
+
+                <form id="actividadForm">
+
+                    <input type="hidden" name="id" th:value="${actividad.id}" />
+
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success px-5 py-2 fw-bold"
+                                type="button"
+                                onclick="addActividad(this.form)">
+                            Reservar Actividad
+                        </button>
+
+                        <a th:href="@{/actividad/listado}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="resultsBlock" style="display: none;"></div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<footer th:replace="~{layout/plantilla :: footer}"></footer>
+
+</body>
+</html>

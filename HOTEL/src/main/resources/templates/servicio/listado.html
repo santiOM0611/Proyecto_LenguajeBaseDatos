@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/plantilla :: head}">
+    <title>Listado de Servicios</title>        
+</head>
+<header th:replace="~{layout/plantilla :: header}"/>
+<body>
+
+<div class="container mt-4">
+    <h2 class="mb-4">Listado de Servicios</h2>
+    
+    <div class="d-flex justify-content-between mb-3">
+        <a class="btn btn-primary" th:href="@{/servicio/agregar}">
+            <i class="fas fa-plus"></i> Agregar Servicio
+        </a>
+        <a class="btn btn-secondary" th:href="@{/servicio/buscar}">
+            <i class="fas fa-search"></i> Buscar Servicio
+        </a>
+    </div>
+
+    <section th:fragment="listadoServicios" id="servicios">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h4>Listado de Servicios</h4>
+            </div>
+        </div>
+        <div th:if="${servicios != null and !servicios.empty}">
+            <div id="carouselWrapper" class="position-relative">
+                <div id="carouselServicios" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div th:each="i : ${#numbers.sequence(0, servicios.size() - 1, 3)}"
+                             th:class="'carousel-item' + (${i} == 0 ? ' active' : '')">
+                            <div class="row">
+                                <div class="col-md-4 mb-4"
+                                     th:each="j : ${#numbers.sequence(i, i + 2)}"
+                                     th:if="${j} < ${servicios.size()}">
+                                    <div class="card h-100">
+                                        <img th:src="@{${servicios[j].rutaImagen}}" class="card-img-top"
+                                             alt="Imagen del servicio"
+                                             style="height: 200px; object-fit: cover;">
+                                        <div class="card-body">
+                                            <h5 class="card-title" th:text="${servicios[j].nombre}">Nombre</h5>
+                                            <p class="card-text" th:text="${servicios[j].descripcion}">Descripción</p>
+                                            <p><strong>Costo:</strong> $[[${#numbers.formatDecimal(servicios[j].costo, 1, 2)}]]</p>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <a th:href="@{'/servicio/ver/' + ${servicios[j].id}}" 
+                                               class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i> Ver
+                                            </a>
+                                            <a th:href="@{'/servicio/editar/' + ${servicios[j].id}}" 
+                                               class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </a>
+                                            <a th:href="@{'/servicio/eliminar/' + ${servicios[j].id}}" 
+                                               class="btn btn-danger btn-sm"
+                                               onclick="return confirm('¿Está seguro de eliminar este servicio?')">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-dark rounded-circle p-2 position-absolute top-50 translate-middle-y"
+                        style="z-index: 10; width: 36px; height: 36px; left: -50px;"
+                        data-bs-target="#carouselServicios" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true" style="width: 18px; height: 18px;"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+
+                <button type="button" class="btn btn-dark rounded-circle p-2 position-absolute top-50 translate-middle-y"
+                        style="z-index: 10; width: 36px; height: 36px; right: -50px;"
+                        data-bs-target="#carouselServicios" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true" style="width: 18px; height: 18px;"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="text-center p-4" th:if="${servicios == null or servicios.empty}">
+            <span>No hay servicios disponibles</span>
+        </div>
+    </div>
+</section>
+    
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<footer th:replace="~{layout/plantilla :: footer}"/>
+</html>
