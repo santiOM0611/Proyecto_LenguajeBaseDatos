@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/plantilla :: head}">
+    <title>Fragmentos Clientes</title>
+</head>
+<body>
+
+<!-- FRAGMENTO 1: Listado -->
+<section th:fragment="listadoClientes" class="py-4">
+    <div class="container">
+        <div class="d-flex justify-content-end gap-2 mb-4">
+            <a class="btn btn-primary" th:href="@{/clientes/agregar}">
+                <i class="fas fa-plus"></i> Agregar Cliente
+            </a>
+            <a class="btn btn-secondary" th:href="@{/clientes/buscarID}">
+                <i class="fas fa-search"></i> Consultar cliente por cédula
+            </a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Cédula</th>
+                        <th>Nombre</th>
+                        <th>Primer Apellido</th>
+                        <th>Segundo Apellido</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cliente : ${clientes}">
+                        <td th:text="${cliente.cedula}">12345678</td>
+                        <td th:text="${cliente.nombreCliente}">Juan</td>
+                        <td th:text="${cliente.primerApellido}">Pérez</td>
+                        <td th:text="${cliente.segundoApellido}">Gómez</td>
+                        <td th:text="${cliente.telefonoCliente}">8888-8888</td>
+                        <td th:text="${cliente.correoCliente}">correo@email.com</td>
+                        <td>
+                            <a th:href="@{/clientes/ver/{id}(id=${cliente.cedula})}" class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i> Ver
+                            </a>
+                            <a th:href="@{/clientes/editar/{id}(id=${cliente.cedula})}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a th:href="@{/clientes/eliminar/{id}(id=${cliente.cedula})}" 
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('¿Está seguro de eliminar este cliente?')">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- FRAGMENTO 2: Agregar Cliente -->
+<section th:fragment="agregarCliente" class="p-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h2 class="mb-4"><i class="fas fa-user-plus"></i> Agregar Cliente</h2>
+                <form th:action="@{/clientes/guardar}" th:object="${cliente}" method="post">
+                    <div class="mb-3">
+                        <label for="cedula" class="form-label">Cédula</label>
+                        <input type="number" id="cedula" th:field="*{cedula}" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombreCliente" class="form-label">Nombre</label>
+                        <input type="text" id="nombreCliente" th:field="*{nombreCliente}" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="primerApellido" class="form-label">Primer Apellido</label>
+                        <input type="text" id="primerApellido" th:field="*{primerApellido}" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="segundoApellido" class="form-label">Segundo Apellido</label>
+                        <input type="text" id="segundoApellido" th:field="*{segundoApellido}" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefonoCliente" class="form-label">Teléfono</label>
+                        <input type="text" id="telefonoCliente" th:field="*{telefonoCliente}" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="correoCliente" class="form-label">Correo</label>
+                        <input type="email" id="correoCliente" th:field="*{correoCliente}" class="form-control" />
+                    </div>
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                        <a th:href="@{/clientes}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FRAGMENTO 3: Ver Cliente -->
+<section th:fragment="verCliente" class="p-4">
+    <div class="container">
+        <a th:href="@{/clientes}" class="btn btn-secondary mb-4"><i class="fas fa-arrow-left"></i> Volver a Clientes</a>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <p><strong>Cédula:</strong> <span th:text="${cliente.cedula}">12345678</span></p>
+                <p><strong>Nombre:</strong> <span th:text="${cliente.nombreCliente}">Juan</span></p>
+                <p><strong>Primer Apellido:</strong> <span th:text="${cliente.primerApellido}">Pérez</span></p>
+                <p><strong>Segundo Apellido:</strong> <span th:text="${cliente.segundoApellido}">Gómez</span></p>
+                <p><strong>Teléfono:</strong> <span th:text="${cliente.telefonoCliente}">8888-8888</span></p>
+                <p><strong>Correo:</strong> <span th:text="${cliente.correoCliente}">correo@email.com</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FRAGMENTO 4: Editar Cliente -->
+<section th:fragment="editarCliente" class="p-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h2 class="mb-4"><i class="fas fa-edit"></i> Editar Cliente</h2>
+                <form th:action="@{/clientes/actualizar}" th:object="${cliente}" method="post">
+                    <div class="mb-3">
+                        <label for="cedula" class="form-label">Cédula</label>
+                        <input type="number" id="cedula" th:field="*{cedula}" class="form-control" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombreCliente" class="form-label">Nombre</label>
+                        <input type="text" id="nombreCliente" th:field="*{nombreCliente}" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="primerApellido" class="form-label">Primer Apellido</label>
+                        <input type="text" id="primerApellido" th:field="*{primerApellido}" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="segundoApellido" class="form-label">Segundo Apellido</label>
+                        <input type="text" id="segundoApellido" th:field="*{segundoApellido}" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefonoCliente" class="form-label">Teléfono</label>
+                        <input type="text" id="telefonoCliente" th:field="*{telefonoCliente}" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="correoCliente" class="form-label">Correo</label>
+                        <input type="email" id="correoCliente" th:field="*{correoCliente}" class="form-control" />
+                    </div>
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-warning"><i class="fas fa-save"></i> Actualizar</button>
+                        <a th:href="@{/clientes}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FRAGMENTO 5: Buscar Cliente por Cédula -->
+<section th:fragment="buscarClienteID" class="py-4">
+    <div class="container">
+        <h2 class="mb-4"><i class="fas fa-search"></i> Buscar Cliente por Cédula</h2>
+
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle"></i> <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <form th:action="@{/clientes/buscarID}" method="post">
+                    <div class="mb-3">
+                        <label for="cedula" class="form-label">Cédula</label>
+                        <input type="number" id="cedula" name="cedula" class="form-control" placeholder="Ingrese la cédula" required min="1" />
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
+                        <a th:href="@{/clientes}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div th:if="${encontrado}" class="card shadow">
+            <div class="card-body">
+                <p><strong>Cédula:</strong> <span th:text="${cliente.cedula}"></span></p>
+                <p><strong>Nombre:</strong> <span th:text="${cliente.nombreCliente}"></span></p>
+                <p><strong>Primer Apellido:</strong> <span th:text="${cliente.primerApellido}"></span></p>
+                <p><strong>Segundo Apellido:</strong> <span th:text="${cliente.segundoApellido}"></span></p>
+                <p><strong>Teléfono:</strong> <span th:text="${cliente.telefonoCliente}"></span></p>
+                <p><strong>Correo:</strong> <span th:text="${cliente.correoCliente}"></span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
