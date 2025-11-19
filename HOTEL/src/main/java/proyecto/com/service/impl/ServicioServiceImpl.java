@@ -25,10 +25,15 @@ public class ServicioServiceImpl implements ServicioService {
     }
 
     @Override
-    public Servicio guardar(Servicio servicio) {
+public Servicio guardar(Servicio servicio) {
+    if (servicio.getId() == null || servicio.getId() == 0) {
         repository.agregar(servicio);
-        return servicio;
+    } else {
+        repository.editar(servicio);
     }
+    return servicio;
+}
+
 
     @Override
     public void eliminar(Long id) {
