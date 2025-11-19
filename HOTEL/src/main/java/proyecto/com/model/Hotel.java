@@ -9,12 +9,10 @@ public class Hotel {
     private String direccionExacta;
     private String rutaImagen;
 
-    // Campos auxiliares para seleccionar provincia, canton, distrito desde el formulario
     private String provincia;
     private String canton;
     private String distrito;
 
-    // Getters y Setters
 
     public String getProvincia() {
         return provincia;

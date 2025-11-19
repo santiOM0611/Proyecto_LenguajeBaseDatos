@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public class HotelService {
-    
+
     @Autowired
     private HotelRepository repo;
 
@@ -20,12 +20,10 @@ public class HotelService {
         return repo.obtenerPorId(id);
     }
 
-    // ✅ Simplificado: solo llama al repositorio
     public String guardarHotel(Hotel hotel) {
         return repo.insertar(hotel);
     }
 
-    // ✅ Simplificado: solo llama al repositorio
     public String actualizarHotel(Hotel hotel) {
         return repo.actualizar(hotel);
     }
@@ -33,8 +31,9 @@ public class HotelService {
     public String eliminar(int idHotel) {
         return repo.eliminar(idHotel);
     }
-    
-    
-    
-}
 
+    public Hotel buscarPorId(int id) {
+        return repo.buscarPorIdConFuncion(id);
+    }
+
+}

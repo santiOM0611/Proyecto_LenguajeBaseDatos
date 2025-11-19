@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.List;
 
@@ -44,18 +45,18 @@ public class HotelRepository {
     public String insertar(Hotel h) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall(
-                "{call PKG_HOTELES_FRONT.SP_INSERT_HOTEL(?, ?, ?, ?, ?, ?, ?, ?, ?)}")) {
-                
+                    "{call PKG_HOTELES_FRONT.SP_INSERT_HOTEL(?, ?, ?, ?, ?, ?, ?, ?, ?)}")) {
+
                 cs.setString(1, h.getNombreHotel());
                 cs.setString(2, h.getTelefonoHotel());
                 cs.setString(3, h.getCorreoHotel());
-                cs.setString(4, h.getProvincia());     // NOMBRE, no ID
-                cs.setString(5, h.getCanton());        // NOMBRE, no ID
-                cs.setString(6, h.getDistrito());      // NOMBRE, no ID
+                cs.setString(4, h.getProvincia());
+                cs.setString(5, h.getCanton());
+                cs.setString(6, h.getDistrito());
                 cs.setString(7, h.getDireccionExacta());
                 cs.setString(8, h.getRutaImagen());
                 cs.registerOutParameter(9, Types.VARCHAR);
-                
+
                 cs.execute();
                 return cs.getString(9);
             }
@@ -66,19 +67,19 @@ public class HotelRepository {
     public String actualizar(Hotel h) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall(
-                "{call PKG_HOTELES_FRONT.SP_UPDATE_HOTEL(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}")) {
-                
+                    "{call PKG_HOTELES_FRONT.SP_UPDATE_HOTEL(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}")) {
+
                 cs.setInt(1, h.getIdHotel());
                 cs.setString(2, h.getNombreHotel());
                 cs.setString(3, h.getTelefonoHotel());
                 cs.setString(4, h.getCorreoHotel());
-                cs.setString(5, h.getProvincia());     // NOMBRE, no ID
-                cs.setString(6, h.getCanton());        // NOMBRE, no ID
-                cs.setString(7, h.getDistrito());      // NOMBRE, no ID
+                cs.setString(5, h.getProvincia());
+                cs.setString(6, h.getCanton());
+                cs.setString(7, h.getDistrito());
                 cs.setString(8, h.getDireccionExacta());
                 cs.setString(9, h.getRutaImagen());
                 cs.registerOutParameter(10, Types.VARCHAR);
-                
+
                 cs.execute();
                 return cs.getString(10);
             }
@@ -95,5 +96,29 @@ public class HotelRepository {
             }
         });
     }
+    public Hotel buscarPorIdConFuncion(int id) {
+        return jdbcTemplate.execute((Connection conn) -> {
+            try (CallableStatement cs = conn.prepareCall("{? = call FN_GET_HOTEL(?)}")) {
+                cs.registerOutParameter(1, Types.REF_CURSOR);
+                cs.setInt(2, id);
+                cs.execute();
 
+                ResultSet rs = (ResultSet) cs.getObject(1);
+                if (rs != null && rs.next()) {
+                    Hotel h = new Hotel();
+                    h.setIdHotel(rs.getInt("ID_HOTEL"));
+                    h.setNombreHotel(rs.getString("NOMBRE_HOTEL"));
+                    h.setTelefonoHotel(rs.getString("TELEFONO_HOTEL"));
+                    h.setCorreoHotel(rs.getString("CORREO_HOTEL"));
+                    h.setDireccionExacta(rs.getString("DIRECCION_EXACTA"));
+                    h.setRutaImagen(rs.getString("RUTA_IMAGEN"));
+                    h.setProvincia(rs.getString("NOMBRE_PROVINCIA"));
+                    h.setCanton(rs.getString("NOMBRE_CANTON"));
+                    h.setDistrito(rs.getString("NOMBRE_DISTRITO"));
+                    return h;
+                }
+                return null;
+            }
+        });
+    }
 }

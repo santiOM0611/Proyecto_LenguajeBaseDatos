@@ -18,7 +18,6 @@
 
 <body th:fragment="body" class="d-flex flex-column" style="min-height: 100vh;">
 
-    <!-- HEADER / NAVBAR -->
     <header th:fragment="header">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
@@ -44,7 +43,6 @@
                         <a class="nav-link" th:href="@{/servicios-habitacion}">Servicios Habitaciones</a>
                     </div>
                     
-                    <!-- Sección de autenticación (opcional) -->
                     <div class="navbar-nav ms-auto" sec:authorize="isAuthenticated()">
                         <span class="nav-link">
                             <i class="fas fa-user"></i> <span sec:authentication="name">Usuario</span>
@@ -60,7 +58,6 @@
         </nav>
     </header>
 
-    <!-- MAIN / HERO SECTION para index.html -->
     <main th:fragment="main" class="flex-grow-1">
         <section id="hero" class="py-5 bg-light">
             <div class="container text-center">
@@ -76,7 +73,6 @@
                 <h2 class="text-center mb-5 fw-bold">Reserva ya en nuestras grandiosas habitaciones</h2>
                 <div class="row g-4">
 
-                    <!-- Primera columna -->
                     <div class="col-lg-6 col-md-12">
                         <div class="card shadow-sm h-100">
                             <div class="card-body">
@@ -98,7 +94,6 @@
                         </div>
                     </div>
 
-                    <!-- Segunda columna -->
                     <div class="col-lg-6 col-md-12">
                         <div class="card shadow-sm h-100">
                             <div class="card-body">
@@ -125,7 +120,6 @@
         </section>
     </main>
 
-    <!-- FOOTER -->
     <footer th:fragment="footer" class="bg-dark text-white mt-auto">
         <div class="container py-4">
             <div class="row">
