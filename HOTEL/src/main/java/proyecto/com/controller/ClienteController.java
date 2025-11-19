@@ -43,7 +43,7 @@ public class ClienteController {
     @GetMapping("/editar/{cedula}")
     public String editarCliente(@PathVariable Long cedula, Model model) {
         model.addAttribute("cliente", service.obtenerPorId(cedula));
-        return "clientes/modificar";
+        return "clientes/modifica";
     }
 
     @PostMapping("/actualizar")
