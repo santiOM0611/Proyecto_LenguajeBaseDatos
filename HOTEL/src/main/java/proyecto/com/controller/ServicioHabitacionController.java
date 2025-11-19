@@ -20,7 +20,7 @@ public class ServicioHabitacionController {
     @GetMapping
     public String index(Model model) {
         model.addAttribute("servicios", service.listarTodos());
-        return "ServiciosHabitacion/ServiciosHabitacion";
+        return "ServiciosHabitacion";
     }
 
     @GetMapping("/agregar")
