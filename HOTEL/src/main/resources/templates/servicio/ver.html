@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/plantilla :: head}">
+    <title>Detalle del Servicio</title>        
+</head>
+<body>
+<header th:replace="~{layout/plantilla :: header}"/>
+
+<section th:fragment="verServicio">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+
+            <div class="col-md-5 d-flex justify-content-center">
+                <div class="border rounded d-inline-block p-2" style="background-color: #1d6f42;">
+                    <img th:if="${servicio.rutaImagen != null}"
+                         th:src="@{${servicio.rutaImagen}}"
+                         alt="Imagen del Servicio"
+                         class="rounded"
+                         style="max-height: 400px; object-fit: contain;" />
+                    <span th:if="${servicio.rutaImagen == null}" 
+                          class="text-white fw-bold">
+                        No hay imagen disponible
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <h3 class="fw-bold mb-3" th:text="${servicio.nombre}">Nombre del Servicio</h3>
+                <p class="mb-2"><strong>ID Hotel:</strong> <span th:text="${servicio.idHotel}"></span></p>
+                <p class="mb-2"><strong>Descripción:</strong> <span th:text="${servicio.descripcion}"></span></p>
+                <h4 class="text-success fw-semibold mb-4" 
+                    th:text="'₡' + ${#numbers.formatDecimal(servicio.costo,1,2)}">Costo</h4>
+
+               
+                <form id="servicioForm">
+                    
+
+                    <input type="hidden" name="idServicio" th:value="${servicio.id}"/>
+
+                    <div class="d-flex gap-2">
+                       <a th:href="@{/servicio/listado}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="resultsBlock" style="display: none;"></div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<footer th:replace="~{layout/plantilla :: footer}"/>
+</body>
+</html>
