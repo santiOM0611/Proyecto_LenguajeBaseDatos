@@ -1,37 +1,95 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package proyecto.com.model;
 
-import lombok.Data;
-import java.io.Serializable;
+import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Data
-public class CheckInOut implements Serializable {
+@Entity
+@Table(name = "Check_in_out")
+public class CheckInOut {
     
-    private static final long serialVersionUID = 1L;
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_Check")
     private Long idCheck;
-    private Long idReserva;
-    private LocalDate fechaEntrada;
-    private LocalTime horaEntrada;
-    private LocalDate fechaSalida;
-    private LocalTime horaSalida;
-    private String devolucion;
     
-    // Constructor vacío
-    public CheckInOut() {
+    @Column(name = "ID_Reserva", nullable = false)
+    private Long idReserva;
+    
+    @Column(name = "Fecha_Entrada")
+    private LocalDate fechaEntrada;
+    
+    @Column(name = "Hora_Entrada")
+    private LocalTime horaEntrada;
+    
+    @Column(name = "Fecha_Salida")
+    private LocalDate fechaSalida;
+    
+    @Column(name = "Hora_Salida")
+    private LocalTime horaSalida;
+    
+    @Transient
+    private BigDecimal devolucion; // Este campo viene de la tabla relacionada
+    
+    // Getters y Setters
+    public Long getIdCheck() { 
+        return idCheck; 
     }
     
-    // Constructor con todos los campos
-    public CheckInOut(Long idCheck, Long idReserva, LocalDate fechaEntrada, 
-                     LocalTime horaEntrada, LocalDate fechaSalida, 
-                     LocalTime horaSalida, String devolucion) {
-        this.idCheck = idCheck;
-        this.idReserva = idReserva;
-        this.fechaEntrada = fechaEntrada;
-        this.horaEntrada = horaEntrada;
-        this.fechaSalida = fechaSalida;
-        this.horaSalida = horaSalida;
-        this.devolucion = devolucion;
+    public void setIdCheck(Long idCheck) { 
+        this.idCheck = idCheck; 
+    }
+    
+    public Long getIdReserva() { 
+        return idReserva; 
+    }
+    
+    public void setIdReserva(Long idReserva) { 
+        this.idReserva = idReserva; 
+    }
+    
+    public LocalDate getFechaEntrada() { 
+        return fechaEntrada; 
+    }
+    
+    public void setFechaEntrada(LocalDate fechaEntrada) { 
+        this.fechaEntrada = fechaEntrada; 
+    }
+    
+    public LocalTime getHoraEntrada() { 
+        return horaEntrada; 
+    }
+    
+    public void setHoraEntrada(LocalTime horaEntrada) { 
+        this.horaEntrada = horaEntrada; 
+    }
+    
+    public LocalDate getFechaSalida() { 
+        return fechaSalida; 
+    }
+    
+    public void setFechaSalida(LocalDate fechaSalida) { 
+        this.fechaSalida = fechaSalida; 
+    }
+    
+    public LocalTime getHoraSalida() { 
+        return horaSalida; 
+    }
+    
+    public void setHoraSalida(LocalTime horaSalida) { 
+        this.horaSalida = horaSalida; 
+    }
+    
+    public BigDecimal getDevolucion() { 
+        return devolucion; 
+    }
+    
+    public void setDevolucion(BigDecimal devolucion) { 
+        this.devolucion = devolucion; 
     }
 }

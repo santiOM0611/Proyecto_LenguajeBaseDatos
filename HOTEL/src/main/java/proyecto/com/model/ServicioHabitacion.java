@@ -1,146 +1,78 @@
 package proyecto.com.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "SERVICIOS_HABITACIONES")
+@Table(name = "Servicios_Habitaciones")
 public class ServicioHabitacion {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "servicio_hab_seq")
-    @SequenceGenerator(name = "servicio_hab_seq", sequenceName = "SEQ_SERVICIOS_HABITACIONES", allocationSize = 1)
-    @Column(name = "ID_SERVICIO_HABITACION")
-    private Long idServicioHab;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_Servicio_Habitacion")
+    private Long id;
     
-    @Column(name = "ID_TIPO_HABITACION", nullable = false)
-    private Long idTipo;
+    @Column(name = "ID_Tipo_Habitacion", nullable = false, insertable = false, updatable = false)
+    private Long idTipoHabitacion;
     
-    @Column(name = "NOMBRE_SERVICIO_HABITACION", nullable = false, length = 100)
+    @Column(name = "Nombre_Servicio_Habitacion", length = 100)
     private String nombre;
     
-    @Column(name = "DESCRIPCION_SERVICIO_HABITACION", length = 500)
+    @Column(name = "Descripcion_Servicio_Habitacion", length = 250)
     private String descripcion;
     
-    @Column(name = "RUTA_IMAGEN", length = 255)
+    @Column(name = "Ruta_Imagen", length = 300)
     private String rutaImagen;
     
-    @Column(name = "ESTADO", length = 1)
-    private String estado;
-    
-    @Column(name = "FECHA_CREACION")
-    private LocalDateTime fechaCreacion;
-    
-    @Column(name = "FECHA_MODIFICACION")
-    private LocalDateTime fechaModificacion;
-    
-    // Relación con TipoHabitacion (ManyToOne)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_TIPO_HABITACION", insertable = false, updatable = false)
+    @JoinColumn(name = "ID_Tipo_Habitacion", referencedColumnName = "ID_Tipo_Habitacion")
     private TipoHabitacion tipoHabitacion;
     
-    // Constructor vacío
-    public ServicioHabitacion() {
-        this.estado = "A";
+    public Long getId() { 
+        return id; 
     }
     
-    // Constructor con parámetros principales
-    public ServicioHabitacion(Long idTipo, String nombre, String descripcion) {
-        this.idTipo = idTipo;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.estado = "A";
+    public void setId(Long id) { 
+        this.id = id; 
     }
     
-    // Getters y Setters
-    public Long getIdServicioHab() {
-        return idServicioHab;
+    public Long getIdTipoHabitacion() { 
+        return idTipoHabitacion; 
     }
     
-    public void setIdServicioHab(Long idServicioHab) {
-        this.idServicioHab = idServicioHab;
+    public void setIdTipoHabitacion(Long idTipoHabitacion) { 
+        this.idTipoHabitacion = idTipoHabitacion; 
     }
     
-    public Long getIdTipo() {
-        return idTipo;
+    public String getNombre() { 
+        return nombre; 
     }
     
-    public void setIdTipo(Long idTipo) {
-        this.idTipo = idTipo;
+    public void setNombre(String nombre) { 
+        this.nombre = nombre; 
     }
     
-    public String getNombre() {
-        return nombre;
+    public String getDescripcion() { 
+        return descripcion; 
     }
     
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDescripcion(String descripcion) { 
+        this.descripcion = descripcion; 
     }
     
-    public String getDescripcion() {
-        return descripcion;
+    public String getRutaImagen() { 
+        return rutaImagen; 
     }
     
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setRutaImagen(String rutaImagen) { 
+        this.rutaImagen = rutaImagen; 
     }
     
-    public String getRutaImagen() {
-        return rutaImagen;
-    }
-    
-    public void setRutaImagen(String rutaImagen) {
-        this.rutaImagen = rutaImagen;
-    }
-    
-    public String getEstado() {
-        return estado;
-    }
-    
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-    
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
-    
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-    
-    public LocalDateTime getFechaModificacion() {
-        return fechaModificacion;
-    }
-    
-    public void setFechaModificacion(LocalDateTime fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
-    }
-    
+    // NUEVO GETTER Y SETTER
     public TipoHabitacion getTipoHabitacion() {
         return tipoHabitacion;
     }
     
     public void setTipoHabitacion(TipoHabitacion tipoHabitacion) {
         this.tipoHabitacion = tipoHabitacion;
-    }
-    
-    // Método auxiliar para obtener el nombre del tipo de habitación
-    public String getNombreTipoHabitacion() {
-        return tipoHabitacion != null ? tipoHabitacion.getNombre() : "";
-    }
-    
-    @Override
-    public String toString() {
-        return "ServicioHabitacion{" +
-                "idServicioHab=" + idServicioHab +
-                ", idTipo=" + idTipo +
-                ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", rutaImagen='" + rutaImagen + '\'' +
-                ", estado='" + estado + '\'' +
-                ", fechaCreacion=" + fechaCreacion +
-                ", fechaModificacion=" + fechaModificacion +
-                '}';
     }
 }

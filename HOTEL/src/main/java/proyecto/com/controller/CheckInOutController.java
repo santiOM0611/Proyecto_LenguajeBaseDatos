@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package proyecto.com.controller;
 
 import proyecto.com.model.CheckInOut;
@@ -6,110 +10,89 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/check")
 public class CheckInOutController {
-
+    
     @Autowired
     private CheckInOutService service;
-
-    @GetMapping
-    public String index(Model model) {
+    
+    @GetMapping("/listado")
+    public String listadoChecks(Model model) {
         model.addAttribute("checks", service.listarTodos());
-        return "Check/listado";
+        return "check/listado";
     }
-
+    
     @GetMapping("/agregar")
-    public String agregar(Model model) {
+    public String nuevoCheck(Model model) {
         model.addAttribute("check", new CheckInOut());
-        model.addAttribute("reservaciones", service.listarReservaciones());
-        return "Check/agregar";
+        return "check/agregar";
     }
-
+    
     @PostMapping("/guardar")
-    public String guardar(
-            @ModelAttribute CheckInOut check,
-            RedirectAttributes redirectAttributes) {
+    public String guardarCheck(@ModelAttribute CheckInOut check, Model model) {
         try {
-            String mensaje = service.crear(check);
-            redirectAttributes.addFlashAttribute("mensaje", mensaje);
-            redirectAttributes.addFlashAttribute("tipo", "success");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("mensaje", "Error al guardar el check: " + e.getMessage());
-            redirectAttributes.addFlashAttribute("tipo", "danger");
+            service.guardar(check);
+            return "redirect:/check/listado";
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            model.addAttribute("errorMensaje", "La reserva con ID " + check.getIdReserva() + " no existe en el sistema");
+            model.addAttribute("check", check);
+            return "check/agregar";
         }
-        return "redirect:/check/listado";
     }
-
+    
     @GetMapping("/editar/{id}")
-    public String editar(@PathVariable Long id, Model model) {
-        CheckInOut check = service.buscarPorId(id);
-        if (check == null) {
-            return "redirect:/check";
-        }
-        model.addAttribute("check", check);
-        model.addAttribute("reservaciones", service.listarReservaciones());
-        return "Check/modifica";
-    }
-
-    @PostMapping("/actualizar")
-    public String actualizar(
-            @ModelAttribute CheckInOut check,
-            RedirectAttributes redirectAttributes) {
-        try {
-            String mensaje = service.actualizar(check);
-            redirectAttributes.addFlashAttribute("mensaje", mensaje);
-            redirectAttributes.addFlashAttribute("tipo", "success");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("mensaje", "Error al actualizar el check: " + e.getMessage());
-            redirectAttributes.addFlashAttribute("tipo", "danger");
-        }
-        return "redirect:/check/listado";
-    }
-
-    @GetMapping("/ver/{id}")
-    public String ver(@PathVariable Long id, Model model) {
-        CheckInOut check = service.buscarPorId(id);
-        if (check == null) {
+    public String editarCheck(@PathVariable Long id, Model model) {
+        Optional<CheckInOut> check = service.obtenerPorId(id);
+        if (check.isPresent()) {
+            model.addAttribute("check", check.get());
+            return "check/modifica";
+        } else {
+            model.addAttribute("errorMensaje", "No se encontró el check-in/out con ID " + id);
             return "redirect:/check/listado";
         }
-        model.addAttribute("check", check);
-        return "Check/ver";
     }
-
+    
+    @GetMapping("/ver/{id}")
+    public String verCheck(@PathVariable Long id, Model model) {
+        Optional<CheckInOut> check = service.obtenerPorId(id);
+        if (check.isPresent()) {
+            model.addAttribute("check", check.get());
+            return "check/ver";
+        } else {
+            model.addAttribute("errorMensaje", "No se encontró el check-in/out con ID " + id);
+            return "redirect:/check/listado";
+        }
+    }
+    
     @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            String mensaje = service.eliminar(id);
-            redirectAttributes.addFlashAttribute("mensaje", mensaje);
-            redirectAttributes.addFlashAttribute("tipo", "success");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("mensaje", "Error al eliminar el check: " + e.getMessage());
-            redirectAttributes.addFlashAttribute("tipo", "danger");
+    public String eliminarCheck(@PathVariable Long id, Model model) {
+        Optional<CheckInOut> check = service.obtenerPorId(id);
+        if (check.isPresent()) {
+            service.eliminar(id);
+        } else {
+            model.addAttribute("errorMensaje", "No se encontró el check-in/out con ID " + id);
         }
-        return "redirect:/check";
+        return "redirect:/check/listado";
     }
-
-    @GetMapping("/buscarID")
-    public String buscarIDForm() {
-        return "Check/buscarID";
+    
+    @GetMapping("/buscar")
+    public String mostrarFormularioBusqueda() {
+        return "check/buscar";
     }
-
-    @PostMapping("/buscarID")
-    public String buscarID(@RequestParam("idCheck") Long idCheck, Model model) {
-        try {
-            CheckInOut check = service.buscarPorId(idCheck);
-            if (check != null) {
-                model.addAttribute("check", check);
-                model.addAttribute("encontrado", true);
-            } else {
-                model.addAttribute("error", "No se encontró el check con ID: " + idCheck);
-            }
-        } catch (Exception e) {
-            model.addAttribute("error", "Error al buscar el check: " + e.getMessage());
+    
+    @PostMapping("/buscar")
+    public String buscar(@RequestParam("idCheck") Long idCheck, Model model) {
+        CheckInOut check = service.buscarPorId(idCheck);
+        if (check == null) {
+            model.addAttribute("encontrado", false);
+            model.addAttribute("mensaje", "No se encontró el check-in/out con ID " + idCheck);
+        } else {
+            model.addAttribute("encontrado", true);
+            model.addAttribute("check", check);
         }
-        return "Check/buscarID";
+        return "check/buscar";
     }
 }

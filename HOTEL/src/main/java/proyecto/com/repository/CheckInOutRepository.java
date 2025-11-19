@@ -1,23 +1,20 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package proyecto.com.repository;
 
 import proyecto.com.model.CheckInOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.SqlOutParameter;
-import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import oracle.jdbc.OracleTypes;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Types;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class CheckInOutRepository {
@@ -25,168 +22,178 @@ public class CheckInOutRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // RowMapper para mapear resultados de consultas
-    private final RowMapper<CheckInOut> checkRowMapper = new RowMapper<CheckInOut>() {
-        @Override
-        public CheckInOut mapRow(ResultSet rs, int rowNum) throws SQLException {
-            CheckInOut check = new CheckInOut();
-            check.setIdCheck(rs.getLong("ID_Check"));
-            check.setIdReserva(rs.getLong("ID_Reserva"));
-            
-            // Manejo de fechas
-            if (rs.getDate("Fecha_Entrada") != null) {
-                check.setFechaEntrada(rs.getDate("Fecha_Entrada").toLocalDate());
-            }
-            if (rs.getDate("Fecha_Salida") != null) {
-                check.setFechaSalida(rs.getDate("Fecha_Salida").toLocalDate());
-            }
-            
-            // Manejo de horas
-            if (rs.getTimestamp("Hora_Entrada") != null) {
-                check.setHoraEntrada(rs.getTimestamp("Hora_Entrada").toLocalDateTime().toLocalTime());
-            }
-            if (rs.getTimestamp("Hora_Salida") != null) {
-                check.setHoraSalida(rs.getTimestamp("Hora_Salida").toLocalDateTime().toLocalTime());
-            }
-            
-            // Devolución puede ser null
-            check.setDevolucion(rs.getString("Devolucion"));
-            
-            return check;
-        }
+    private final RowMapper<CheckInOut> rowMapper = (rs, rowNum) -> {
+        CheckInOut c = new CheckInOut();
+        c.setIdCheck(rs.getLong("ID_Check"));
+        c.setIdReserva(rs.getLong("ID_Reserva"));
+        c.setFechaEntrada(rs.getDate("Fecha_Entrada") != null ? 
+            rs.getDate("Fecha_Entrada").toLocalDate() : null);
+        c.setHoraEntrada(rs.getTime("Hora_Entrada") != null ? 
+            rs.getTime("Hora_Entrada").toLocalTime() : null);
+        c.setFechaSalida(rs.getDate("Fecha_Salida") != null ? 
+            rs.getDate("Fecha_Salida").toLocalDate() : null);
+        c.setHoraSalida(rs.getTime("Hora_Salida") != null ? 
+            rs.getTime("Hora_Salida").toLocalTime() : null);
+        c.setDevolucion(rs.getBigDecimal("Devolucion"));
+        return c;
     };
 
-    // Listar todos los checks con JOIN
-    public List<CheckInOut> listarTodos() {
-        String sql = "SELECT C.ID_Check, R.ID_Reserva, C.Fecha_Entrada, C.Fecha_Salida, " +
-                     "C.Hora_Entrada, C.Hora_Salida, D.Devolucion " +
-                     "FROM Check_in_out C " +
-                     "INNER JOIN Reservaciones R ON C.ID_Reserva = R.ID_Reserva " +
-                     "LEFT JOIN Check_in_out_Devoluciones D ON C.ID_Check = D.ID_Check " +
-                     "ORDER BY C.ID_Check DESC";
-        
-        return jdbcTemplate.query(sql, checkRowMapper);
+    public List<CheckInOut> listar() {
+        String sql = """
+            SELECT
+                C.ID_Check,
+                R.ID_Reserva,
+                C.Fecha_Entrada,
+                C.Fecha_Salida,
+                C.Hora_Entrada,
+                C.Hora_Salida,
+                D.Devolucion
+            FROM Check_in_out C
+            INNER JOIN Reservaciones R
+                ON C.ID_Reserva = R.ID_Reserva
+            LEFT JOIN Check_in_out_Devoluciones D
+                ON C.ID_Check = D.ID_Check
+        """;
+        return jdbcTemplate.query(sql, rowMapper);
     }
 
-    // Buscar por ID usando función
-    public CheckInOut buscarPorId(Long idCheck) {
-        try {
-            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                    .withFunctionName("FN_GET_CHECK")
-                    .declareParameters(
-                        new SqlParameter("P_ID_CHECK", Types.NUMERIC),
-                        new SqlOutParameter("RETURN", OracleTypes.CURSOR, checkRowMapper)
-                    );
-
-            Map<String, Object> inParams = new HashMap<>();
-            inParams.put("P_ID_CHECK", idCheck);
-
-            Map<String, Object> result = jdbcCall.execute(inParams);
+    public CheckInOut obtenerPorId(Long idCheck) {
+        return jdbcTemplate.execute((Connection conn) -> {
+            String sql = """
+                SELECT
+                    C.ID_Check,
+                    R.ID_Reserva,
+                    C.Fecha_Entrada,
+                    C.Fecha_Salida,
+                    C.Hora_Entrada,
+                    C.Hora_Salida,
+                    D.Devolucion
+                FROM Check_in_out C
+                INNER JOIN Reservaciones R
+                    ON C.ID_Reserva = R.ID_Reserva
+                LEFT JOIN Check_in_out_Devoluciones D
+                    ON C.ID_Check = D.ID_Check
+                WHERE C.ID_Check = ?
+            """;
             
-            @SuppressWarnings("unchecked")
-            List<CheckInOut> checks = (List<CheckInOut>) result.get("RETURN");
-            
-            return (checks != null && !checks.isEmpty()) ? checks.get(0) : null;
-            
-        } catch (Exception e) {
-            System.err.println("Error al buscar check: " + e.getMessage());
+            try (var ps = conn.prepareStatement(sql)) {
+                ps.setLong(1, idCheck);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs != null && rs.next()) {
+                        CheckInOut c = new CheckInOut();
+                        c.setIdCheck(rs.getLong("ID_Check"));
+                        c.setIdReserva(rs.getLong("ID_Reserva"));
+                        c.setFechaEntrada(rs.getDate("Fecha_Entrada") != null ? 
+                            rs.getDate("Fecha_Entrada").toLocalDate() : null);
+                        c.setHoraEntrada(rs.getTime("Hora_Entrada") != null ? 
+                            rs.getTime("Hora_Entrada").toLocalTime() : null);
+                        c.setFechaSalida(rs.getDate("Fecha_Salida") != null ? 
+                            rs.getDate("Fecha_Salida").toLocalDate() : null);
+                        c.setHoraSalida(rs.getTime("Hora_Salida") != null ? 
+                            rs.getTime("Hora_Salida").toLocalTime() : null);
+                        c.setDevolucion(rs.getBigDecimal("Devolucion"));
+                        return c;
+                    }
+                }
+            }
             return null;
-        }
+        });
     }
 
-    // Insertar check usando procedimiento
-    public String insertar(CheckInOut check) {
-        try {
-            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                    .withCatalogName("PKG_CHECK_IN_OUT_FRONT")
-                    .withProcedureName("SP_INSERT_CHECK")
-                    .declareParameters(
-                        new SqlParameter("P_ID_RESERVA", Types.NUMERIC),
-                        new SqlParameter("P_FECHA_ENTRADA", Types.DATE),
-                        new SqlParameter("P_HORA_ENTRADA", Types.TIMESTAMP),
-                        new SqlParameter("P_FECHA_SALIDA", Types.DATE),
-                        new SqlParameter("P_HORA_SALIDA", Types.TIMESTAMP),
-                        new SqlParameter("P_DEVOLUCION", Types.VARCHAR),
-                        new SqlOutParameter("P_MENSAJE", Types.VARCHAR)
-                    );
+    // --- AGREGAR CHECK-IN/OUT ---
+    public String agregar(CheckInOut c) {
+        return jdbcTemplate.execute((Connection conn) -> {
+            try (CallableStatement cs = conn.prepareCall(
+                "{call PKG_CHECK_IN_OUT_FRONT.SP_INSERT_CHECK(?,?,?,?,?,?,?)}")) {
+                
+                cs.setLong(1, c.getIdReserva());
+                cs.setDate(2, c.getFechaEntrada() != null ? 
+                    java.sql.Date.valueOf(c.getFechaEntrada()) : null);
+                cs.setTime(3, c.getHoraEntrada() != null ? 
+                    java.sql.Time.valueOf(c.getHoraEntrada()) : null);
+                cs.setDate(4, c.getFechaSalida() != null ? 
+                    java.sql.Date.valueOf(c.getFechaSalida()) : null);
+                cs.setTime(5, c.getHoraSalida() != null ? 
+                    java.sql.Time.valueOf(c.getHoraSalida()) : null);
+                
+                if (c.getDevolucion() != null) {
+                    cs.setBigDecimal(6, c.getDevolucion());
+                } else {
+                    cs.setNull(6, Types.DECIMAL);
+                }
+                
+                cs.registerOutParameter(7, Types.VARCHAR); // P_MENSAJE
 
-            Map<String, Object> inParams = new HashMap<>();
-            inParams.put("P_ID_RESERVA", check.getIdReserva());
-            inParams.put("P_FECHA_ENTRADA", java.sql.Date.valueOf(check.getFechaEntrada()));
-            inParams.put("P_HORA_ENTRADA", java.sql.Timestamp.valueOf(check.getFechaEntrada().atTime(check.getHoraEntrada())));
-            inParams.put("P_FECHA_SALIDA", check.getFechaSalida() != null ? java.sql.Date.valueOf(check.getFechaSalida()) : null);
-            inParams.put("P_HORA_SALIDA", check.getHoraSalida() != null ? java.sql.Timestamp.valueOf(check.getFechaSalida().atTime(check.getHoraSalida())) : null);
-            inParams.put("P_DEVOLUCION", check.getDevolucion());
+                cs.execute();
+                String resultado = cs.getString(7);
 
-            Map<String, Object> result = jdbcCall.execute(inParams);
-            return (String) result.get("P_MENSAJE");
-            
-        } catch (Exception e) {
-            throw new RuntimeException("Error al insertar check: " + e.getMessage());
-        }
+                System.out.println("Resultado del SP_INSERT_CHECK: " + resultado);
+                return resultado;
+            } catch (Exception e) {
+                System.err.println("Error en agregar check-in/out: " + e.getMessage());
+                e.printStackTrace();
+                throw e;
+            }
+        });
     }
 
-    // Actualizar check usando procedimiento
-    public String actualizar(CheckInOut check) {
-        try {
-            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                    .withCatalogName("PKG_CHECK_IN_OUT_FRONT")
-                    .withProcedureName("SP_UPDATE_CHECK")
-                    .declareParameters(
-                        new SqlParameter("P_ID_CHECK", Types.NUMERIC),
-                        new SqlParameter("P_ID_RESERVA", Types.NUMERIC),
-                        new SqlParameter("P_FECHA_ENTRADA", Types.DATE),
-                        new SqlParameter("P_HORA_ENTRADA", Types.TIMESTAMP),
-                        new SqlParameter("P_FECHA_SALIDA", Types.DATE),
-                        new SqlParameter("P_HORA_SALIDA", Types.TIMESTAMP),
-                        new SqlParameter("P_DEVOLUCION", Types.VARCHAR),
-                        new SqlOutParameter("P_MENSAJE", Types.VARCHAR)
-                    );
+    // --- EDITAR CHECK-IN/OUT ---
+    public String editar(CheckInOut c) {
+        return jdbcTemplate.execute((Connection conn) -> {
+            try (CallableStatement cs = conn.prepareCall(
+                "{call PKG_CHECK_IN_OUT_FRONT.SP_UPDATE_CHECK(?,?,?,?,?,?,?,?)}")) {
+                
+                cs.setLong(1, c.getIdCheck());
+                cs.setLong(2, c.getIdReserva());
+                cs.setDate(3, c.getFechaEntrada() != null ? 
+                    java.sql.Date.valueOf(c.getFechaEntrada()) : null);
+                cs.setTime(4, c.getHoraEntrada() != null ? 
+                    java.sql.Time.valueOf(c.getHoraEntrada()) : null);
+                cs.setDate(5, c.getFechaSalida() != null ? 
+                    java.sql.Date.valueOf(c.getFechaSalida()) : null);
+                cs.setTime(6, c.getHoraSalida() != null ? 
+                    java.sql.Time.valueOf(c.getHoraSalida()) : null);
+                
+                if (c.getDevolucion() != null) {
+                    cs.setBigDecimal(7, c.getDevolucion());
+                } else {
+                    cs.setNull(7, Types.DECIMAL);
+                }
+                
+                cs.registerOutParameter(8, Types.VARCHAR);
 
-            Map<String, Object> inParams = new HashMap<>();
-            inParams.put("P_ID_CHECK", check.getIdCheck());
-            inParams.put("P_ID_RESERVA", check.getIdReserva());
-            inParams.put("P_FECHA_ENTRADA", java.sql.Date.valueOf(check.getFechaEntrada()));
-            inParams.put("P_HORA_ENTRADA", java.sql.Timestamp.valueOf(check.getFechaEntrada().atTime(check.getHoraEntrada())));
-            inParams.put("P_FECHA_SALIDA", check.getFechaSalida() != null ? java.sql.Date.valueOf(check.getFechaSalida()) : null);
-            inParams.put("P_HORA_SALIDA", check.getHoraSalida() != null ? java.sql.Timestamp.valueOf(check.getFechaSalida().atTime(check.getHoraSalida())) : null);
-            inParams.put("P_DEVOLUCION", check.getDevolucion());
+                cs.execute();
+                String resultado = cs.getString(8);
 
-            Map<String, Object> result = jdbcCall.execute(inParams);
-            return (String) result.get("P_MENSAJE");
-            
-        } catch (Exception e) {
-            throw new RuntimeException("Error al actualizar check: " + e.getMessage());
-        }
+                System.out.println("Resultado del SP_UPDATE_CHECK: " + resultado);
+                return resultado;
+            } catch (Exception e) {
+                System.err.println("Error en editar check-in/out: " + e.getMessage());
+                e.printStackTrace();
+                throw e;
+            }
+        });
     }
 
-    // Eliminar check usando procedimiento
+    // --- ELIMINAR CHECK-IN/OUT ---
     public String eliminar(Long idCheck) {
-        try {
-            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                    .withCatalogName("PKG_CHECK_IN_OUT_FRONT")
-                    .withProcedureName("SP_DELETE_CHECK")
-                    .declareParameters(
-                        new SqlParameter("P_ID_CHECK", Types.NUMERIC),
-                        new SqlOutParameter("P_MENSAJE", Types.VARCHAR)
-                    );
+        return jdbcTemplate.execute((Connection conn) -> {
+            try (CallableStatement cs = conn.prepareCall(
+                "{call PKG_CHECK_IN_OUT_FRONT.SP_DELETE_CHECK(?,?)}")) {
+                
+                cs.setLong(1, idCheck);
+                cs.registerOutParameter(2, Types.VARCHAR);
 
-            Map<String, Object> inParams = new HashMap<>();
-            inParams.put("P_ID_CHECK", idCheck);
+                cs.execute();
+                String resultado = cs.getString(2);
 
-            Map<String, Object> result = jdbcCall.execute(inParams);
-            return (String) result.get("P_MENSAJE");
-            
-        } catch (Exception e) {
-            throw new RuntimeException("Error al eliminar check: " + e.getMessage());
-        }
-    }
-
-    // Listar reservaciones disponibles (para el select)
-    public List<Map<String, Object>> listarReservaciones() {
-        String sql = "SELECT ID_Reserva, Fecha_Inicio, Fecha_Fin " +
-                     "FROM Reservaciones " +
-                     "ORDER BY ID_Reserva DESC";
-        return jdbcTemplate.queryForList(sql);
+                System.out.println("Resultado del SP_DELETE_CHECK: " + resultado);
+                return resultado;
+            } catch (Exception e) {
+                System.err.println("Error en eliminar check-in/out: " + e.getMessage());
+                e.printStackTrace();
+                throw e;
+            }
+        });
     }
 }
