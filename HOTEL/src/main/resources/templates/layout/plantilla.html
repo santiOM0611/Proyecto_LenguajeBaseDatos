@@ -32,15 +32,15 @@
                     <div class="navbar-nav">
                         <a class="nav-link" th:href="@{/}">Inicio</a>
                         <a class="nav-link" th:href="@{/reservas}">Reservas</a>
-                        <a class="nav-link" th:href="@{/checks}">Checks IN OUT</a>
+                        <a class="nav-link" th:href="@{/check/listado}">Checks IN OUT</a>
                         <a class="nav-link" th:href="@{/clientes}">Clientes</a>
                         <a class="nav-link" th:href="@{/facturas}">Facturas</a>
                         <a class="nav-link" th:href="@{/hoteles}">Hoteles</a>
                         <a class="nav-link" th:href="@{/habitaciones}">Habitaciones</a>
                         <a class="nav-link" th:href="@{/empleados}">Empleados</a>
-                        <a class="nav-link" th:href="@{/actividades}">Actividades</a>
-                        <a class="nav-link" th:href="@{/servicios}">Servicios</a>
-                        <a class="nav-link" th:href="@{/servicios-habitacion}">Servicios Habitaciones</a>
+                        <a class="nav-link" th:href="@{/actividad/listado}">Actividades</a>
+                        <a class="nav-link" th:href="@{/servicio/listado}">Servicios</a>
+                        <a class="nav-link" th:href="@{/ServiciosHabitacion}">Servicios Habitaciones</a>
                     </div>
                     
                     <div class="navbar-nav ms-auto" sec:authorize="isAuthenticated()">

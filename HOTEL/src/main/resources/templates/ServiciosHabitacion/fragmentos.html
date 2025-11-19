@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Fragmentos</title>
+    </head>
+    <body>
+
+        <!-- FRAGMENTO 1: Listado de Servicios -->
+        <section th:fragment="listadoServicios" class="py-4">
+            <div class="container">
+                <div class="d-flex justify-content-end gap-2 mb-4">
+                    <a class="btn btn-primary" th:href="@{/ServiciosHabitacion/agregar}">
+                        <i class="fas fa-plus"></i> Agregar Servicio
+                    </a>
+                    <a class="btn btn-secondary" th:href="@{/ServiciosHabitacion/buscarID}">
+                        <i class="fas fa-search"></i> Consultar servicio por ID
+                    </a>
+                </div>
+            </div>
+            <section class="products-section py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-4" th:each="servicio : ${servicios}">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body text-center">
+                                    <img th:src="${servicio.rutaImagen} ?: 'https://via.placeholder.com/150'" 
+                                         th:alt="'Imagen del ' + ${servicio.nombre}"
+                                         class="img-fluid mb-3"
+                                         style="max-height: 150px; border-radius: 10px;">
+                                    <h5 th:text="${servicio.nombre}">Servicio de Limpieza</h5>
+                                    <p class="text-muted small" th:text="${servicio.descripcion}">Descripción del servicio</p>
+                                    <span class="badge bg-info mb-2">
+                                        Tipo: <span th:text="${servicio.idTipo}">1</span>
+                                    </span>
+                                    <div class="d-grid gap-2">
+                                        <a th:href="@{/ServiciosHabitacion/ver/{id}(id=${servicio.idServicioHab})}" 
+                                           class="btn btn-info btn-sm">
+                                            <i class="fas fa-eye"></i> Ver Servicio
+                                        </a>
+                                        <a th:href="@{/ServiciosHabitacion/editar/{id}(id=${servicio.idServicioHab})}" 
+                                           class="btn btn-warning btn-sm">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
+                                        <a th:href="@{/ServiciosHabitacion/eliminar/{id}(id=${servicio.idServicioHab})}" 
+                                           class="btn btn-danger btn-sm"
+                                           onclick="return confirm('¿Está seguro de eliminar este servicio?')">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- FRAGMENTO 2: AGREGAR SERVICIO -->
+        <section th:fragment="agregarServicio" id="agregarServicio" class="p-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <h2 class="mb-4">
+                            <i class="fas fa-concierge-bell"></i> Agregar Servicio de Habitación
+                        </h2>
+                        <form th:action="@{/ServiciosHabitacion/guardar}" 
+                              th:object="${servicio}" 
+                              method="post" 
+                              enctype="multipart/form-data">
+
+                            <div class="mb-3">
+                                <label for="idTipo" class="form-label">Tipo de Servicio</label>
+                                <select class="form-select" id="idTipo" th:field="*{idTipo}" required>
+                                    <option value="">Seleccione un tipo</option>
+                                    <option value="1">Alimentación</option>
+                                    <option value="2">Limpieza</option>
+                                    <option value="3">Entretenimiento</option>
+                                    <option value="4">Spa y Bienestar</option>
+                                    <option value="5">Transporte</option>
+                                    <option value="6">Tecnología</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre del Servicio</label>
+                                <input type="text" id="nombre" th:field="*{nombre}" 
+                                       class="form-control" 
+                                       placeholder="Ej: Desayuno Continental" 
+                                       maxlength="100" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea id="descripcion" th:field="*{descripcion}" 
+                                          class="form-control" rows="4"
+                                          placeholder="Describe el servicio..."
+                                          maxlength="500"></textarea>
+                                <div class="form-text">Máximo 500 caracteres</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="imagenFile" class="form-label">Imagen del Servicio</label>
+                                <input type="file" class="form-control" id="imagenFile" 
+                                       name="imagenFile" accept="image/*" 
+                                       onchange="previewImage(event)">
+                                <div class="form-text">Formatos: JPG, PNG, GIF (Máx. 5MB)</div>
+                                <div class="mt-3" id="imagePreview"></div>
+                            </div>
+
+                            <div class="d-flex gap-2 mt-3">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Guardar
+                                </button>
+                                <a th:href="@{/ServiciosHabitacion}" class="btn btn-secondary">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FRAGMENTO 3: VER DETALLE DE SERVICIO -->
+        <section th:fragment="verServicio" class="py-5">
+            <div class="container">
+                <a th:href="@{/ServiciosHabitacion}" class="btn btn-secondary mb-4">
+                    <i class="fas fa-arrow-left"></i> Volver a Servicios
+                </a>
+
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-md-5 text-center">
+                        <div class="border rounded d-inline-block p-2">
+                            <img th:src="${servicio.rutaImagen} ?: 'https://via.placeholder.com/400'" 
+                                 th:alt="'Imagen de ' + ${servicio.nombre}"
+                                 class="rounded img-fluid"
+                                 style="max-height: 400px; object-fit: cover;" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <h3 class="fw-bold mb-3">
+                            <i class="fas fa-concierge-bell"></i> 
+                            <span th:text="${servicio.nombre}">Servicio de Limpieza</span>
+                        </h3>
+                        <p><strong>ID:</strong> <span th:text="${servicio.idServicioHab}">1</span></p>
+                        <p>
+                            <strong><i class="fas fa-tag"></i> Tipo de Servicio:</strong> 
+                            <span class="badge bg-info" th:text="${servicio.idTipo}">1</span>
+                        </p>
+                        <p>
+                            <strong><i class="fas fa-align-left"></i> Descripción:</strong><br>
+                            <span th:text="${servicio.descripcion} ?: 'Sin descripción'">
+                                Descripción completa del servicio de habitación
+                            </span>
+                        </p>
+                        <p th:if="${servicio.fechaCreacion}">
+                            <strong><i class="fas fa-calendar-plus"></i> Fecha de Creación:</strong> 
+                            <span th:text="${#temporals.format(servicio.fechaCreacion, 'dd/MM/yyyy HH:mm')}">
+                                01/01/2024 10:00
+                            </span>
+                        </p>
+                        <p>
+                            <strong><i class="fas fa-circle"></i> Estado:</strong>
+                            <span th:if="${servicio.estado == 'A'}" class="badge bg-success">Activo</span>
+                            <span th:if="${servicio.estado != 'A'}" class="badge bg-danger">Inactivo</span>
+                        </p>
+                        <div class="d-flex gap-2">
+                            <a th:href="@{/ServiciosHabitacion/editar/{id}(id=${servicio.idServicioHab})}" 
+                               class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a th:href="@{/ServiciosHabitacion/eliminar/{id}(id=${servicio.idServicioHab})}" 
+                               class="btn btn-danger"
+                               onclick="return confirm('¿Está seguro de eliminar este servicio?')">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FRAGMENTO 4: EDITAR SERVICIO -->
+        <section th:fragment="editarServicio" id="editarServicio" class="p-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <h2 class="mb-4">
+                            <i class="fas fa-edit"></i> Editar Servicio de Habitación
+                        </h2>
+
+                        <form th:action="@{/ServiciosHabitacion/actualizar}" 
+                              th:object="${servicio}" 
+                              method="post"
+                              enctype="multipart/form-data">
+
+                            <input type="hidden" th:field="*{idServicioHab}" />
+                            <input type="hidden" th:field="*{rutaImagen}" />
+
+                            <div class="mb-3">
+                                <label for="idServicioHab" class="form-label">ID del Servicio</label>
+                                <input type="number" id="idServicioHab" 
+                                       th:value="${servicio.idServicioHab}" 
+                                       class="form-control" readonly />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="idTipo" class="form-label">Tipo de Servicio</label>
+                                <select class="form-select" id="idTipo" th:field="*{idTipo}" required>
+                                    <option value="">Seleccione un tipo</option>
+                                    <option value="1">Alimentación</option>
+                                    <option value="2">Limpieza</option>
+                                    <option value="3">Entretenimiento</option>
+                                    <option value="4">Spa y Bienestar</option>
+                                    <option value="5">Transporte</option>
+                                    <option value="6">Tecnología</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre del Servicio</label>
+                                <input type="text" id="nombre" th:field="*{nombre}" 
+                                       class="form-control" maxlength="100" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea id="descripcion" th:field="*{descripcion}" 
+                                          class="form-control" rows="4" maxlength="500"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Imagen Actual</label>
+                                <div th:if="${servicio.rutaImagen}" class="mb-2">
+                                    <img th:src="${servicio.rutaImagen}" 
+                                         class="img-thumbnail" 
+                                         style="max-height: 150px;">
+                                </div>
+                                <div th:if="${!servicio.rutaImagen}" class="alert alert-info">
+                                    No hay imagen actual
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="imagenFile" class="form-label">
+                                    Nueva Imagen (opcional)
+                                </label>
+                                <input type="file" class="form-control" id="imagenFile" 
+                                       name="imagenFile" accept="image/*"
+                                       onchange="previewImage(event)">
+                                <div class="form-text">
+                                    Deja vacío si no deseas cambiar la imagen
+                                </div>
+                                <div class="mt-3" id="imagePreview"></div>
+                            </div>
+
+                            <div class="d-flex gap-2 mt-3">
+                                <button type="submit" class="btn btn-warning">
+                                    <i class="fas fa-save"></i> Actualizar
+                                </button>
+                                <a th:href="@{/ServiciosHabitacion}" class="btn btn-secondary">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FRAGMENTO 5: BUSCAR SERVICIO POR ID -->
+        <section th:fragment="buscarServicioID" class="py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <h2 class="mb-4">
+                            <i class="fas fa-search"></i> Buscar Servicio por ID
+                        </h2>
+
+                        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i> <span th:text="${error}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body">
+                                <form th:action="@{/ServiciosHabitacion/buscarID}" method="post">
+                                    <div class="mb-3">
+                                        <label for="idServicio" class="form-label">ID del Servicio</label>
+                                        <input type="number" id="idServicio" name="idServicio" 
+                                               class="form-control" 
+                                               placeholder="Ingrese el ID del servicio" 
+                                               required min="1" />
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search"></i> Buscar
+                                        </button>
+                                        <a th:href="@{/ServiciosHabitacion}" class="btn btn-secondary">
+                                            <i class="fas fa-arrow-left"></i> Volver
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div th:if="${encontrado}" class="card shadow">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-check-circle"></i> Servicio Encontrado
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 text-center mb-3">
+                                        <img th:src="${servicio.rutaImagen} ?: 'https://via.placeholder.com/200'" 
+                                             th:alt="'Imagen de ' + ${servicio.nombre}"
+                                             class="img-fluid rounded"
+                                             style="max-height: 200px; object-fit: cover;" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h4 class="text-primary" th:text="${servicio.nombre}">
+                                            Servicio de Limpieza
+                                        </h4>
+                                        <hr>
+                                        <p>
+                                            <strong><i class="fas fa-hashtag"></i> ID:</strong> 
+                                            <span th:text="${servicio.idServicioHab}">1</span>
+                                        </p>
+                                        <p>
+                                            <strong><i class="fas fa-tag"></i> Tipo:</strong> 
+                                            <span class="badge bg-info" th:text="${servicio.idTipo}">1</span>
+                                        </p>
+                                        <p>
+                                            <strong><i class="fas fa-align-left"></i> Descripción:</strong><br>
+                                            <span th:text="${servicio.descripcion} ?: 'Sin descripción'">
+                                                Descripción del servicio
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <strong><i class="fas fa-circle"></i> Estado:</strong>
+                                            <span th:if="${servicio.estado == 'A'}" 
+                                                  class="badge bg-success">Activo</span>
+                                            <span th:if="${servicio.estado != 'A'}" 
+                                                  class="badge bg-danger">Inactivo</span>
+                                        </p>
+                                        <div class="mt-3">
+                                            <a th:href="@{/ServiciosHabitacion/ver/{id}(id=${servicio.idServicioHab})}" 
+                                               class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i> Ver Detalles
+                                            </a>
+                                            <a th:href="@{/ServiciosHabitacion/editar/{id}(id=${servicio.idServicioHab})}" 
+                                               class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Script para preview de imagen -->
+        <script th:fragment="scriptsServicios">
+            function previewImage(event) {
+                const preview = document.getElementById('imagePreview');
+                const file = event.target.files[0];
+                
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.innerHTML = '<img src="' + e.target.result + 
+                            '" class="img-thumbnail mt-2" style="max-height: 200px;">';
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.innerHTML = '';
+                }
+            }
+        </script>
+
+    </body>
+</html>
