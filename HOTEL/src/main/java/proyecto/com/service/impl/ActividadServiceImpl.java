@@ -11,44 +11,32 @@ import proyecto.com.repository.ActividadRepository;
 import proyecto.com.service.ActividadService;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class ActividadServiceImpl implements ActividadService {
 
     @Autowired
-    private ActividadRepository repository;
+    private ActividadRepository actividadRepository;  
 
     @Override
     public List<Actividad> listarTodas() {
-        return repository.findAll();
+        return actividadRepository.listar();
     }
 
     @Override
-    public Actividad guardar(Actividad actividad) {
-        return repository.save(actividad);
+    public String guardar(Actividad actividad) {
+        return actividadRepository.insertar(actividad);
     }
 
     @Override
-    public void eliminar(Long id) {
-        repository.deleteById(id);
+    public String actualizar(Actividad actividad) {
+        return actividadRepository.actualizar(actividad);
     }
 
     @Override
-    public Optional<Actividad> obtenerPorId(Long id) {
-        return repository.findById(id);
-    }
-
-    @Override
-    public Actividad buscarPorId(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-   
-    @Override
-    public boolean existeHotel(Long idHotel) {
-   
-        return true;
+    public String eliminar(Long id) {
+        return actividadRepository.eliminar(id);
     }
 }
 

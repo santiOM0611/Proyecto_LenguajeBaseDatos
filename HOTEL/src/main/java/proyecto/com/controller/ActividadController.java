@@ -10,29 +10,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/actividad")
 public class ActividadController {
-    
+
     @Autowired
     private ActividadService service;
-    
+
 
     @GetMapping("/listado")
     public String listadoActividades(Model model) {
         model.addAttribute("actividades", service.listarTodas());
         return "actividad/listado";
     }
-    
+
 
     @GetMapping("/agregar")
     public String nuevaActividad(Model model) {
         model.addAttribute("actividad", new Actividad());
         return "actividad/agregar";
     }
-    
+
 
     @PostMapping("/guardar")
     public String guardarActividad(@ModelAttribute Actividad actividad, Model model) {
@@ -40,61 +39,81 @@ public class ActividadController {
         if (actividad.getRutaImagen() == null || actividad.getRutaImagen().isEmpty()) {
             actividad.setRutaImagen("default.jpg");
         }
-        
-        try {
-            service.guardar(actividad);
-            return "redirect:/actividad/listado";
-        } catch (org.springframework.dao.DataIntegrityViolationException e) {
-            model.addAttribute("errorMensaje", "El hotel con ID " + actividad.getIdHotel() + " no existe en el sistema");
+
+        String mensaje = service.guardar(actividad);
+
+        if (!mensaje.contains("correctamente")) {
+            model.addAttribute("errorMensaje", mensaje);
             model.addAttribute("actividad", actividad);
             return "actividad/agregar";
         }
+
+        return "redirect:/actividad/listado";
     }
-    
+
+
 
     @GetMapping("/editar/{id}")
-    public String editarActividad(@PathVariable Long id, Model model) {
-        Optional<Actividad> actividad = service.obtenerPorId(id);
-        if (actividad.isPresent()) {
-            model.addAttribute("actividad", actividad.get());
+public String editarActividad(@PathVariable Long id, Model model) {
+
+    Actividad actividad = service.listarTodas()
+            .stream()
+            .filter(a -> a.getId().equals(id))
+            .findFirst()
+            .orElse(null);
+
+    if (actividad == null) {
+        model.addAttribute("errorMensaje", "La actividad no existe");
+        return "redirect:/actividad/listado";
+    }
+
+    model.addAttribute("actividad", actividad);
+    return "actividad/modifica";
+}
+
+
+
+
+    @PostMapping("/actualizar")
+    public String actualizarActividad(@ModelAttribute Actividad actividad, Model model) {
+
+        if (actividad.getRutaImagen() == null || actividad.getRutaImagen().isEmpty()) {
+            actividad.setRutaImagen("default.jpg");
+        }
+
+        String mensaje = service.actualizar(actividad);
+
+        if (!mensaje.contains("correctamente")) {
+            model.addAttribute("errorMensaje", mensaje);
+            model.addAttribute("actividad", actividad);
             return "actividad/modifica";
         }
-        return "redirect:/actividad/listado";
-    }
-    
 
-    @GetMapping("/ver/{id}")
-    public String verActividad(@PathVariable Long id, Model model) {
-        Optional<Actividad> actividad = service.obtenerPorId(id);
-        if (actividad.isPresent()) {
-            model.addAttribute("actividad", actividad.get());
-            return "actividad/ver";
-        }
         return "redirect:/actividad/listado";
     }
-    
+
 
     @GetMapping("/eliminar/{id}")
     public String eliminarActividad(@PathVariable Long id) {
         service.eliminar(id);
         return "redirect:/actividad/listado";
     }
-    
-    @GetMapping("/buscar")
-    public String mostrarFormularioBusqueda() {
-        return "actividad/buscar";
+    @GetMapping("/ver/{id}")
+public String verActividad(@PathVariable Long id, Model model) {
+
+    Actividad actividad = service.listarTodas()
+            .stream()
+            .filter(a -> a.getId().equals(id))
+            .findFirst()
+            .orElse(null);
+
+    if (actividad == null) {
+        model.addAttribute("errorMensaje", "La actividad no existe");
+        return "redirect:/actividad/listado";
     }
-    
-    @PostMapping("/buscar")
-    public String buscar(@RequestParam("idActividad") Long idActividad, Model model) {
-        Actividad actividad = service.buscarPorId(idActividad);
-        if (actividad == null) {
-            model.addAttribute("encontrado", false);
-            model.addAttribute("mensaje", "No se encontró la actividad con ID " + idActividad);
-        } else {
-            model.addAttribute("encontrado", true);
-            model.addAttribute("actividad", actividad);
-        }
-        return "actividad/buscar";
-    }
+
+    model.addAttribute("actividad", actividad);
+    return "actividad/ver"; 
+}
+
 }

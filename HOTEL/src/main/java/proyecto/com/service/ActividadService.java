@@ -12,13 +12,11 @@ public interface ActividadService {
 
     List<Actividad> listarTodas();
 
-    Actividad guardar(Actividad actividad);
+    String guardar(Actividad actividad);
 
-    void eliminar(Long id);
+    String actualizar(Actividad actividad);
 
-    Optional<Actividad> obtenerPorId(Long id);
+    String eliminar(Long id);
 
-    Actividad buscarPorId(Long id);
-
-    boolean existeHotel(Long idHotel);
 }
+
