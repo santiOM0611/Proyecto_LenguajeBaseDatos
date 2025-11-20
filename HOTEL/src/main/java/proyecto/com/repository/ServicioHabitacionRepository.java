@@ -63,31 +63,34 @@ public class ServicioHabitacionRepository {
         return resultados.isEmpty() ? null : resultados.get(0);
     }
 
-    // --- AGREGAR SERVICIO HABITACION ---
     public String agregar(ServicioHabitacion sh) {
-        return jdbcTemplate.execute((Connection conn) -> {
-            try (CallableStatement cs = conn.prepareCall("{call PKG_SERVICIOS_HABITACIONES_FRONT.SP_AGREGAR_SERVICIO_HAB(?,?,?,?,?,?)}")) {
-                cs.setLong(1, sh.getId());
-                cs.setLong(2, sh.getIdTipoHabitacion());
-                cs.setString(3, sh.getNombre());
-                cs.setString(4, sh.getDescripcion());
-                cs.setString(5, sh.getRutaImagen());
-                cs.registerOutParameter(6, Types.VARCHAR); // P_MENSAJE
-
-                cs.execute();
-                String resultado = cs.getString(6);
-
-                System.out.println("Resultado del SP_AGREGAR_SERVICIO_HAB: " + resultado);
-                return resultado;
-            } catch (Exception e) {
-                System.err.println("Error en agregar servicio habitación: " + e.getMessage());
-                e.printStackTrace();
-                throw e;
+        try {
+            String sql = """
+                INSERT INTO Servicios_Habitaciones
+                    (ID_Tipo_Habitacion, Nombre_Servicio_Habitacion, 
+                     Descripcion_Servicio_Habitacion, Ruta_Imagen)
+                VALUES (?, ?, ?, ?)
+                """;
+            
+            int rowsAffected = jdbcTemplate.update(sql,
+                sh.getIdTipoHabitacion(),
+                sh.getNombre(),
+                sh.getDescripcion(),
+                sh.getRutaImagen()
+            );
+            
+            if (rowsAffected > 0) {
+                return "Servicio de habitación agregado correctamente";
+            } else {
+                return "Error: No se pudo agregar el servicio de habitación";
             }
-        });
+        } catch (Exception e) {
+            System.err.println("Error en agregar servicio habitación: " + e.getMessage());
+            e.printStackTrace();
+            return "Error al agregar servicio de habitación: " + e.getMessage();
+        }
     }
 
-    // --- EDITAR SERVICIO HABITACION ---
     public String editar(ServicioHabitacion sh) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall("{call PKG_SERVICIOS_HABITACIONES_FRONT.SP_EDITAR_SERVICIO_HAB(?,?,?,?,?,?)}")) {
@@ -111,7 +114,6 @@ public class ServicioHabitacionRepository {
         });
     }
 
-    // --- ELIMINAR SERVICIO HABITACION ---
     public String eliminar(Long idServicioHabitacion) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall("{call PKG_SERVICIOS_HABITACIONES_FRONT.SP_ELIMINAR_SERVICIO_HAB(?,?)}")) {
@@ -129,11 +131,5 @@ public class ServicioHabitacionRepository {
                 throw e;
             }
         });
-    }
-
-    // --- GENERAR NUEVO ID ---
-    public Long generarNuevoId() {
-        String sql = "SELECT NVL(MAX(ID_Servicio_Habitacion), 0) + 1 FROM Servicios_Habitaciones";
-        return jdbcTemplate.queryForObject(sql, Long.class);
     }
 }

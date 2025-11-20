@@ -31,12 +31,7 @@ public class ServicioHabitacionServiceImpl implements ServicioHabitacionService 
             String resultado;
 
             if (servicioHabitacion.getId() == null || servicioHabitacion.getId() == 0) {
-                // Agregar nuevo servicio de habitación - generar ID
-                Long nuevoId = repository.generarNuevoId();
-                servicioHabitacion.setId(nuevoId);
-                
                 System.out.println("=== AGREGANDO NUEVO SERVICIO DE HABITACIÓN ===");
-                System.out.println("ID Generado: " + nuevoId);
                 System.out.println("ID Tipo Habitación: " + servicioHabitacion.getIdTipoHabitacion());
                 System.out.println("Nombre: " + servicioHabitacion.getNombre());
                 System.out.println("Descripción: " + servicioHabitacion.getDescripcion());
@@ -45,7 +40,6 @@ public class ServicioHabitacionServiceImpl implements ServicioHabitacionService 
                 resultado = repository.agregar(servicioHabitacion);
                 System.out.println("Resultado agregado: " + resultado);
             } else {
-                // Editar servicio de habitación existente
                 System.out.println("=== EDITANDO SERVICIO DE HABITACIÓN ===");
                 System.out.println("ID Servicio Habitación: " + servicioHabitacion.getId());
 
@@ -53,10 +47,11 @@ public class ServicioHabitacionServiceImpl implements ServicioHabitacionService 
                 System.out.println("Resultado editado: " + resultado);
             }
 
-            // Verificar si el resultado indica error de integridad referencial
             if (resultado != null && resultado.toLowerCase().contains("error")) {
                 if (resultado.toLowerCase().contains("clave principal no encontrada") ||
-                    resultado.toLowerCase().contains("integridad")) {
+                    resultado.toLowerCase().contains("integridad") ||
+                    resultado.toLowerCase().contains("foreign key") ||
+                    resultado.toLowerCase().contains("parent key")) {
                     throw new DataIntegrityViolationException(
                         "El tipo de habitación con ID " + servicioHabitacion.getIdTipoHabitacion() + " no existe en el sistema"
                     );
@@ -67,7 +62,6 @@ public class ServicioHabitacionServiceImpl implements ServicioHabitacionService 
             System.out.println("Servicio de habitación guardado exitosamente");
 
         } catch (DataIntegrityViolationException e) {
-            // Propagamos para que el controlador lo maneje
             throw e;
         } catch (Exception e) {
             System.err.println("ERROR en guardar servicio de habitación: " + e.getMessage());
