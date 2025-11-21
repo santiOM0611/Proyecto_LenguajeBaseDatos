@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/plantilla :: head}">
+    <title>Detalle del Check-in/out</title>        
+</head>
+<body>
+<header th:replace="~{layout/plantilla :: header}"/>
+<section th:fragment="verCheck">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">
+                            <i class="fas fa-clipboard-check"></i>
+                            Detalle del Check-in/out
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <p class="mb-2">
+                                    <strong>ID Check:</strong> 
+                                    <span th:text="${check.idCheck}"></span>
+                                </p>
+                                <p class="mb-2">
+                                    <strong>ID Reserva:</strong> 
+                                    <span th:text="${check.idReserva}"></span>
+                                </p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <p class="mb-2">
+                                    <strong>Devolución:</strong> 
+                                    <span th:if="${check.devolucion != null}" class="text-success fw-semibold">
+                                        ₡<span th:text="${#numbers.formatDecimal(check.devolucion, 1, 2)}"></span>
+                                    </span>
+                                    <span th:if="${check.devolucion == null}" class="text-muted">
+                                        No aplica
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light mb-3">
+                                    <h5 class="text-primary mb-3">
+                                        <i class="fas fa-sign-in-alt"></i> Entrada
+                                    </h5>
+                                    <p class="mb-2">
+                                        <strong>Fecha:</strong> 
+                                        <span th:if="${check.fechaEntrada != null}" 
+                                              th:text="${#temporals.format(check.fechaEntrada, 'dd/MM/yyyy')}"></span>
+                                        <span th:if="${check.fechaEntrada == null}" class="text-muted">No registrada</span>
+                                    </p>
+                                    <p class="mb-0">
+                                        <strong>Hora:</strong> 
+                                        <span th:if="${check.horaEntrada != null}" 
+                                              th:text="${check.horaEntrada}"></span>
+                                        <span th:if="${check.horaEntrada == null}" class="text-muted">No registrada</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light mb-3">
+                                    <h5 class="text-danger mb-3">
+                                        <i class="fas fa-sign-out-alt"></i> Salida
+                                    </h5>
+                                    <p class="mb-2">
+                                        <strong>Fecha:</strong> 
+                                        <span th:if="${check.fechaSalida != null}" 
+                                              th:text="${#temporals.format(check.fechaSalida, 'dd/MM/yyyy')}"></span>

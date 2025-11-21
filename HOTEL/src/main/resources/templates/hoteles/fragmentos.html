@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Fragmentos Hotel</title>
+    </head>
+    <body>
+
+        <!-- FRAGMENTO 1: Listado -->
+        <section th:fragment="listadoHoteles" class="py-4">
+            <div class="container">
+                <div class="d-flex justify-content-end gap-2 mb-4">
+                    <a class="btn btn-primary" th:href="@{/hoteles/agregar}">
+                        <i class="fas fa-plus"></i> Agregar Hotel
+                    </a>
+                    <!-- ✅ CAMBIA ESTA LÍNEA -->
+                    <a class="btn btn-secondary" th:href="@{/hoteles/buscarID}">
+                        <i class="fas fa-search"></i> Consultar hotel por ID
+                    </a>
+                </div>
+            </div>
+            <section class="products-section py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-4" th:each="hotel : ${hoteles}">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body text-center">
+                                    <img th:src="${hotel.rutaImagen} ?: 'https://i.pinimg.com/1200x/70/24/d5/7024d501b962e5c59f42da54ac7cd127.jpg'" 
+                                         th:alt="'Imagen del ' + ${hotel.nombreHotel}"
+                                         class="img-fluid mb-3"
+                                         style="max-height: 150px; border-radius: 10px;">
+                                        <h5 th:text="${hotel.nombreHotel}">Hotel Selvas del Himalaya</h5>
+                                        <p class="text-muted">El hotel perfecto para tus vacaciones</p>
+                                        <div class="d-grid gap-2">
+                                            <a th:href="@{/hoteles/ver/{id}(id=${hotel.idHotel})}" class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i> Ver Hotel
+                                            </a>
+                                            <a th:href="@{/hoteles/editar/{id}(id=${hotel.idHotel})}" class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </a>
+                                            <a th:href="@{/hoteles/eliminar/{id}(id=${hotel.idHotel})}" 
+                                               class="btn btn-danger btn-sm"
+                                               onclick="return confirm('¿Está seguro de eliminar este hotel?')">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </a>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- FRAGMENTO 2: AGREGAR HOTEL -->
+        <section th:fragment="agregarHotel" id="agregarHotel" class="p-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <h2 class="mb-4">
+                            <i class="fas fa-hotel"></i> Agregar Hotel
+                        </h2>
+                        <form th:action="@{/hoteles/guardar}" th:object="${hotel}" method="post">
+
+                            <div class="mb-3">
+                                <label for="nombreHotel" class="form-label">Nombre del hotel</label>
+                                <input type="text" id="nombreHotel" th:field="*{nombreHotel}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="telefonoHotel" class="form-label">Teléfono del hotel</label>
+                                <input type="text" id="telefonoHotel" th:field="*{telefonoHotel}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="correoHotel" class="form-label">Correo del hotel</label>
+                                <input type="email" id="correoHotel" th:field="*{correoHotel}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="direccionExacta" class="form-label">Dirección exacta del hotel</label>
+                                <input type="text" id="direccionExacta" th:field="*{direccionExacta}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="rutaImagen" class="form-label">Ruta Imagen</label>
+                                <input type="text" id="rutaImagen" th:field="*{rutaImagen}" class="form-control" placeholder="Ej. /img/hotel.jpg" />
+                            </div>
+
+                            <!-- ✅ Cambiar datalists por inputs normales -->
+                            <div class="mb-3">
+                                <label for="provincia" class="form-label">Provincia</label>
+                                <input type="text" id="provincia" th:field="*{provincia}" 
+                                       class="form-control" placeholder="Ej. San José" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="canton" class="form-label">Cantón</label>
+                                <input type="text" id="canton" th:field="*{canton}" 
+                                       class="form-control" placeholder="Ej. Central" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="distrito" class="form-label">Distrito</label>
+                                <input type="text" id="distrito" th:field="*{distrito}" 
+                                       class="form-control" placeholder="Ej. Carmen" required />
+                            </div>
+
+                            <div class="d-flex gap-2 mt-3">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Guardar
+                                </button>
+                                <a th:href="@{/hoteles}" class="btn btn-secondary">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FRAGMENTO 3: VER DETALLE DE HOTEL -->
+        <section th:fragment="verHotel" class="py-5">
+            <div class="container">
+                <a th:href="@{/hoteles}" class="btn btn-secondary mb-4">
+                    <i class="fas fa-arrow-left"></i> Volver a Hoteles
+                </a>
+
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-md-5 text-center">
+                        <div class="border rounded d-inline-block p-2">
+                            <img th:src="${hotel.rutaImagen} ?: 'https://i.pinimg.com/1200x/70/24/d5/7024d501b962e5c59f42da54ac7cd127.jpg'" 
+                                 th:alt="'Imagen de ' + ${hotel.nombreHotel}"
+                                 class="rounded img-fluid"
+                                 style="max-height: 400px; object-fit: cover;" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <h3 class="fw-bold mb-3">
+                            <i class="fas fa-hotel"></i> <span th:text="${hotel.nombreHotel}">Hotel Selvas Del Himalaya</span>
+                        </h3>
+                        <p><strong>ID:</strong> <span th:text="${hotel.idHotel}">1</span></p>
+                        <p>
+                            <strong><i class="fas fa-phone"></i> Teléfono:</strong> 
+                            <span th:text="${hotel.telefonoHotel}">+506 84025066</span>
+                        </p>
+                        <p>
+                            <strong><i class="fas fa-envelope"></i> Correo:</strong> 
+                            <span th:text="${hotel.correoHotel}">hotelSelvasDelHimalaya@gmail.com</span>
+                        </p>
+                        <p>
+                            <strong><i class="fas fa-map-marker-alt"></i> Dirección Exacta:</strong> 
+                            <span th:text="${hotel.direccionExacta}">El Roble, 23, Provincia de Puntarenas, Chacarita, 5400</span>
+                        </p>
+                        <a th:href="@{/reservas}" class="btn btn-primary">
+                            <i class="fas fa-calendar-check"></i> Reserva Ahora
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FRAGMENTO 4: EDITAR HOTEL -->
+        <section th:fragment="editarHotel" id="editarHotel" class="p-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <h2 class="mb-4">
+                            <i class="fas fa-edit"></i> Editar Hotel
+                        </h2>
+
+                        <form th:action="@{/hoteles/actualizar}" th:object="${hotel}" method="post">
+
+                            <div class="mb-3">
+                                <label for="idHotel" class="form-label">ID del hotel</label>
+                                <input type="number" id="idHotel" th:field="*{idHotel}" class="form-control" readonly />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="nombreHotel" class="form-label">Nombre del hotel</label>
+                                <input type="text" id="nombreHotel" th:field="*{nombreHotel}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="telefonoHotel" class="form-label">Teléfono del hotel</label>
+                                <input type="text" id="telefonoHotel" th:field="*{telefonoHotel}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="correoHotel" class="form-label">Correo del hotel</label>
+                                <input type="email" id="correoHotel" th:field="*{correoHotel}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="direccionExacta" class="form-label">Dirección exacta del hotel</label>
+                                <input type="text" id="direccionExacta" th:field="*{direccionExacta}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="rutaImagen" class="form-label">Ruta Imagen</label>
+                                <input type="text" id="rutaImagen" th:field="*{rutaImagen}" class="form-control" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="provincia" class="form-label">Provincia</label>
+                                <input type="text" id="provincia" th:field="*{provincia}" 
+                                       class="form-control" placeholder="Provincia" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="canton" class="form-label">Cantón</label>
+                                <input type="text" id="canton" th:field="*{canton}" 
+                                       class="form-control" placeholder="Cantón" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="distrito" class="form-label">Distrito</label>
+                                <input type="text" id="distrito" th:field="*{distrito}" 
+                                       class="form-control" placeholder="Distrito" required />
+                            </div>
+
+                            <div class="d-flex gap-2 mt-3">
+                                <button type="submit" class="btn btn-warning">
+                                    <i class="fas fa-save"></i> Actualizar
+                                </button>
+                                <a th:href="@{/hoteles}" class="btn btn-secondary">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FRAGMENTO 5: BUSCAR HOTEL POR ID -->
+        <section th:fragment="buscarHotelID" class="py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <h2 class="mb-4">
+                            <i class="fas fa-search"></i> Buscar Hotel por ID
+                        </h2>
+
+                        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i> <span th:text="${error}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body">
+                                <form th:action="@{/hoteles/buscarID}" method="post">
+                                    <div class="mb-3">
+                                        <label for="idHotel" class="form-label">ID del Hotel</label>
+                                        <input type="number" id="idHotel" name="idHotel" 
+                                               class="form-control" placeholder="Ingrese el ID del hotel" 
+                                               required min="1" />
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search"></i> Buscar
+                                        </button>
+                                        <a th:href="@{/hoteles}" class="btn btn-secondary">
+                                            <i class="fas fa-arrow-left"></i> Volver
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div th:if="${encontrado}" class="card shadow">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="fas fa-check-circle"></i> Hotel Encontrado</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 text-center mb-3">
+                                        <img th:src="${hotel.rutaImagen} ?: 'https://i.pinimg.com/1200x/70/24/d5/7024d501b962e5c59f42da54ac7cd127.jpg'" 
+                                             th:alt="'Imagen de ' + ${hotel.nombreHotel}"
+                                             class="img-fluid rounded"
+                                             style="max-height: 200px; object-fit: cover;" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h4 class="text-primary" th:text="${hotel.nombreHotel}">Hotel Paradise</h4>
+                                        <hr>
+                                            <p><strong><i class="fas fa-hashtag"></i> ID:</strong> 
+                                                <span th:text="${hotel.idHotel}">1</span>
+                                            </p>
+                                            <p><strong><i class="fas fa-phone"></i> Teléfono:</strong> 
+                                                <span th:text="${hotel.telefonoHotel}">2222-3333</span>
+                                            </p>
+                                            <p><strong><i class="fas fa-envelope"></i> Correo:</strong> 
+                                                <span th:text="${hotel.correoHotel}">info@hotel.com</span>
+                                            </p>
+                                            <p><strong><i class="fas fa-map-marker-alt"></i> Dirección:</strong> 
+                                                <span th:text="${hotel.direccionExacta}">Calle 10</span>
+                                            </p>
+                                            <p><strong><i class="fas fa-map"></i> Ubicación:</strong> 
+                                                <span th:text="${hotel.provincia}">San José</span>, 
+                                                <span th:text="${hotel.canton}">Central</span>, 
+                                                <span th:text="${hotel.distrito}">Carmen</span>
+                                            </p>
+                                            <div class="mt-3">
+                                                <a th:href="@{/hoteles/ver/{id}(id=${hotel.idHotel})}" class="btn btn-info btn-sm">
+                                                    <i class="fas fa-eye"></i> Ver Detalles
+                                                </a>
+                                                <a th:href="@{/hoteles/editar/{id}(id=${hotel.idHotel})}" class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i> Editar
+                                                </a>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> 
+
+    </body>
+</html>
