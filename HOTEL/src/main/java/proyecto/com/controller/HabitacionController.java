@@ -68,8 +68,9 @@ public class HabitacionController {
             return "redirect:/habitaciones";
         }
         model.addAttribute("habitacion", habitacion);
-        return "habitaciones/ver"; 
+        return "habitaciones/ver";
     }
+
 
     @GetMapping("/buscarID")
     public String buscarForm() {

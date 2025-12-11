@@ -7,10 +7,9 @@ public class Habitacion {
     private String numeroHabitacion;
     private int idHotel;
     private String estadoHabitacion;
-    private Integer idReserva; // puede ser null
+    private Integer idReserva; 
     private String rutaImagen;
 
-    // Getters & Setters
     public int getIdHabitacion() {
         return idHabitacion;
     }

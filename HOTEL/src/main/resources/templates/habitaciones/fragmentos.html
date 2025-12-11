@@ -6,7 +6,6 @@
 </head>
 <body>
 
-<!-- FRAGMENTO 1: LISTAR HABITACIONES -->
 <section th:fragment="listadoHabitaciones" class="py-4">
     <div class="container">
         <div class="d-flex justify-content-end gap-2 mb-4">
@@ -51,7 +50,6 @@
     </section>
 </section>
 
-<!-- FRAGMENTO 2: AGREGAR HABITACION -->
 <section th:fragment="agregarHabitacion" class="p-4">
     <div class="container">
         <div class="row justify-content-center">
@@ -99,8 +97,6 @@
         </div>
     </div>
 </section>
-
-<!-- FRAGMENTO 3: VER DETALLE HABITACION -->
 <section th:fragment="verHabitacion" class="py-5">
     <div class="container">
         <a th:href="@{/habitaciones}" class="btn btn-secondary mb-4">
@@ -130,7 +126,6 @@
     </div>
 </section>
 
-<!-- FRAGMENTO 4: EDITAR HABITACION -->
 <section th:fragment="editarHabitacion" class="p-4">
     <div class="container">
         <div class="row justify-content-center">
@@ -184,7 +179,6 @@
     </div>
 </section>
 
-<!-- FRAGMENTO 5: BUSCAR HABITACION POR ID -->
 <section th:fragment="buscarHabitacionID" class="py-4">
     <div class="container">
         <div class="row justify-content-center">
