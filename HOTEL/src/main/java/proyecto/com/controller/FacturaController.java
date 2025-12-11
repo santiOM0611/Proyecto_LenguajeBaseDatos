@@ -27,22 +27,47 @@ public class FacturaController {
         return "facturas/facturas";
     }
 
+
+    @GetMapping("/buscarID")
+    public String mostrarFormularioBuscar(Model model) {
+        model.addAttribute("factura", new Factura()); 
+        model.addAttribute("encontrado", false);
+        return "facturas/buscarID";
+    }
+
+    @PostMapping("/buscarID")
+    public String buscarPorId(@RequestParam("idFactura") int idFactura, Model model) {
+        Factura factura = service.buscarPorId(idFactura);
+        if (factura != null) {
+            model.addAttribute("encontrado", true);
+            model.addAttribute("factura", factura);
+        } else {
+            model.addAttribute("encontrado", false);
+            model.addAttribute("error", "No se encontró la factura con ID " + idFactura);
+            model.addAttribute("factura", new Factura()); 
+        }
+        return "facturas/buscarID";
+    }
+
     @GetMapping("/ver/{id}")
-    public String ver(@PathVariable Integer id, Model model) {
-        model.addAttribute("factura", service.buscarPorId(id));
+    public String ver(@PathVariable int id, Model model) {
+        Factura factura = service.buscarPorId(id);
+        if (factura == null) {
+            model.addAttribute("error", "No se encontró la factura con ID " + id);
+            return "facturas/errorFactura"; 
+        }
+        model.addAttribute("factura", factura);
         return "facturas/ver";
     }
 
-    // FORM AGREGAR NORMAL
     @GetMapping("/agregar")
     public String mostrarFormulario(Model model) {
         model.addAttribute("factura", new Factura());
         return "facturas/agregar";
     }
 
-    // FORM AGREGAR DESDE RESERVAS
     @GetMapping("/agregar/{idReserva}")
-    public String agregarDesdeReserva(@PathVariable Integer idReserva, Model model) {
+    public String agregarDesdeReserva(@PathVariable int idReserva, Model model) {
         Factura f = new Factura();
         f.setIdReserva(idReserva);
         f.setFecha(LocalDate.now());
@@ -52,28 +77,33 @@ public class FacturaController {
 
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Factura factura, RedirectAttributes ra) {
-        service.guardar(factura);
-        ra.addFlashAttribute("msg", "Factura creada correctamente");
+        String msg = service.guardar(factura); 
+        ra.addFlashAttribute("msg", msg);
         return "redirect:/facturas";
     }
 
     @GetMapping("/editar/{id}")
-    public String editar(@PathVariable Integer id, Model model) {
-        model.addAttribute("factura", service.buscarPorId(id));
+    public String editar(@PathVariable int id, Model model) {
+        Factura factura = service.buscarPorId(id);
+        if (factura == null) {
+            model.addAttribute("error", "No se encontró la factura con ID " + id);
+            return "facturas/errorFactura"; 
+        }
+        model.addAttribute("factura", factura);
         return "facturas/modifica";
     }
 
     @PostMapping("/actualizar")
     public String actualizar(@ModelAttribute Factura factura, RedirectAttributes ra) {
-        service.guardar(factura);
-        ra.addFlashAttribute("msg", "Factura actualizada correctamente");
+        String msg = service.actualizar(factura); 
+        ra.addFlashAttribute("msg", msg);
         return "redirect:/facturas";
     }
 
     @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable Integer id, RedirectAttributes ra) {
-        service.eliminar(id);
-        ra.addFlashAttribute("msg", "Factura eliminada correctamente");
+    public String eliminar(@PathVariable int id, RedirectAttributes ra) {
+        String msg = service.eliminar(id); 
+        ra.addFlashAttribute("msg", msg);
         return "redirect:/facturas";
     }
 }

@@ -100,7 +100,6 @@ public class CheckInOutRepository {
         });
     }
 
-    // --- AGREGAR CHECK-IN/OUT ---
     public String agregar(CheckInOut c) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall(
@@ -122,7 +121,7 @@ public class CheckInOutRepository {
                     cs.setNull(6, Types.DECIMAL);
                 }
                 
-                cs.registerOutParameter(7, Types.VARCHAR); // P_MENSAJE
+                cs.registerOutParameter(7, Types.VARCHAR); 
 
                 cs.execute();
                 String resultado = cs.getString(7);
@@ -137,7 +136,6 @@ public class CheckInOutRepository {
         });
     }
 
-    // --- EDITAR CHECK-IN/OUT ---
     public String editar(CheckInOut c) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall(
@@ -175,7 +173,6 @@ public class CheckInOutRepository {
         });
     }
 
-    // --- ELIMINAR CHECK-IN/OUT ---
     public String eliminar(Long idCheck) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall(

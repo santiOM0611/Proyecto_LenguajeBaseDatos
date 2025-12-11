@@ -18,7 +18,6 @@ public class HabitacionesRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // Mapeo de la vista V_HABITACIONES_DETALLE
     private final RowMapper<Habitaciones> rowMapper = (rs, rowNum) -> {
         Habitaciones h = new Habitaciones();
         h.setIdTipoHabitacion(rs.getInt("ID_TIPO_HABITACION"));
@@ -27,13 +26,11 @@ public class HabitacionesRepository {
         return h;
     };
 
-    // LISTAR TODAS LAS HABITACIONES
     public List<Habitaciones> listar() {
         String sql = "SELECT * FROM V_HABITACIONES_DETALLE";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
-    // OBTENER POR ID (directo a la tabla)
     public Habitaciones obtenerPorId(int id) {
         String sql = "SELECT * FROM Habitaciones WHERE ID_Habitacion = ?";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
@@ -48,7 +45,6 @@ public class HabitacionesRepository {
         }, id);
     }
 
-    // INSERTAR HABITACIÓN
     public String insertar(Habitaciones h) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall(
@@ -67,7 +63,6 @@ public class HabitacionesRepository {
         });
     }
 
-    // ACTUALIZAR
     public String actualizar(Habitaciones h) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall(
@@ -87,7 +82,6 @@ public class HabitacionesRepository {
         });
     }
 
-    // ELIMINAR
     public String eliminar(int idHabitacion) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall(
@@ -103,7 +97,6 @@ public class HabitacionesRepository {
         });
     }
 
-    // BUSCAR POR ID usando la función FN_GET_HABITACION
     public Habitaciones buscarPorIdConFuncion(int id) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall("{? = call FN_GET_HABITACION(?)}")) {

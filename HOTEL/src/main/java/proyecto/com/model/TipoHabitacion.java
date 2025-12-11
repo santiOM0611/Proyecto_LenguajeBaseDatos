@@ -29,23 +29,19 @@ public class TipoHabitacion {
     @Column(name = "FECHA_MODIFICACION")
     private LocalDateTime fechaModificacion;
     
-    // Relación OneToMany con ServicioHabitacion
     @OneToMany(mappedBy = "tipoHabitacion", fetch = FetchType.LAZY)
     private List<ServicioHabitacion> servicios;
     
-    // Constructor vacío
     public TipoHabitacion() {
         this.estado = "A";
     }
     
-    // Constructor con parámetros
     public TipoHabitacion(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = "A";
     }
     
-    // Getters y Setters
     public Long getIdTipoHabitacion() {
         return idTipoHabitacion;
     }

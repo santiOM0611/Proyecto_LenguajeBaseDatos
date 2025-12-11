@@ -7,9 +7,8 @@ public class Reservacion {
     private LocalDate fechaEntrada;
     private LocalDate fechaSalida;
     private Long cedula;
-    private Integer idTipoHabitacion; // puede venir de la vista V_Reservas_Detalle
+    private Integer idTipoHabitacion; 
 
-    // getters y setters
     public Long getIdReserva() { return idReserva; }
     public void setIdReserva(Long idReserva) { this.idReserva = idReserva; }
 

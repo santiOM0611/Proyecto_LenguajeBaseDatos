@@ -18,18 +18,22 @@ public class FacturaService {
     private FacturaRepository facturaRepository;
 
     public List<Factura> listar() {
-        return facturaRepository.findAll();
+        return facturaRepository.listar(); 
     }
 
-    public Factura buscarPorId(Integer id) {
-        return facturaRepository.findById(id).orElse(null);
+    public Factura buscarPorId(int idFactura) {
+        return facturaRepository.buscarPorId(idFactura);
     }
 
-    public void guardar(Factura factura) {
-        facturaRepository.save(factura);
+    public String guardar(Factura factura) {
+        return facturaRepository.insertar(factura); 
     }
 
-    public void eliminar(Integer id) {
-        facturaRepository.deleteById(id);
+    public String actualizar(Factura factura) {
+        return facturaRepository.actualizar(factura); 
+    }
+
+    public String eliminar(int idFactura) {
+        return facturaRepository.eliminar(idFactura); 
     }
 }
