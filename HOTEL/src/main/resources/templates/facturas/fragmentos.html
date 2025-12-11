@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/plantilla :: head}">
+    <title>Facturas</title>
+</head>
+<body>
+
+
+<section th:fragment="buscarFactura" class="py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+
+                <h2 class="mb-4"><i class="fas fa-search"></i> Buscar Factura por ID</h2>
+
+                <div th:if="${error}" class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span th:text="${error}"></span>
+                </div>
+
+                <form th:action="@{/facturas/buscarID}" method="post">
+                    <div class="mb-3">
+                        <label for="idFactura" class="form-label">ID Factura</label>
+                        <input type="number" id="idFactura" name="idFactura" class="form-control" required min="1"/>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                        <a th:href="@{/facturas}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                </form>
+                <div th:if="${encontrado}" class="card shadow mt-4">
+                    <div class="card-header bg-success text-white">
+                        <h5><i class="fas fa-check-circle"></i> Factura Encontrada</h5>
+                    </div>
+
+                    <div class="card-body">
+                        <p><strong>ID Factura:</strong> <span th:text="${factura.idFactura}"></span></p>
+                        <p><strong>ID Reserva:</strong> <span th:text="${factura.idReserva}"></span></p>
+                        <p><strong>Fecha:</strong> <span th:text="${factura.fecha}"></span></p>
+
+                        <div class="mt-3">
+                            <a th:href="@{/facturas/ver/{id}(id=${factura.idFactura})}" class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i> Ver Detalles
+                            </a>
+                            <a th:href="@{/facturas/editar/{id}(id=${factura.idFactura})}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section th:fragment="listadoFacturas" class="py-4">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center gap-2 mb-4">
+            <a class="btn btn-primary" th:href="@{/facturas/agregar}">
+                <i class="fas fa-plus"></i> Agregar Factura
+            </a>
+
+            <form th:action="@{/facturas/buscarID}" method="get">
+                <button class="btn btn-secondary" type="submit">
+                    <i class="fas fa-search"></i> Buscar por ID
+                </button>
+            </form>
+        </div>
+
+        <div class="table-responsive card p-3">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID Factura</th>
+                    <th>ID Reserva</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="fac : ${facturas}">
+                    <td th:text="${fac.idFactura}">1</td>
+                    <td th:text="${fac.idReserva}">10</td>
+                    <td th:text="${fac.fecha}">2025-01-15</td>
+                    <td class="d-flex gap-1">
+                        <a th:href="@{/facturas/ver/{id}(id=${fac.idFactura})}" class="btn btn-info btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a th:href="@{/facturas/editar/{id}(id=${fac.idFactura})}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a th:href="@{/facturas/eliminar/{id}(id=${fac.idFactura})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Desea eliminar esta factura?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+
+<section th:fragment="agregarFactura" class="p-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+
+                <h2 class="mb-4"><i class="fas fa-file-invoice"></i> Agregar Factura</h2>
+
+                <form th:action="@{/facturas/guardar}" th:object="${factura}" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Reserva</label>
+                        <input type="number" th:field="*{idReserva}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" th:field="*{fecha}" class="form-control" required />
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                        <a th:href="@{/facturas}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section th:fragment="agregarDesdeReserva" class="p-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+
+                <h2 class="mb-4"><i class="fas fa-file-invoice-dollar"></i> Generar Factura</h2>
+
+                <form th:action="@{/facturas/guardar}" th:object="${factura}" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Reserva</label>
+                        <input type="number" th:field="*{idReserva}" class="form-control" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" th:field="*{fecha}" class="form-control" required />
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Generar</button>
+                        <a th:href="@{/reservas}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section th:fragment="verFactura" class="py-5">
+    <div class="container">
+
+        <a th:href="@{/facturas}" class="btn btn-secondary mb-4"><i class="fas fa-arrow-left"></i> Volver</a>
+
+        <div class="card shadow-sm p-4">
+            <h3 class="mb-3"><i class="fas fa-file-invoice-dollar"></i> Factura <span th:text="${factura.idFactura}">1</span></h3>
+
+            <p><strong>ID Reserva:</strong> <span th:text="${factura.idReserva}"></span></p>
+            <p><strong>Fecha:</strong> <span th:text="${factura.fecha}"></span></p>
+
+        </div>
+    </div>
+</section>
+
+<section th:fragment="editarFactura" class="p-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+
+                <h2 class="mb-4"><i class="fas fa-edit"></i> Editar Factura</h2>
+
+                <form th:action="@{/facturas/actualizar}" th:object="${factura}" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Factura</label>
+                        <input type="number" th:field="*{idFactura}" class="form-control" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Reserva</label>
+                        <input type="number" th:field="*{idReserva}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" th:field="*{fecha}" class="form-control" required />
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-warning"><i class="fas fa-save"></i> Actualizar</button>
+                        <a th:href="@{/facturas}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

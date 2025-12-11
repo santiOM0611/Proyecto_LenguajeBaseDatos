@@ -62,7 +62,6 @@ public class ServicioRepository {
         });
     }
 
-    // --- AGREGAR SERVICIO (sin enviar ID) ---
     public String agregar(Servicio s) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall("{call PKG_SERVICIOS_FRONT.SP_AGREGAR_SERVICIO(?,?,?,?,?,?)}")) {
@@ -71,7 +70,7 @@ public class ServicioRepository {
                 cs.setString(3, s.getDescripcion());
                 cs.setBigDecimal(4, s.getCosto());
                 cs.setString(5, s.getRutaImagen());
-                cs.registerOutParameter(6, Types.VARCHAR); // P_MENSAJE
+                cs.registerOutParameter(6, Types.VARCHAR); 
 
                 cs.execute();
                 String resultado = cs.getString(6);
@@ -86,7 +85,6 @@ public class ServicioRepository {
         });
     }
 
-    // --- EDITAR SERVICIO ---
     public String editar(Servicio s) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall("{call PKG_SERVICIOS_FRONT.SP_EDITAR_SERVICIO(?,?,?,?,?,?,?)}")) {
@@ -111,7 +109,6 @@ public class ServicioRepository {
         });
     }
 
-    // --- ELIMINAR SERVICIO ---
     public String eliminar(Long idServicio) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall("{call PKG_SERVICIOS_FRONT.SP_ELIMINAR_SERVICIO(?,?)}")) {

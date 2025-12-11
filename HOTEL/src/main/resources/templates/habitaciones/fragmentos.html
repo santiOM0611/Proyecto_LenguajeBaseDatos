@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/plantilla :: head}">
+    <title>Fragmentos Habitaciones</title>
+</head>
+<body>
+
+<section th:fragment="listadoHabitaciones" class="py-4">
+    <div class="container">
+        <div class="d-flex justify-content-end gap-2 mb-4">
+            <a class="btn btn-primary" th:href="@{/habitaciones/agregar}">
+                <i class="fas fa-plus"></i> Agregar Habitación
+            </a>
+            <a class="btn btn-secondary" th:href="@{/habitaciones/buscarID}">
+                <i class="fas fa-search"></i> Consultar Habitación por ID
+            </a>
+        </div>
+    </div>
+    <section class="products-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4" th:each="habitacion : ${habitaciones}">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <img th:src="${habitacion.rutaImagen} ?: '/img/default-room.jpg'" 
+                                 th:alt="'Imagen de ' + ${habitacion.numeroHabitacion}"
+                                 class="img-fluid mb-3"
+                                 style="max-height: 150px; border-radius: 10px;">
+                            <h5 th:text="'Habitación ' + ${habitacion.numeroHabitacion}">Habitación 101</h5>
+                            <p class="text-muted" th:text="${habitacion.estadoHabitacion}">Disponible</p>
+                            <div class="d-grid gap-2">
+                                <a th:href="@{/habitaciones/ver/{id}(id=${habitacion.idHabitacion})}" class="btn btn-info btn-sm">
+                                    <i class="fas fa-eye"></i> Ver
+                                </a>
+                                <a th:href="@{/habitaciones/editar/{id}(id=${habitacion.idHabitacion})}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <a th:href="@{/habitaciones/eliminar/{id}(id=${habitacion.idHabitacion})}" 
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('¿Está seguro de eliminar esta habitación?')">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<section th:fragment="agregarHabitacion" class="p-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h2 class="mb-4">
+                    <i class="fas fa-bed"></i> Agregar Habitación
+                </h2>
+                <form th:action="@{/habitaciones/guardar}" th:object="${habitacion}" method="post">
+
+                    <div class="mb-3">
+                        <label for="numeroHabitacion" class="form-label">Número de habitación</label>
+                        <input type="text" id="numeroHabitacion" th:field="*{numeroHabitacion}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="idTipoHabitacion" class="form-label">Tipo de habitación</label>
+                        <input type="number" id="idTipoHabitacion" th:field="*{idTipoHabitacion}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="idHotel" class="form-label">Hotel</label>
+                        <input type="number" id="idHotel" th:field="*{idHotel}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="estadoHabitacion" class="form-label">Estado</label>
+                        <input type="text" id="estadoHabitacion" th:field="*{estadoHabitacion}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="rutaImagen" class="form-label">Ruta Imagen</label>
+                        <input type="text" id="rutaImagen" th:field="*{rutaImagen}" class="form-control" placeholder="Ej. /img/habitacion.jpg" />
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                        <a th:href="@{/habitaciones}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<section th:fragment="verHabitacion" class="py-5">
+    <div class="container">
+        <a th:href="@{/habitaciones}" class="btn btn-secondary mb-4">
+            <i class="fas fa-arrow-left"></i> Volver a Habitaciones
+        </a>
+
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-5 text-center">
+                <div class="border rounded d-inline-block p-2">
+                    <img th:src="${habitacion.rutaImagen} ?: '/img/default-room.jpg'" 
+                         th:alt="'Imagen de ' + ${habitacion.numeroHabitacion}"
+                         class="rounded img-fluid"
+                         style="max-height: 400px; object-fit: cover;" />
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <h3 class="fw-bold mb-3">
+                    <i class="fas fa-bed"></i> <span th:text="'Habitación ' + ${habitacion.numeroHabitacion}">Habitación 101</span>
+                </h3>
+                <p><strong>ID:</strong> <span th:text="${habitacion.idHabitacion}">1</span></p>
+                <p><strong>Tipo:</strong> <span th:text="${habitacion.idTipoHabitacion}">1</span></p>
+                <p><strong>Hotel:</strong> <span th:text="${habitacion.idHotel}">1</span></p>
+                <p><strong>Estado:</strong> <span th:text="${habitacion.estadoHabitacion}">Disponible</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section th:fragment="editarHabitacion" class="p-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h2 class="mb-4">
+                    <i class="fas fa-edit"></i> Editar Habitación
+                </h2>
+                <form th:action="@{/habitaciones/actualizar}" th:object="${habitacion}" method="post">
+
+                    <div class="mb-3">
+                        <label for="idHabitacion" class="form-label">ID</label>
+                        <input type="number" id="idHabitacion" th:field="*{idHabitacion}" class="form-control" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="numeroHabitacion" class="form-label">Número de habitación</label>
+                        <input type="text" id="numeroHabitacion" th:field="*{numeroHabitacion}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="idTipoHabitacion" class="form-label">Tipo de habitación</label>
+                        <input type="number" id="idTipoHabitacion" th:field="*{idTipoHabitacion}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="idHotel" class="form-label">Hotel</label>
+                        <input type="number" id="idHotel" th:field="*{idHotel}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="estadoHabitacion" class="form-label">Estado</label>
+                        <input type="text" id="estadoHabitacion" th:field="*{estadoHabitacion}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="rutaImagen" class="form-label">Ruta Imagen</label>
+                        <input type="text" id="rutaImagen" th:field="*{rutaImagen}" class="form-control" />
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> Actualizar
+                        </button>
+                        <a th:href="@{/habitaciones}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section th:fragment="buscarHabitacionID" class="py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h2 class="mb-4">
+                    <i class="fas fa-search"></i> Buscar Habitación por ID
+                </h2>
+
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle"></i> <span th:text="${error}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <form th:action="@{/habitaciones/buscarID}" method="post">
+                            <div class="mb-3">
+                                <label for="idHabitacion" class="form-label">ID de la Habitación</label>
+                                <input type="number" id="idHabitacion" name="idHabitacion" 
+                                       class="form-control" placeholder="Ingrese el ID de la habitación" 
+                                       required min="1" />
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Buscar
+                                </button>
+                                <a th:href="@{/habitaciones}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Volver
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div th:if="${encontrado}" class="card shadow">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-check-circle"></i> Habitación Encontrada</h5>
+                    </div>
+                    <div class="card-body">
+                        <h4 th:text="'Habitación ' + ${habitacion.numeroHabitacion}">Habitación 101</h4>
+                        <p><strong>ID:</strong> <span th:text="${habitacion.idHabitacion}">1</span></p>
+                        <p><strong>Tipo:</strong> <span th:text="${habitacion.idTipoHabitacion}">1</span></p>
+                        <p><strong>Hotel:</strong> <span th:text="${habitacion.idHotel}">1</span></p>
+                        <p><strong>Estado:</strong> <span th:text="${habitacion.estadoHabitacion}">Disponible</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

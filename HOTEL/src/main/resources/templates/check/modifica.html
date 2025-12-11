@@ -14,40 +14,58 @@
                 <input type="hidden" th:field="*{idCheck}"/>
                 
                 <div class="mb-3">
-                    <label>ID Reserva</label>
+                    <label class="form-label">ID Reserva <span class="text-danger">*</span></label>
                     <input type="number" th:field="*{idReserva}" class="form-control" required/>
                 </div>
                 
-                <div class="mb-3">
-                    <label>Fecha Entrada</label>
-                    <input type="date" th:field="*{fechaEntrada}" class="form-control" required/>
+                <div class="card mb-3">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-sign-in-alt"></i> Check-in</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Fecha Entrada <span class="text-danger">*</span></label>
+                            <input type="date" th:field="*{fechaEntrada}" class="form-control" required/>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Hora Entrada <span class="text-danger">*</span></label>
+                            <input type="time" th:field="*{horaEntrada}" class="form-control" required/>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="mb-3">
-                    <label>Hora Entrada</label>
-                    <input type="time" th:field="*{horaEntrada}" class="form-control" required/>
-                </div>
-                
-                <div class="mb-3">
-                    <label>Fecha Salida</label>
-                    <input type="date" th:field="*{fechaSalida}" class="form-control" required/>
-                </div>
-                
-                <div class="mb-3">
-                    <label>Hora Salida</label>
-                    <input type="time" th:field="*{horaSalida}" class="form-control" required/>
-                </div>
-
-                <div class="mb-3">
-                    <label>Devolución ($)</label>
-                    <input type="number" th:field="*{devolucion}" step="0.01" min="0" class="form-control" 
-                           placeholder="Opcional"/>
-                    <small class="text-muted">Ingresa el monto de devolución si aplica.</small>
+                <div class="card mb-3">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0"><i class="fas fa-sign-out-alt"></i> Check-out (Opcional)</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> Si el huésped aún no ha salido, puedes dejar estos campos vacíos.
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Fecha Salida</label>
+                            <input type="date" th:field="*{fechaSalida}" class="form-control"/>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Hora Salida</label>
+                            <input type="time" th:field="*{horaSalida}" class="form-control"/>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Devolución ($)</label>
+                            <input type="number" th:field="*{devolucion}" step="0.01" min="0" class="form-control" 
+                                   placeholder="Opcional"/>
+                            <small class="text-muted">Ingresa el monto de devolución si aplica.</small>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="d-flex gap-2 justify-content-center">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Guardar
+                        <i class="fas fa-save"></i> Guardar Cambios
                     </button>
                     <a th:href="@{/check/listado}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Volver

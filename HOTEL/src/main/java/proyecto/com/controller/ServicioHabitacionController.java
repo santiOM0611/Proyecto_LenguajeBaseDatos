@@ -34,7 +34,6 @@ public class ServicioHabitacionController {
     
     @PostMapping("/guardar")
     public String guardarServicioHabitacion(@ModelAttribute ServicioHabitacion servicioHabitacion, Model model) {
-        // Si no mandan imagen, coloca una por defecto
         if (servicioHabitacion.getRutaImagen() == null || servicioHabitacion.getRutaImagen().isEmpty()) {
             servicioHabitacion.setRutaImagen("default.jpg");
         }

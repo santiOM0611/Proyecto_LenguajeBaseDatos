@@ -48,6 +48,18 @@
                                                 <strong>Reserva:</strong> 
                                                 <span th:text="${checks[j].idReserva}">ID Reserva</span>
                                             </p>
+                                            
+                                            <div class="mb-2">
+                                                <span th:if="${checks[j].fechaSalida == null}" 
+                                                      class="badge bg-success">
+                                                    <i class="fas fa-hotel"></i> Huésped Activo
+                                                </span>
+                                                <span th:if="${checks[j].fechaSalida != null}" 
+                                                      class="badge bg-secondary">
+                                                    <i class="fas fa-check"></i> Check-out Completo
+                                                </span>
+                                            </div>
+                                            
                                             <p class="mb-2">
                                                 <strong>Entrada:</strong> 
                                                 <span th:text="${#temporals.format(checks[j].fechaEntrada, 'dd/MM/yyyy')}"></span>
@@ -55,8 +67,13 @@
                                             </p>
                                             <p class="mb-2">
                                                 <strong>Salida:</strong> 
-                                                <span th:text="${#temporals.format(checks[j].fechaSalida, 'dd/MM/yyyy')}"></span>
-                                                <span th:text="${checks[j].horaSalida}"></span>
+                                                <span th:if="${checks[j].fechaSalida != null}">
+                                                    <span th:text="${#temporals.format(checks[j].fechaSalida, 'dd/MM/yyyy')}"></span>
+                                                    <span th:text="${checks[j].horaSalida}"></span>
+                                                </span>
+                                                <span th:if="${checks[j].fechaSalida == null}" class="text-warning">
+                                                    <i class="fas fa-clock"></i> Pendiente
+                                                </span>
                                             </p>
                                             <p class="mb-0">
                                                 <strong>Devolución:</strong> 

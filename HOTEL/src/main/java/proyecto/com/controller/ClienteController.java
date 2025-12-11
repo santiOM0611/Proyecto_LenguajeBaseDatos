@@ -67,16 +67,16 @@ public class ClienteController {
     }
 
     @PostMapping("/buscarID")
-    public String buscarPorId(@RequestParam("cedula") Long cedula, Model model, RedirectAttributes ra) {
-        Cliente cliente = service.buscarPorId(cedula);
+    public String buscarPorId(@RequestParam("cedula") Long cedula, Model model) {
+        Cliente cliente = service.obtenerPorId(cedula);  // ← Usa este
 
         if (cliente != null) {
             model.addAttribute("cliente", cliente);
             model.addAttribute("encontrado", true);
-            return "clientes/buscarID";
         } else {
-            ra.addFlashAttribute("error", "No se encontró ningún cliente con la cédula: " + cedula);
-            return "redirect:/clientes/buscarID";
+            model.addAttribute("error", "No se encontró ningún cliente con la cédula: " + cedula);
         }
+
+        return "clientes/buscarID";
     }
 }
