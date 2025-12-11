@@ -31,8 +31,4 @@ public class ClienteService {
     public String eliminar(Long cedula) {
         return repo.eliminar(cedula);
     }
-
-    public Cliente buscarPorId(Long cedula) {
-        return repo.buscarPorIdConFuncion(cedula);
-    }
 }
