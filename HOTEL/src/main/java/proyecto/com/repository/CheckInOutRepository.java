@@ -24,81 +24,35 @@ public class CheckInOutRepository {
 
     private final RowMapper<CheckInOut> rowMapper = (rs, rowNum) -> {
         CheckInOut c = new CheckInOut();
-        c.setIdCheck(rs.getLong("ID_Check"));
-        c.setIdReserva(rs.getLong("ID_Reserva"));
-        c.setFechaEntrada(rs.getDate("Fecha_Entrada") != null ? 
-            rs.getDate("Fecha_Entrada").toLocalDate() : null);
-        c.setHoraEntrada(rs.getTime("Hora_Entrada") != null ? 
-            rs.getTime("Hora_Entrada").toLocalTime() : null);
-        c.setFechaSalida(rs.getDate("Fecha_Salida") != null ? 
-            rs.getDate("Fecha_Salida").toLocalDate() : null);
-        c.setHoraSalida(rs.getTime("Hora_Salida") != null ? 
-            rs.getTime("Hora_Salida").toLocalTime() : null);
-        c.setDevolucion(rs.getBigDecimal("Devolucion"));
+        c.setIdCheck(rs.getLong("ID_CHECK"));
+        c.setIdReserva(rs.getLong("ID_RESERVA"));
+        c.setFechaEntrada(rs.getDate("FECHA_ENTRADA") != null ? 
+            rs.getDate("FECHA_ENTRADA").toLocalDate() : null);
+        c.setHoraEntrada(rs.getTime("HORA_ENTRADA") != null ? 
+            rs.getTime("HORA_ENTRADA").toLocalTime() : null);
+        c.setFechaSalida(rs.getDate("FECHA_SALIDA") != null ? 
+            rs.getDate("FECHA_SALIDA").toLocalDate() : null);
+        c.setHoraSalida(rs.getTime("HORA_SALIDA") != null ? 
+            rs.getTime("HORA_SALIDA").toLocalTime() : null);
+        c.setDevolucion(rs.getBigDecimal("DEVOLUCION"));
         return c;
     };
 
     public List<CheckInOut> listar() {
-        String sql = """
-            SELECT
-                C.ID_Check,
-                R.ID_Reserva,
-                C.Fecha_Entrada,
-                C.Fecha_Salida,
-                C.Hora_Entrada,
-                C.Hora_Salida,
-                D.Devolucion
-            FROM Check_in_out C
-            INNER JOIN Reservaciones R
-                ON C.ID_Reserva = R.ID_Reserva
-            LEFT JOIN Check_in_out_Devoluciones D
-                ON C.ID_Check = D.ID_Check
-        """;
+        String sql = "SELECT * FROM V_CHECKINOUT_DETALLE";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
-    public CheckInOut obtenerPorId(Long idCheck) {
-        return jdbcTemplate.execute((Connection conn) -> {
-            String sql = """
-                SELECT
-                    C.ID_Check,
-                    R.ID_Reserva,
-                    C.Fecha_Entrada,
-                    C.Fecha_Salida,
-                    C.Hora_Entrada,
-                    C.Hora_Salida,
-                    D.Devolucion
-                FROM Check_in_out C
-                INNER JOIN Reservaciones R
-                    ON C.ID_Reserva = R.ID_Reserva
-                LEFT JOIN Check_in_out_Devoluciones D
-                    ON C.ID_Check = D.ID_Check
-                WHERE C.ID_Check = ?
-            """;
-            
-            try (var ps = conn.prepareStatement(sql)) {
-                ps.setLong(1, idCheck);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs != null && rs.next()) {
-                        CheckInOut c = new CheckInOut();
-                        c.setIdCheck(rs.getLong("ID_Check"));
-                        c.setIdReserva(rs.getLong("ID_Reserva"));
-                        c.setFechaEntrada(rs.getDate("Fecha_Entrada") != null ? 
-                            rs.getDate("Fecha_Entrada").toLocalDate() : null);
-                        c.setHoraEntrada(rs.getTime("Hora_Entrada") != null ? 
-                            rs.getTime("Hora_Entrada").toLocalTime() : null);
-                        c.setFechaSalida(rs.getDate("Fecha_Salida") != null ? 
-                            rs.getDate("Fecha_Salida").toLocalDate() : null);
-                        c.setHoraSalida(rs.getTime("Hora_Salida") != null ? 
-                            rs.getTime("Hora_Salida").toLocalTime() : null);
-                        c.setDevolucion(rs.getBigDecimal("Devolucion"));
-                        return c;
-                    }
-                }
-            }
-            return null;
-        });
+   public CheckInOut obtenerPorId(Long idCheck) {
+    String sql = "SELECT * FROM V_CHECKINOUT_DETALLE WHERE ID_CHECK = ?";
+
+    try {
+        return jdbcTemplate.queryForObject(sql, rowMapper, idCheck);
+    } catch (Exception e) {
+        System.err.println("Error en obtenerPorId desde V_CHECKINOUT_DETALLE: " + e.getMessage());
+        return null;
     }
+}
 
     public String agregar(CheckInOut c) {
         return jdbcTemplate.execute((Connection conn) -> {
@@ -106,14 +60,30 @@ public class CheckInOutRepository {
                 "{call PKG_CHECK_IN_OUT_FRONT.SP_INSERT_CHECK(?,?,?,?,?,?,?)}")) {
                 
                 cs.setLong(1, c.getIdReserva());
-                cs.setDate(2, c.getFechaEntrada() != null ? 
-                    java.sql.Date.valueOf(c.getFechaEntrada()) : null);
-                cs.setTime(3, c.getHoraEntrada() != null ? 
-                    java.sql.Time.valueOf(c.getHoraEntrada()) : null);
-                cs.setDate(4, c.getFechaSalida() != null ? 
-                    java.sql.Date.valueOf(c.getFechaSalida()) : null);
-                cs.setTime(5, c.getHoraSalida() != null ? 
-                    java.sql.Time.valueOf(c.getHoraSalida()) : null);
+                
+                if (c.getFechaEntrada() != null) {
+                    cs.setDate(2, java.sql.Date.valueOf(c.getFechaEntrada()));
+                } else {
+                    cs.setNull(2, Types.DATE);
+                }
+                
+                if (c.getHoraEntrada() != null) {
+                    cs.setTime(3, java.sql.Time.valueOf(c.getHoraEntrada()));
+                } else {
+                    cs.setNull(3, Types.TIME);
+                }
+                
+                if (c.getFechaSalida() != null) {
+                    cs.setDate(4, java.sql.Date.valueOf(c.getFechaSalida()));
+                } else {
+                    cs.setNull(4, Types.DATE);
+                }
+                
+                if (c.getHoraSalida() != null) {
+                    cs.setTime(5, java.sql.Time.valueOf(c.getHoraSalida()));
+                } else {
+                    cs.setNull(5, Types.TIME);
+                }
                 
                 if (c.getDevolucion() != null) {
                     cs.setBigDecimal(6, c.getDevolucion());
@@ -121,7 +91,7 @@ public class CheckInOutRepository {
                     cs.setNull(6, Types.DECIMAL);
                 }
                 
-                cs.registerOutParameter(7, Types.VARCHAR); 
+                cs.registerOutParameter(7, Types.VARCHAR);
 
                 cs.execute();
                 String resultado = cs.getString(7);
@@ -147,10 +117,18 @@ public class CheckInOutRepository {
                     java.sql.Date.valueOf(c.getFechaEntrada()) : null);
                 cs.setTime(4, c.getHoraEntrada() != null ? 
                     java.sql.Time.valueOf(c.getHoraEntrada()) : null);
-                cs.setDate(5, c.getFechaSalida() != null ? 
-                    java.sql.Date.valueOf(c.getFechaSalida()) : null);
-                cs.setTime(6, c.getHoraSalida() != null ? 
-                    java.sql.Time.valueOf(c.getHoraSalida()) : null);
+                
+                if (c.getFechaSalida() != null) {
+                    cs.setDate(5, java.sql.Date.valueOf(c.getFechaSalida()));
+                } else {
+                    cs.setNull(5, Types.DATE);
+                }
+                
+                if (c.getHoraSalida() != null) {
+                    cs.setTime(6, java.sql.Time.valueOf(c.getHoraSalida()));
+                } else {
+                    cs.setNull(6, Types.TIME);
+                }
                 
                 if (c.getDevolucion() != null) {
                     cs.setBigDecimal(7, c.getDevolucion());
