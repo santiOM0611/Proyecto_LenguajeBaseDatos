@@ -40,8 +40,6 @@ public class HotelRepository {
         String sql = "SELECT * FROM V_HOTELES_DETALLE WHERE ID_HOTEL = ?";
         return jdbcTemplate.queryForObject(sql, rowMapper, id);
     }
-
-    // ✅ Insertar: recibe NOMBRES de provincia/cantón/distrito
     public String insertar(Hotel h) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall(
@@ -63,7 +61,6 @@ public class HotelRepository {
         });
     }
 
-    // ✅ Actualizar: recibe ID_HOTEL + NOMBRES
     public String actualizar(Hotel h) {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall(
