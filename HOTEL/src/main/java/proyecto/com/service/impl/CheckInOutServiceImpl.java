@@ -31,6 +31,7 @@ public class CheckInOutServiceImpl implements CheckInOutService {
             String resultado;
 
             if (check.getIdCheck() == null || check.getIdCheck() == 0) {
+                // Agregar nuevo check-in/out
                 System.out.println("=== AGREGANDO NUEVO CHECK-IN/OUT ===");
                 System.out.println("ID Reserva: " + check.getIdReserva());
                 System.out.println("Fecha Entrada: " + check.getFechaEntrada());
@@ -42,12 +43,15 @@ public class CheckInOutServiceImpl implements CheckInOutService {
                 resultado = repository.agregar(check);
                 System.out.println("Resultado agregado: " + resultado);
             } else {
+                // Editar check-in/out existente
                 System.out.println("=== EDITANDO CHECK-IN/OUT ===");
                 System.out.println("ID Check: " + check.getIdCheck());
 
                 resultado = repository.editar(check);
                 System.out.println("Resultado editado: " + resultado);
             }
+
+            // Verificar si el resultado indica error de integridad referencial
             if (resultado != null && resultado.toLowerCase().contains("error")) {
                 if (resultado.toLowerCase().contains("clave principal no encontrada") ||
                     resultado.toLowerCase().contains("integridad")) {
@@ -61,6 +65,7 @@ public class CheckInOutServiceImpl implements CheckInOutService {
             System.out.println("Check-in/out guardado exitosamente");
 
         } catch (DataIntegrityViolationException e) {
+            // Propagamos para que el controlador lo maneje
             throw e;
         } catch (Exception e) {
             System.err.println("ERROR en guardar check-in/out: " + e.getMessage());

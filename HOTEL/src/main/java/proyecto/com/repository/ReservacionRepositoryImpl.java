@@ -46,10 +46,11 @@ public class ReservacionRepositoryImpl implements ReservacionRepository {
             java.sql.Date fs = rs.getDate("FECHA_SALIDA");
             if (fs != null) r.setFechaSalida(fs.toLocalDate());
             r.setCedula(rs.getLong("CEDULA"));
+            // la vista puede traer ID_TIPO_HABITACION
             try {
                 int idTipo = rs.getInt("ID_TIPO_HABITACION");
                 if (!rs.wasNull()) r.setIdTipoHabitacion(idTipo);
-            } catch (SQLException ex){}
+            } catch (SQLException ex) { /* ignore */ }
             return r;
         }
     };
@@ -74,7 +75,9 @@ public class ReservacionRepositoryImpl implements ReservacionRepository {
         in.put("P_FECHA_SALIDA", java.sql.Date.valueOf(r.getFechaSalida()));
         in.put("P_CEDULA", r.getCedula());
         in.put("P_TIPO_HABITACION", r.getIdTipoHabitacion());
+        // salida
         Map<String, Object> out = spInsert.execute(in);
+        // el package devuelve P_MENSAJE OUT -> SimpleJdbcCall devolverá con clave "P_MENSAJE"
         Object msg = out.get("P_MENSAJE");
         return msg != null ? msg.toString() : "Operación realizada";
     }

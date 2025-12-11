@@ -1,6 +1,5 @@
 package proyecto.com.controller;
 
-import java.time.LocalDate;
 import proyecto.com.model.Reservacion;
 import proyecto.com.service.ReservacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import proyecto.com.model.Factura;
 
 @Controller
 @RequestMapping("/reservas")
@@ -81,14 +79,4 @@ public class ReservacionController {
             return "redirect:/reservas/buscarID";
         }
     }
-
-    @GetMapping("/agregar/{idReserva}")
-    public String agregarDesdeReserva(@PathVariable Integer idReserva, Model model) {
-        Factura f = new Factura();
-        f.setIdReserva(idReserva);
-        f.setFecha(LocalDate.now());
-        model.addAttribute("factura", f);
-        return "facturas/agregar";
-    }
-
 }

@@ -20,6 +20,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    // RowMapper para Cliente
     private Cliente mapRow(ResultSet rs, int rowNum) throws SQLException {
         Cliente c = new Cliente();
         c.setCedula(rs.getLong("CEDULA"));
@@ -139,6 +140,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 
             Map<String, Object> out = call.execute(cedula);
 
+            // Como devuelve un REF CURSOR, lo mapeamos manualmente
             List<Cliente> lista = jdbcTemplate.query(
                     "SELECT * FROM TABLE(FN_GET_CLIENTE(?))", 
                     new Object[]{cedula}, this::mapRow

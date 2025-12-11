@@ -14,6 +14,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-6">
 
+            <!-- IMPORTANTE: ahora usa /actualizar -->
             <form th:action="@{/actividad/actualizar}" th:object="${actividad}" method="post">
 
                 <input type="hidden" th:field="*{id}"/>

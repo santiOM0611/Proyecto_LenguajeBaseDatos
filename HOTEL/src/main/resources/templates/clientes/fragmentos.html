@@ -6,6 +6,7 @@
 </head>
 <body>
 
+<!-- FRAGMENTO 1: Listado -->
 <section th:fragment="listadoClientes" class="py-4">
     <div class="container">
         <div class="d-flex justify-content-end gap-2 mb-4">
@@ -58,6 +59,7 @@
     </div>
 </section>
 
+<!-- FRAGMENTO 2: Agregar Cliente -->
 <section th:fragment="agregarCliente" class="p-4">
     <div class="container">
         <div class="row justify-content-center">
@@ -98,6 +100,7 @@
     </div>
 </section>
 
+<!-- FRAGMENTO 3: Ver Cliente -->
 <section th:fragment="verCliente" class="p-4">
     <div class="container">
         <a th:href="@{/clientes}" class="btn btn-secondary mb-4"><i class="fas fa-arrow-left"></i> Volver a Clientes</a>
@@ -114,6 +117,7 @@
     </div>
 </section>
 
+<!-- FRAGMENTO 4: Editar Cliente -->
 <section th:fragment="editarCliente" class="p-4">
     <div class="container">
         <div class="row justify-content-center">
@@ -154,6 +158,7 @@
     </div>
 </section>
 
+<!-- FRAGMENTO 5: Buscar Cliente por Cédula -->
 <section th:fragment="buscarClienteID" class="py-4">
     <div class="container">
         <h2 class="mb-4"><i class="fas fa-search"></i> Buscar Cliente por Cédula</h2>

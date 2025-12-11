@@ -1,14 +1,15 @@
+
 package proyecto.com.model;
 
-public class Habitacion {
+
+public class Habitaciones {
 
     private int idHabitacion;
-    private int idTipoHabitacion;
     private String numeroHabitacion;
-    private int idHotel;
     private String estadoHabitacion;
-    private Integer idReserva; 
-    private String rutaImagen;
+    private int idTipoHabitacion;
+    private int idReserva;
+    private int idHotel;
 
     public int getIdHabitacion() {
         return idHabitacion;
@@ -16,14 +17,6 @@ public class Habitacion {
 
     public void setIdHabitacion(int idHabitacion) {
         this.idHabitacion = idHabitacion;
-    }
-
-    public int getIdTipoHabitacion() {
-        return idTipoHabitacion;
-    }
-
-    public void setIdTipoHabitacion(int idTipoHabitacion) {
-        this.idTipoHabitacion = idTipoHabitacion;
     }
 
     public String getNumeroHabitacion() {
@@ -34,14 +27,6 @@ public class Habitacion {
         this.numeroHabitacion = numeroHabitacion;
     }
 
-    public int getIdHotel() {
-        return idHotel;
-    }
-
-    public void setIdHotel(int idHotel) {
-        this.idHotel = idHotel;
-    }
-
     public String getEstadoHabitacion() {
         return estadoHabitacion;
     }
@@ -50,19 +35,31 @@ public class Habitacion {
         this.estadoHabitacion = estadoHabitacion;
     }
 
-    public Integer getIdReserva() {
+    public int getIdTipoHabitacion() {
+        return idTipoHabitacion;
+    }
+
+    public void setIdTipoHabitacion(int idTipoHabitacion) {
+        this.idTipoHabitacion = idTipoHabitacion;
+    }
+
+    public int getIdReserva() {
         return idReserva;
     }
 
-    public void setIdReserva(Integer idReserva) {
+    public void setIdReserva(int idReserva) {
         this.idReserva = idReserva;
     }
 
-    public String getRutaImagen() {
-        return rutaImagen;
+    public int getIdHotel() {
+        return idHotel;
     }
 
-    public void setRutaImagen(String rutaImagen) {
-        this.rutaImagen = rutaImagen;
+    public void setIdHotel(int idHotel) {
+        this.idHotel = idHotel;
     }
+
+ 
+
+    
 }

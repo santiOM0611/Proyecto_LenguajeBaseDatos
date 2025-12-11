@@ -139,6 +139,7 @@ public class EmpleadoRepositoryImpl implements EmpleadoRepository{
 
     public Empleado buscarPorIdConFuncion(Integer idEmpleado) {
         try {
+            // Ejecuta la función
             SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate)
                     .withFunctionName("FN_GET_EMPLEADO")
                     .declareParameters(
@@ -147,6 +148,7 @@ public class EmpleadoRepositoryImpl implements EmpleadoRepository{
 
             call.execute(idEmpleado);
 
+            // Obtener el REF CURSOR con un SELECT TABLE(...)
             List<Empleado> lista = jdbcTemplate.query(
                     "SELECT * FROM TABLE(FN_GET_EMPLEADO(?))",
                     new Object[]{idEmpleado},
