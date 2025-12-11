@@ -16,21 +16,18 @@ public class HabitacionController {
     @Autowired
     private HabitacionService service;
 
-    // Listar todas las habitaciones
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("habitaciones", service.listar());
         return "habitaciones/listar";
     }
 
-    // Formulario para agregar
     @GetMapping("/agregar")
     public String agregar(Model model) {
         model.addAttribute("habitacion", new Habitacion());
         return "habitaciones/agregar";
     }
 
-    // Guardar nueva habitación
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Habitacion habitacion, RedirectAttributes ra) {
         String msg = service.insertar(habitacion);
@@ -38,7 +35,6 @@ public class HabitacionController {
         return "redirect:/habitaciones";
     }
 
-    // Formulario para editar
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable int id, Model model, RedirectAttributes ra) {
         Habitacion habitacion = service.obtenerPorId(id);
@@ -50,7 +46,6 @@ public class HabitacionController {
         return "habitaciones/editar";
     }
 
-    // Actualizar habitación
     @PostMapping("/actualizar")
     public String actualizar(@ModelAttribute Habitacion habitacion, RedirectAttributes ra) {
         String msg = service.actualizar(habitacion);
@@ -58,7 +53,6 @@ public class HabitacionController {
         return "redirect:/habitaciones";
     }
 
-    // Eliminar habitación
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable int id, RedirectAttributes ra) {
         String msg = service.eliminar(id);
@@ -66,7 +60,6 @@ public class HabitacionController {
         return "redirect:/habitaciones";
     }
 
-    // Ver detalles de una habitación
     @GetMapping("/ver/{id}")
     public String ver(@PathVariable int id, Model model, RedirectAttributes ra) {
         Habitacion habitacion = service.obtenerPorId(id);
@@ -75,16 +68,15 @@ public class HabitacionController {
             return "redirect:/habitaciones";
         }
         model.addAttribute("habitacion", habitacion);
-        return "habitaciones/ver"; // HTML que incluye el fragmento verHabitacion
+        return "habitaciones/ver";
     }
 
-    // Formulario de búsqueda por ID
+
     @GetMapping("/buscarID")
     public String buscarForm() {
-        return "habitaciones/buscarID"; // HTML que incluye el fragmento buscarHabitacionID
+        return "habitaciones/buscarID"; 
     }
 
-    // Procesar búsqueda por ID
     @PostMapping("/buscarID")
     public String buscarPorId(@RequestParam int idHabitacion, Model model) {
         Habitacion habitacion = service.obtenerPorId(idHabitacion);
