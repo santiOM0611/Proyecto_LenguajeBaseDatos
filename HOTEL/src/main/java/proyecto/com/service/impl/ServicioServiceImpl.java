@@ -31,7 +31,6 @@ public class ServicioServiceImpl implements ServicioService {
             String resultado;
 
             if (servicio.getId() == null || servicio.getId() == 0) {
-                // Agregar nuevo servicio
                 System.out.println("=== AGREGANDO NUEVO SERVICIO ===");
                 System.out.println("ID Hotel: " + servicio.getIdHotel());
                 System.out.println("Nombre: " + servicio.getNombre());
@@ -42,7 +41,6 @@ public class ServicioServiceImpl implements ServicioService {
                 resultado = repository.agregar(servicio);
                 System.out.println("Resultado agregado: " + resultado);
             } else {
-                // Editar servicio existente
                 System.out.println("=== EDITANDO SERVICIO ===");
                 System.out.println("ID Servicio: " + servicio.getId());
 
@@ -50,7 +48,6 @@ public class ServicioServiceImpl implements ServicioService {
                 System.out.println("Resultado editado: " + resultado);
             }
 
-            // Verificar si el resultado indica error de integridad referencial
             if (resultado != null && resultado.toLowerCase().contains("error")) {
                 if (resultado.toLowerCase().contains("clave principal no encontrada") ||
                     resultado.toLowerCase().contains("integridad")) {
@@ -64,7 +61,6 @@ public class ServicioServiceImpl implements ServicioService {
             System.out.println("Servicio guardado exitosamente");
 
         } catch (DataIntegrityViolationException e) {
-            // Propagamos para que el controlador lo maneje
             throw e;
         } catch (Exception e) {
             System.err.println("ERROR en guardar servicio: " + e.getMessage());

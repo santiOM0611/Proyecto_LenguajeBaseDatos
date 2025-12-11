@@ -6,14 +6,12 @@
     </head>
     <body>
 
-        <!-- FRAGMENTO 1: Listado -->
         <section th:fragment="listadoHoteles" class="py-4">
             <div class="container">
                 <div class="d-flex justify-content-end gap-2 mb-4">
                     <a class="btn btn-primary" th:href="@{/hoteles/agregar}">
                         <i class="fas fa-plus"></i> Agregar Hotel
                     </a>
-                    <!-- ✅ CAMBIA ESTA LÍNEA -->
                     <a class="btn btn-secondary" th:href="@{/hoteles/buscarID}">
                         <i class="fas fa-search"></i> Consultar hotel por ID
                     </a>
@@ -52,7 +50,6 @@
             </section>
         </section>
 
-        <!-- FRAGMENTO 2: AGREGAR HOTEL -->
         <section th:fragment="agregarHotel" id="agregarHotel" class="p-4">
             <div class="container">
                 <div class="row justify-content-center">
@@ -86,8 +83,6 @@
                                 <label for="rutaImagen" class="form-label">Ruta Imagen</label>
                                 <input type="text" id="rutaImagen" th:field="*{rutaImagen}" class="form-control" placeholder="Ej. /img/hotel.jpg" />
                             </div>
-
-                            <!-- ✅ Cambiar datalists por inputs normales -->
                             <div class="mb-3">
                                 <label for="provincia" class="form-label">Provincia</label>
                                 <input type="text" id="provincia" th:field="*{provincia}" 
@@ -120,8 +115,6 @@
             </div>
         </section>
 
-
-        <!-- FRAGMENTO 3: VER DETALLE DE HOTEL -->
         <section th:fragment="verHotel" class="py-5">
             <div class="container">
                 <a th:href="@{/hoteles}" class="btn btn-secondary mb-4">
@@ -163,8 +156,6 @@
             </div>
         </section>
 
-
-        <!-- FRAGMENTO 4: EDITAR HOTEL -->
         <section th:fragment="editarHotel" id="editarHotel" class="p-4">
             <div class="container">
                 <div class="row justify-content-center">
@@ -238,8 +229,6 @@
             </div>
         </section>
 
-
-        <!-- FRAGMENTO 5: BUSCAR HOTEL POR ID -->
         <section th:fragment="buscarHotelID" class="py-4">
             <div class="container">
                 <div class="row justify-content-center">
