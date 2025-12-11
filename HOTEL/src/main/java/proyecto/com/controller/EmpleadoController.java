@@ -16,18 +16,16 @@ public class EmpleadoController {
     @Autowired
     private EmpleadoService service;
 
-    // ---------------- LISTAR ----------------
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("empleados", service.listar());
-        return "empleados/empleados"; // plantilla con fragmento listadoEmpleados
+        return "empleados/empleados"; 
     }
 
-    // ---------------- AGREGAR ----------------
     @GetMapping("/agregar")
     public String agregarForm(Model model) {
         model.addAttribute("empleado", new Empleado());
-        return "empleados/agregar"; // plantilla con fragmento agregarEmpleado
+        return "empleados/agregar"; 
     }
 
     @PostMapping("/guardar")
@@ -37,11 +35,10 @@ public class EmpleadoController {
         return "redirect:/empleados";
     }
 
-    // ---------------- EDITAR ----------------
     @GetMapping("/editar/{id}")
     public String editarForm(@PathVariable int id, Model model) {
         model.addAttribute("empleado", service.obtenerPorId(id));
-        return "empleados/editar"; // plantilla con fragmento editarEmpleado
+        return "empleados/editar"; 
     }
 
     @PostMapping("/actualizar")
@@ -51,7 +48,6 @@ public class EmpleadoController {
         return "redirect:/empleados";
     }
 
-    // ---------------- ELIMINAR ----------------
     @GetMapping("/eliminar/{id}")
     public String eliminarEmpleado(@PathVariable int id, RedirectAttributes ra) {
         String msg = service.eliminarEmpleado(id);
@@ -59,14 +55,12 @@ public class EmpleadoController {
         return "redirect:/empleados";
     }
 
-    // ---------------- BUSCAR POR ID - FORMULARIO ----------------
     @GetMapping("/buscarID")
     public String buscarIDForm(Model model) {
         model.addAttribute("empleado", new Empleado());
-        return "empleados/buscarID"; // plantilla con fragmento buscarEmpleadoID
+        return "empleados/buscarID"; 
     }
 
-    // ---------------- BUSCAR POR ID - PROCESAR FORM ----------------
     @PostMapping("/buscarID")
     public String buscarIDSubmit(@RequestParam("idEmpleado") int idEmpleado, Model model) {
         Empleado empleado = service.obtenerPorId(idEmpleado);

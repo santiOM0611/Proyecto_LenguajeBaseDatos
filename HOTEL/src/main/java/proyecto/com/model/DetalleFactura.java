@@ -4,64 +4,65 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "Detalles_Factura")
+@Table(name = "DETALLE_FACTURA")
 public class DetalleFactura {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_DetalleFactura")
-    private Long id;
-    
-    @Column(name = "ID_Factura", nullable = false)
-    private Long idFactura;
-    
-    @Column(name = "ID_Tipo_Habitacion")
-    private Long idTipoHabitacion;
-    
-    @Column(name = "ID_Servicios")
-    private Long idServicios;
-    
-    @Column(name = "Monto_Total", precision = 10, scale = 2)
+    @Column(name = "ID_DETALLEFACTURA")
+    private Integer idDetalleFactura;
+
+    @Column(name = "ID_FACTURA", nullable = false)
+    private Integer idFactura;
+
+    @Column(name = "ID_TIPO_HABITACION", nullable = false)
+    private Integer idTipoHabitacion;
+
+    @Column(name = "ID_SERVICIOS", nullable = false)
+    private Integer idServicios;
+
+    @Column(name = "MONTO_TOTAL", precision = 10, scale = 2)
     private BigDecimal montoTotal;
-    
-    public DetalleFactura() {}
-    
-    public Long getId() {
-        return id;
+
+    public DetalleFactura() {
     }
-    
-    public void setId(Long id) {
-        this.id = id;
+
+    public Integer getIdDetalleFactura() {
+        return idDetalleFactura;
     }
-    
-    public Long getIdFactura() {
+
+    public void setIdDetalleFactura(Integer idDetalleFactura) {
+        this.idDetalleFactura = idDetalleFactura;
+    }
+
+    public Integer getIdFactura() {
         return idFactura;
     }
-    
-    public void setIdFactura(Long idFactura) {
+
+    public void setIdFactura(Integer idFactura) {
         this.idFactura = idFactura;
     }
-    
-    public Long getIdTipoHabitacion() {
+
+    public Integer getIdTipoHabitacion() {
         return idTipoHabitacion;
     }
-    
-    public void setIdTipoHabitacion(Long idTipoHabitacion) {
+
+    public void setIdTipoHabitacion(Integer idTipoHabitacion) {
         this.idTipoHabitacion = idTipoHabitacion;
     }
-    
-    public Long getIdServicios() {
+
+    public Integer getIdServicios() {
         return idServicios;
     }
-    
-    public void setIdServicios(Long idServicios) {
+
+    public void setIdServicios(Integer idServicios) {
         this.idServicios = idServicios;
     }
-    
+
     public BigDecimal getMontoTotal() {
         return montoTotal;
     }
-    
+
     public void setMontoTotal(BigDecimal montoTotal) {
         this.montoTotal = montoTotal;
     }

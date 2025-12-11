@@ -10,7 +10,6 @@ public class Empleado {
     private String telefono;
     private String correo;
 
-    // Getters y Setters
     public int getIdEmpleado() { return idEmpleado; }
     public void setIdEmpleado(int idEmpleado) { this.idEmpleado = idEmpleado; }
 

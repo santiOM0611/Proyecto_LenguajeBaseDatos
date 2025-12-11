@@ -65,8 +65,8 @@ public class EmpleadoRepository {
         return jdbcTemplate.execute((Connection conn) -> {
             try (CallableStatement cs = conn.prepareCall(
                     "{call PKG_EMPLEADOS_FRONT.SP_INSERT_EMPLEADO(?, ?, ?, ?, ?, ?, ?, ?)}")) {
-                cs.setInt(1, e.getIdHotel());   // <-- ahora es hotel
-                cs.setInt(2, e.getIdRol());     // rol
+                cs.setInt(1, e.getIdHotel());   
+                cs.setInt(2, e.getIdRol());     
                 cs.setString(3, e.getNombre());
                 cs.setString(4, e.getApellido1());
                 cs.setString(5, e.getApellido2());

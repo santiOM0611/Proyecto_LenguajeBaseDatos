@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/plantilla :: head}">
+    <title>DetalleFacturas</title>
+</head>
+<body>
+
+<section th:fragment="buscarDetalle" class="py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+
+                <h2 class="mb-4"><i class="fas fa-search"></i> Buscar DetalleFacturas por ID</h2>
+
+                <div th:if="${error}" class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span th:text="${error}"></span>
+                </div>
+
+                <form th:action="@{/detalleFacturas/buscarID}" method="post">
+                    <div class="mb-3">
+                        <label for="idDetalle" class="form-label">ID Detalle</label>
+                        <input type="number" id="idDetalle" name="idDetalle" class="form-control" required min="1"/>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                        <a th:href="@{/detalleFacturas}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                </form>
+
+                <div th:if="${encontrado}" class="card shadow mt-4">
+                    <div class="card-header bg-success text-white">
+                        <h5><i class="fas fa-check-circle"></i> DetalleFacturas Encontrado</h5>
+                    </div>
+
+                    <div class="card-body">
+                        <p><strong>ID Detalle:</strong> <span th:text="${detalle.idDetalleFactura}"></span></p>
+                        <p><strong>ID Factura:</strong> <span th:text="${detalle.idFactura}"></span></p>
+                        <p><strong>ID Tipo Habitación:</strong> <span th:text="${detalle.idTipoHabitacion}"></span></p>
+                        <p><strong>ID Servicios:</strong> <span th:text="${detalle.idServicios}"></span></p>
+                        <p><strong>Monto Total:</strong> <span th:text="${detalle.montoTotal}"></span></p>
+
+                        <div class="mt-3">
+                            <a th:href="@{/detalleFacturas/ver/{id}(id=${detalle.idDetalleFactura})}" class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i> Ver Detalles
+                            </a>
+                            <a th:href="@{/detalleFacturas/editar/{id}(id=${detalle.idDetalleFactura})}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section th:fragment="listadoDetalles" class="py-4">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center gap-2 mb-4">
+            <a class="btn btn-primary" th:href="@{/detalleFacturas/agregar}">
+                <i class="fas fa-plus"></i> Agregar Detalle
+            </a>
+
+            <form th:action="@{/detalleFacturas/buscarID}" method="get">
+                <button class="btn btn-secondary" type="submit">
+                    <i class="fas fa-search"></i> Buscar por ID
+                </button>
+            </form>
+        </div>
+
+        <div class="table-responsive card p-3">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID Detalle</th>
+                    <th>ID Factura</th>
+                    <th>ID Tipo Habitación</th>
+                    <th>ID Servicios</th>
+                    <th>Monto Total</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="d : ${detalles}">
+                    <td th:text="${d.idDetalleFactura}">1</td>
+                    <td th:text="${d.idFactura}">10</td>
+                    <td th:text="${d.idTipoHabitacion}">2</td>
+                    <td th:text="${d.idServicios}">5</td>
+                    <td th:text="${d.montoTotal}">150.00</td>
+                    <td class="d-flex gap-1">
+                        <a th:href="@{/detalleFacturas/ver/{id}(id=${d.idDetalleFactura})}" class="btn btn-info btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a th:href="@{/detalleFacturas/editar/{id}(id=${d.idDetalleFactura})}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a th:href="@{/detalleFacturas/eliminar/{id}(id=${d.idDetalleFactura})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Desea eliminar este detalle?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+
+<section th:fragment="agregarDetalle" class="p-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+
+                <h2 class="mb-4"><i class="fas fa-file-invoice"></i> Agregar DetalleFacturas</h2>
+
+                <form th:action="@{/detalleFacturas/guardar}" th:object="${detalle}" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Factura</label>
+                        <input type="number" th:field="*{idFactura}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Tipo Habitación</label>
+                        <input type="number" th:field="*{idTipoHabitacion}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Servicios</label>
+                        <input type="number" th:field="*{idServicios}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Monto Total</label>
+                        <input type="number" step="0.01" th:field="*{montoTotal}" class="form-control" required />
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                        <a th:href="@{/detalleFacturas}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section th:fragment="verDetalle" class="py-5">
+    <div class="container">
+
+        <a th:href="@{/detalleFacturas}" class="btn btn-secondary mb-4"><i class="fas fa-arrow-left"></i> Volver</a>
+
+        <div class="card shadow-sm p-4">
+            <h3 class="mb-3"><i class="fas fa-file-invoice-dollar"></i> DetalleFacturas ID <span th:text="${detalle.idDetalleFactura}">1</span></h3>
+
+            <p><strong>ID Factura:</strong> <span th:text="${detalle.idFactura}"></span></p>
+            <p><strong>ID Tipo Habitación:</strong> <span th:text="${detalle.idTipoHabitacion}"></span></p>
+            <p><strong>ID Servicios:</strong> <span th:text="${detalle.idServicios}"></span></p>
+            <p><strong>Monto Total:</strong> <span th:text="${detalle.montoTotal}"></span></p>
+
+        </div>
+    </div>
+</section>
+
+<section th:fragment="editarDetalle" class="p-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+
+                <h2 class="mb-4"><i class="fas fa-edit"></i> Editar DetalleFacturas</h2>
+
+                <form th:action="@{/detalleFacturas/actualizar}" th:object="${detalle}" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Detalle</label>
+                        <input type="number" th:field="*{idDetalleFactura}" class="form-control" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Factura</label>
+                        <input type="number" th:field="*{idFactura}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Tipo Habitación</label>
+                        <input type="number" th:field="*{idTipoHabitacion}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">ID Servicios</label>
+                        <input type="number" th:field="*{idServicios}" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Monto Total</label>
+                        <input type="number" step="0.01" th:field="*{montoTotal}" class="form-control" required />
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-warning"><i class="fas fa-save"></i> Actualizar</button>
+                        <a th:href="@{/detalleFacturas}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
