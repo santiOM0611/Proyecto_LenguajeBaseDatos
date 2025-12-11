@@ -20,44 +20,47 @@
     <div class="row justify-content-center">
         <div class="col-lg-6">
 
-            <form th:action="@{/actividad/guardar}" th:object="${actividad}" method="post">
+           <form th:action="@{/actividad/guardar}" th:object="${actividad}" method="post">
 
-                <div class="mb-3">
-                    <label>ID Hotel</label>
-                    <input type="number" th:field="*{idHotel}" class="form-control" required/>
-                </div>
+    <input type="hidden" th:field="*{id}" />
 
-                <div class="mb-3">
-                    <label>Nombre Actividad</label>
-                    <input type="text" th:field="*{nombre}" class="form-control" maxlength="100" required/>
-                </div>
+    <div class="mb-3">
+        <label>ID Hotel</label>
+        <input type="number" th:field="*{idHotel}" class="form-control" required/>
+    </div>
 
-                <div class="mb-3">
-                    <label>Descripción</label>
-                    <textarea th:field="*{descripcion}" class="form-control" maxlength="200" required></textarea>
-                </div>
+    <div class="mb-3">
+        <label>Nombre Actividad</label>
+        <input type="text" th:field="*{nombre}" class="form-control" maxlength="100" required/>
+    </div>
 
-                <div class="mb-3">
-                    <label>Capacidad</label>
-                    <input type="number" th:field="*{capacidad}" min="1" class="form-control" required/>
-                </div>
+    <div class="mb-3">
+        <label>Descripción</label>
+        <textarea th:field="*{descripcion}" class="form-control" maxlength="200" required></textarea>
+    </div>
 
-                <div class="mb-3">
-                    <label>Ruta Imagen</label>
-                    <input type="text" th:field="*{rutaImagen}" class="form-control" maxlength="300"
-                           placeholder="Ej: images/actividad.jpg"/>
-                </div>
+    <div class="mb-3">
+        <label>Capacidad</label>
+        <input type="number" th:field="*{capacidad}" min="1" class="form-control" required/>
+    </div>
 
-                <div class="d-flex gap-2 justify-content-center">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Guardar
-                    </button>
-                    <a th:href="@{/actividad/listado}" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Cancelar
-                    </a>
-                </div>
+    <div class="mb-3">
+        <label>Ruta Imagen</label>
+        <input type="text" th:field="*{rutaImagen}" class="form-control" maxlength="300"
+               placeholder="Ej: images/actividad.jpg"/>
+    </div>
 
-            </form>
+    <div class="d-flex gap-2 justify-content-center">
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Guardar
+        </button>
+        <a th:href="@{/actividad/listado}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Cancelar
+        </a>
+    </div>
+
+</form>
+
 
         </div>
     </div>
