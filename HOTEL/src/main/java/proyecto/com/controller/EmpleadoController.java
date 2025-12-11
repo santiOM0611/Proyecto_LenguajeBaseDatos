@@ -3,6 +3,7 @@ package proyecto.com.controller;
 import proyecto.com.model.Empleado;
 import proyecto.com.service.EmpleadoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,22 +16,18 @@ public class EmpleadoController {
     @Autowired
     private EmpleadoService service;
 
+    // ---------------- LISTAR ----------------
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("empleados", service.listar());
-        return "empleados/empleados";
+        return "empleados/empleados"; // plantilla con fragmento listadoEmpleados
     }
 
-    @GetMapping("/ver/{cedula}")
-    public String ver(@PathVariable Long cedula, Model model) {
-        model.addAttribute("empleado", service.obtenerPorId(cedula));
-        return "empleados/ver";
-    }
-
+    // ---------------- AGREGAR ----------------
     @GetMapping("/agregar")
-    public String mostrarFormulario(Model model) {
+    public String agregarForm(Model model) {
         model.addAttribute("empleado", new Empleado());
-        return "empleados/agregar";
+        return "empleados/agregar"; // plantilla con fragmento agregarEmpleado
     }
 
     @PostMapping("/guardar")
@@ -40,10 +37,11 @@ public class EmpleadoController {
         return "redirect:/empleados";
     }
 
-    @GetMapping("/editar/{cedula}")
-    public String editarEmpleado(@PathVariable Long cedula, Model model) {
-        model.addAttribute("empleado", service.obtenerPorId(cedula));
-        return "empleados/modifica";
+    // ---------------- EDITAR ----------------
+    @GetMapping("/editar/{id}")
+    public String editarForm(@PathVariable int id, Model model) {
+        model.addAttribute("empleado", service.obtenerPorId(id));
+        return "empleados/editar"; // plantilla con fragmento editarEmpleado
     }
 
     @PostMapping("/actualizar")
@@ -53,30 +51,33 @@ public class EmpleadoController {
         return "redirect:/empleados";
     }
 
-    @GetMapping("/eliminar/{cedula}")
-    public String eliminar(@PathVariable Long cedula, RedirectAttributes ra) {
-        String msg = service.eliminar(cedula);
+    // ---------------- ELIMINAR ----------------
+    @GetMapping("/eliminar/{id}")
+    public String eliminarEmpleado(@PathVariable int id, RedirectAttributes ra) {
+        String msg = service.eliminarEmpleado(id);
         ra.addFlashAttribute("msg", msg);
         return "redirect:/empleados";
     }
 
+    // ---------------- BUSCAR POR ID - FORMULARIO ----------------
     @GetMapping("/buscarID")
-    public String mostrarFormularioBusquedaID(Model model) {
+    public String buscarIDForm(Model model) {
         model.addAttribute("empleado", new Empleado());
-        return "empleados/buscarID";
+        return "empleados/buscarID"; // plantilla con fragmento buscarEmpleadoID
     }
 
+    // ---------------- BUSCAR POR ID - PROCESAR FORM ----------------
     @PostMapping("/buscarID")
-    public String buscarPorId(@RequestParam("cedula") Long cedula, Model model, RedirectAttributes ra) {
-        Empleado empleado = service.buscarPorId(cedula);
-
+    public String buscarIDSubmit(@RequestParam("idEmpleado") int idEmpleado, Model model) {
+        Empleado empleado = service.obtenerPorId(idEmpleado);
         if (empleado != null) {
             model.addAttribute("empleado", empleado);
             model.addAttribute("encontrado", true);
-            return "empleados/buscarID";
         } else {
-            ra.addFlashAttribute("error", "No se encontró ningún empleado con la cédula: " + cedula);
-            return "redirect:/empleados/buscarID";
+            model.addAttribute("error", "Empleado no encontrado");
         }
+        return "empleados/buscarID";
     }
+
+   
 }

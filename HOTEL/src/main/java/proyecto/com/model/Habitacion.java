@@ -11,7 +11,6 @@ public class Habitacion {
     private String rutaImagen;
 
     // Getters & Setters
-
     public int getIdHabitacion() {
         return idHabitacion;
     }

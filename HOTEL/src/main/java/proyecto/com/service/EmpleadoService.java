@@ -16,8 +16,8 @@ public class EmpleadoService {
         return repo.listar();
     }
 
-    public Empleado obtenerPorId(Long cedula) {
-        return repo.obtenerPorId(cedula);
+    public Empleado obtenerPorId(int id) {
+        return repo.obtenerPorId(id);
     }
 
     public String guardarEmpleado(Empleado empleado) {
@@ -28,11 +28,7 @@ public class EmpleadoService {
         return repo.actualizar(empleado);
     }
 
-    public String eliminar(Long cedula) {
-        return repo.eliminar(cedula);
-    }
-
-    public Empleado buscarPorId(Long cedula) {
-        return repo.buscarPorIdConFuncion(cedula);
+    public String eliminarEmpleado(int idEmpleado) {
+        return repo.eliminar(idEmpleado);
     }
 }
